@@ -141,7 +141,7 @@ void GLWidget::paintGL()
 //        }
 //    }
 
-    if(!startPoint->isNull())
+    if(startPoint != NULL)
     {
         //glPushMatrix();
         glColor3f(0.0f, 1.0f, 0.0f);
@@ -152,7 +152,7 @@ void GLWidget::paintGL()
         //glPopMatrix();
     }
 
-    if(!endPoint->isNull())
+    if(endPoint != NULL)
     {
         //glPushMatrix();
         glColor3f(1.0f, 0.0f, 0.0f);
