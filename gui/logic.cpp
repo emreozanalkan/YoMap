@@ -10,8 +10,8 @@ Logic::Logic(){
     db.build("/Users/emreozanalkan/QTWorkspace/YoMap/data/LeCreusotWaysFF.osm");
     db.buildPOIs("/Users/emreozanalkan/QTWorkspace/YoMap/data/LeCreusot_POI.xml");
 #else
-    db.build("D:\\Bicycle\\LeCreusotWaysFF.osm");
-    db.buildPOIs("OKSANA CALL THIS WITH YOUR POI.XML PATH :)");
+    db.build("C:\\Users\\tuitikki\\Documents\\GitHub\\YoMap\\data\\LeCreusotWaysFF.osm");
+    db.buildPOIs("C:\\Users\\tuitikki\\Documents\\GitHub\\YoMap\\data\\LeCreusot_POI.xml");
 #endif
 
 }
