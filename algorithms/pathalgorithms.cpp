@@ -229,7 +229,7 @@ bool PathAlgorithms::findShortestPath(Database *d,unsigned long int A, unsigned 
     return false;
 }
 //Find shortest path by any two positions on the map
-bool PathAlgorithms::findShortestPath(Database *d,boost_xy_point &A, boost_xy_point &B,ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_distance, float &total_time){
+bool PathAlgorithms::findShortestPath(Database *d, boost_xy_point &A, boost_xy_point &B,ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_distance, float &total_time){
 
     //Find closest point on road to point A
     WaySegment* start_segment;

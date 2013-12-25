@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QMenu>
+#include <QMessageBox>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -18,6 +19,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->widget->setMap(logic.getAllWays());
     ui->widget->startGL();
+
+    ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
+    ui->lineEditLonA->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
+    ui->lineEditLatB->setValidator( new QDoubleValidator(0, 100, 7, this) );
+    ui->lineEditLonB->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
 }
 
 MainWindow::~MainWindow()
@@ -27,23 +35,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleButtonGo()
 {
+    float Time, Distance;
+    vector<WaySegment*> Path;
     int mode;
-    //ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, this) );
-    //ui->lineEditLonA->setValidator( new QDoubleValidator(0, 100, this) );
 
-    //ui->lineEditLatB->setValidator( new QDoubleValidator(0, 100, this) );
-    //ui->lineEditLonB->setValidator( new QDoubleValidator(0, 100, this) );
+    //validator? error!
 
-
-
-    if (ui->radioButtonDriving->isChecked()) mode = 0;
+    if (ui->radioButtonDriving->isChecked()) mode = 0; //driving 0
     else
-    if (ui->radioButtonWalking->isChecked()) mode = 1;
+    if (ui->radioButtonWalking->isChecked()) mode = 1; //walking 1
 
+    int found = logic.getShortestPath( startPoint, endPoint, mode, Path, Distance, Time);
 
-    //TODO: check validity of the lon/lat
+    QMessageBox msgBox;
 
-    //l.printmsg();
+    if (found==1) {
+       msgBox.setText("Sorry, can't calculate the path. Starting point out of bound!");
+       msgBox.exec();
+    } else
+    if (found==2) {
+       msgBox.setText("Sorry, can't calculate the path. Ending point out of bound!");
+       msgBox.exec();
+    } else
+    if (found==3) {
+       msgBox.setText("Sorry, path not found.");
+       msgBox.exec();
+    } else
+    if (found==0)
+    {
+        QString timeOutput;
+        qDebug() << " " << Distance <<" "<< Time <<endl;
+        //timeOutput << "";
+       // ui->plainTextEditOutput->clear();
+        //ui->plainTextEditOutput->appendPlainText(output);
+    }
 }
 
 
@@ -94,8 +119,8 @@ void MainWindow::setStartPoint()
 
    QString StrLon, StrLat;
 
-   StrLat.setNum(startPoint.x());
-   StrLon.setNum(startPoint.y());
+   StrLat.setNum(startPoint.y());
+   StrLon.setNum(startPoint.x());
 
    ui->lineEditLatA->setText(StrLat);
    ui->lineEditLonA->setText(StrLon);
@@ -108,8 +133,8 @@ void MainWindow::setEndPoint()
 
     QString StrLon, StrLat;
 
-    StrLat.setNum(endPoint.x());
-    StrLon.setNum(endPoint.y());
+    StrLat.setNum(endPoint.y());
+    StrLon.setNum(endPoint.x());
 
     ui->lineEditLatB->setText(StrLat);
     ui->lineEditLonB->setText(StrLon);
