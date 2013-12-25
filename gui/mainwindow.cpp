@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
     db = new Database("D:\\Bicycle\\LeCreusotWaysFF.osm");
 #endif
 
+    ui->widget->setMap(db->getAllWays());
+    ui->widget->startGL();
+
 
 }
 
@@ -38,12 +41,13 @@ void MainWindow::setLogic(Logic &log)
 void MainWindow::handleButtonGo()
 {
     int mode;
-    //check if the inputs are valid
     //ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, this) );
     //ui->lineEditLonA->setValidator( new QDoubleValidator(0, 100, this) );
 
-    //ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, this) );
-    //ui->lineEditLonA->setValidator( new QDoubleValidator(0, 100, this) );
+    //ui->lineEditLatB->setValidator( new QDoubleValidator(0, 100, this) );
+    //ui->lineEditLonB->setValidator( new QDoubleValidator(0, 100, this) );
+
+
 
     if (ui->radioButtonDriving->isChecked()) mode = 0;
     else
@@ -113,11 +117,9 @@ void MainWindow::setStartPoint()
 
 void MainWindow::setEndPoint()
 {
-    qDebug() <<"set end point"<<endl;
     endPoint = ui->widget->getGeoPosition(lastRightClickPoint - ui->widget->pos());
 
     QString StrLon, StrLat;
-    qDebug() <<"Lon: "<<StrLon <<"; Lat: "<< StrLat<<endl;
 
     StrLat.setNum(endPoint.x());
     StrLon.setNum(endPoint.y());

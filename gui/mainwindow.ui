@@ -189,6 +189,9 @@
            <property name="text">
             <string>Walking</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -214,14 +217,9 @@
         <verstretch>198</verstretch>
        </sizepolicy>
       </property>
-      <zorder>widget_2</zorder>
-      <zorder>widget_2</zorder>
      </widget>
     </item>
    </layout>
-   <zorder>widget</zorder>
-   <zorder>widget</zorder>
-   <zorder>layoutWidget</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
