@@ -29,7 +29,7 @@ Database::~Database()
 
     //delete all nodes -> deletes all waysegments
     map<unsigned long int,Node *>::iterator itn = all_nodes.begin();
-    for(;itn!=all_nodes.end();it++){
+    for(;itn!=all_nodes.end();itn++){
         delete itn->second;
     }
 

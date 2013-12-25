@@ -22,7 +22,7 @@ GLWidget::GLWidget(QWidget *parent) :
     timer = new QTimer(this);
     camera = new GLCamera();
 
-    isStop = false;
+    isStop = true;
 
     startPoint = 0;
     endPoint = 0;
@@ -42,7 +42,6 @@ void GLWidget::initializeGL()
 //    glEnable( GL_BLEND );
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLC()));
-    timer->start(10);
     this->setFocus();
 }
 

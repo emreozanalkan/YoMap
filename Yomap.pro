@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     gl/glwidget.cpp \
     gl/glcamera.cpp \
     gui/logic.cpp \
-    gui/mainwindow.cpp
+    gui/mainwindow.cpp \
+    db/poi/poicategory.cpp \
+    db/poi/poipoint.cpp
 
 HEADERS  += algorithms/pathalgorithms.h \
     db/node.h \
@@ -36,7 +38,9 @@ HEADERS  += algorithms/pathalgorithms.h \
     stable.h \
     gui/logic.h \
     gui/mainwindow.h \
-    db/db_definitions.hpp
+    db/db_definitions.hpp \
+    db/poi/poicategory.h \
+    db/poi/poipoint.h
 
 FORMS    +=gui/mainwindow.ui
 

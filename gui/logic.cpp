@@ -5,9 +5,11 @@ using namespace std;
 Logic::Logic(){
 
 #ifdef __APPLE__
-    db.build("/Users/emreozanalkan/Desktop/SoftwareEngineering/osm/LeCreusotWaysFF.osm");
+    db.build("/Users/emreozanalkan/QTWorkspace/YoMap/data/LeCreusotWaysFF.osm");
+    db.buildPOIs("/Users/emreozanalkan/QTWorkspace/YoMap/data/LeCreusot_POI.xml");
 #else
     db.build("D:\\Bicycle\\LeCreusotWaysFF.osm");
+    db.buildPOIs("OKSANA CALL THIS WITH YOUR POI.XML PATH :)");
 #endif
 
 }
