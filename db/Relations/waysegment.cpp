@@ -55,18 +55,23 @@ float WaySegment::getCost(){
     switch(tt){
         case ns_permisions::car:
             switch(W->getWayType()){
-            case ns_way::raceway:
-                return false;
-                break;
             case ns_way::footway:
-                return false;
-                break;
             case ns_way::steps:
+            case ns_way::track:
+            case ns_way::raceway:
+            case ns_way::service:
                 return false;
                 break;
             }
             break;
         case ns_permisions::foot:
+            switch(W->getWayType()){
+                case ns_way::track:
+                case ns_way::raceway:
+                case ns_way::service:
+                    return false;
+                break;
+            }
             break;
     }
     return true;

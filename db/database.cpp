@@ -20,17 +20,24 @@ Database::Database(string path)
 }
 Database::~Database()
 {
-    cout <<" Delete constructor"<<endl;
     //Delete all ways
-    map<unsigned long int,Way *>::iterator it = all_ways.begin();
-    for(;it!=all_ways.end();it++){
+    for(map<unsigned long int,Way *>::iterator it = all_ways.begin();it!=all_ways.end();it++){
         delete it->second;
     }
 
     //delete all nodes -> deletes all waysegments
-    map<unsigned long int,Node *>::iterator itn = all_nodes.begin();
-    for(;itn!=all_nodes.end();itn++){
-        delete itn->second;
+    for(map<unsigned long int,Node *>::iterator it = all_nodes.begin();it!=all_nodes.end();it++){
+        delete it->second;
+    }
+
+    //delete all POI categories
+    for(map<unsigned int,POICategory *>::iterator it = all_poi_categories.begin();it!=all_poi_categories.end();it++){
+        delete it->second;
+    }
+
+    //delete all POI categories
+    for(map<unsigned int,POIPoint *>::iterator it = all_poi_points.begin();it!=all_poi_points.end();it++){
+        delete it->second;
     }
 
 }
