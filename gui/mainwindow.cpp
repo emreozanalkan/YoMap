@@ -16,26 +16,13 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
 
-#ifdef __APPLE__
-    db = new Database("/Users/emreozanalkan/Desktop/SoftwareEngineering/osm/LeCreusotWaysFF.osm");
-#else
-    db = new Database("D:\\Bicycle\\LeCreusotWaysFF.osm");
-#endif
-
-    ui->widget->setMap(db->getAllWays());
+    ui->widget->setMap(logic.getAllWays());
     ui->widget->startGL();
-
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::setLogic(Logic &log)
-{
-    l = log;
 }
 
 void MainWindow::handleButtonGo()
@@ -56,7 +43,7 @@ void MainWindow::handleButtonGo()
 
     //TODO: check validity of the lon/lat
 
-    l.printmsg();
+    //l.printmsg();
 }
 
 
@@ -64,12 +51,12 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
 {
     if(event->button() == Qt::RightButton)
     {
-        qDebug() <<"ui widget rect: "<< ui->widget->rect();
+//        qDebug() <<"ui widget rect: "<< ui->widget->rect();
 
-        qDebug() << "widget pos x: " <<ui->widget->pos().x();
-        qDebug() << "widget pos y: " <<ui->widget->pos().y();
+//        qDebug() << "widget pos x: " <<ui->widget->pos().x();
+//        qDebug() << "widget pos y: " <<ui->widget->pos().y();
 
-        qDebug() << "event position: "<<event->pos();
+//        qDebug() << "event position: "<<event->pos();
 
         QRect *widgetRect = new QRect(ui->widget->pos().x(), ui->widget->pos().y(), ui->widget->rect().width(), ui->widget->rect().height());
 
@@ -89,7 +76,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
             connect(actionEnd, SIGNAL(triggered()), this, SLOT(setEndPoint()));
 
             menu.exec(mapToGlobal(event->pos()));
-            qDebug() <<"signal sent"<<endl;
+//            qDebug() <<"signal sent"<<endl;
         }
 
     }

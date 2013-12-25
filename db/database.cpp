@@ -15,18 +15,18 @@ Database::Database(string path)
 }
 Database::~Database()
 {
-    cout <<" Delete constructor"<<endl;
-    //Delete all ways
-    map<unsigned long int,Way *>::iterator it = all_ways.begin();
-    for(;it!=all_ways.end();it++){
-        delete it->second;
-    }
+//    cout <<" Delete constructor"<<endl;
+//    //Delete all ways
+//    map<unsigned long int,Way *>::iterator it = all_ways.begin();
+//    for(;it!=all_ways.end();it++){
+//        delete it->second;
+//    }
 
-    //delete all nodes -> deletes all waysegments
-    map<unsigned long int,Node *>::iterator itn = all_nodes.begin();
-    for(;itn!=all_nodes.end();it++){
-        delete itn->second;
-    }
+//    //delete all nodes -> deletes all waysegments
+//    map<unsigned long int,Node *>::iterator itn = all_nodes.begin();
+//    for(;itn!=all_nodes.end();it++){
+//        delete itn->second;
+//    }
 
 }
 void Database::build(string path){
