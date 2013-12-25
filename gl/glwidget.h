@@ -26,6 +26,9 @@ private:
 
     map<unsigned long int,Way*>* allWays;
 
+    QPointF *startPoint;
+    QPointF *endPoint;
+
 public:
     explicit GLWidget(QWidget *parent = 0);
 
@@ -46,6 +49,11 @@ public:
     void centerMap();
 
     void setMap(map<unsigned long int,Way*>*);
+
+    void drawStartPoint(QPointF*);
+    void drawEndPoint(QPointF*);
+    void deleteStartPoint();
+    void deleteEndPoint();
 
 signals:
 

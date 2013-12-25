@@ -24,6 +24,9 @@ GLWidget::GLWidget(QWidget *parent) :
 
     isStop = false;
 
+    startPoint = 0;
+    endPoint = 0;
+
 }
 
 void GLWidget::initializeGL()
@@ -34,6 +37,9 @@ void GLWidget::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+//    glEnable( GL_POINT_SPRITE );
+//    glEnable( GL_BLEND );
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLC()));
     timer->start(10);
@@ -134,6 +140,28 @@ void GLWidget::paintGL()
 //            glEnd();
 //        }
 //    }
+
+    if(!startPoint->isNull())
+    {
+        //glPushMatrix();
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glPointSize(2.0f);
+        glBegin(GL_POINTS);
+            glVertex3f(startPoint->x() / 100.f, startPoint->y() / 100.f, 2.0f);
+        glEnd();
+        //glPopMatrix();
+    }
+
+    if(!endPoint->isNull())
+    {
+        //glPushMatrix();
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glPointSize(2.0f);
+        glBegin(GL_POINTS);
+            glVertex3f(endPoint->x() / 100.f, endPoint->y() / 100.f, 2.0f);
+        glEnd();
+        //glPopMatrix();
+    }
 
     glPopMatrix();
 }
@@ -304,4 +332,26 @@ void GLWidget::centerMap()
 void GLWidget::setMap(map<unsigned long int,Way*>* ways)
 {
     allWays = ways;
+}
+
+void GLWidget::drawStartPoint(QPointF *startp)
+{
+    startPoint = startp;
+}
+
+void GLWidget::drawEndPoint(QPointF *endp)
+{
+    endPoint = endp;
+}
+
+void GLWidget::deleteStartPoint()
+{
+    delete startPoint;
+    startPoint = 0;
+}
+
+void GLWidget::deleteEndPoint()
+{
+    delete endPoint;
+    endPoint = 0;
 }
