@@ -6,6 +6,9 @@
 #include "Relations/waysegment.h"
 #include "Relations/way.h"
 #include "Relations/relation.h"
+#include "poi/poicategory.h"
+#include "poi/poipoint.h"
+
 #include "libs/RapidXML/rapidxml.hpp"
 
 #include <iostream>
@@ -23,9 +26,16 @@ public:
     Database(string path);
     ~Database();
     void build(string path);
+    void buildPOIs(string path);
+
+    bool checkIfInBoundsOfMap(boost_xy_point);
 
     Node* getNodeById(unsigned long int);
     Way* getWayById(unsigned long int);
+
+    POICategory* getPOICategoryById(unsigned int i);
+    POIPoint* getPOIPointByPosition(unsigned int cat_id,unsigned int point_pos);
+
     map<unsigned long int,Way *>* getAllWays();
 
     void searchWaySegmentsInArea(boost_xy_point min,boost_xy_point max,vector<WaySegment*> &objects_in_area,ns_permisions::transport_type &tt);
@@ -41,13 +51,28 @@ private:
     //containers of all relations by type
     map<unsigned long int,Way *> all_ways;
 
-
     //Rtree with all rtree elements
     boost_rtree rtree;
+
+    //container of all POI categories
+    map<unsigned int,POICategory *> all_poi_categories;
+    map<unsigned int,POIPoint *> all_poi_points;
+
+    boost_xy_point min_bound;
+    boost_xy_point max_bound;
+
+    void setBounds(float &min_lon, float &min_lat, float &max_lon, float &max_lat);
+
 
     Relation * processWay(xml_node<> *, string);
     void insertNewWay(Way *);
     void insertNewNode(Node *);
+
+    void insertNewPOICategory(POICategory*);
+    void insertNewPOIPoint(POIPoint *);
+
+
+
 };
 
 #endif // DATABASE_H

@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data version="1.0">
+	<category id="1" name="Touristic Attraction" icon="" />
+	<category id="2" name="Grocery Store" icon="" />
+	<category id="3" name="Mobile Store" icon="" />
+	<category id="4" name="Clothes Store" icon="" />
+	<category id="5" name="Car Store" icon="" />
+	<category id="6" name="Other Store" icon="" />
+	<category id="7" name="Bakery" icon="" />
+	<category id="8" name="Laundry" icon="" />
+	<category id="9" name="Hairdresser" icon="" />
+	<category id="10" name="Bar" icon="" />
+	<category id="11" name="Café" icon="" />	
+	<category id="12" name="Education" icon="" />
+	<category id="13" name="Library" icon="" />
+	<category id="14" name="Sports centre" icon="" />
+	<category id="15" name="Government" icon="" />
+	<category id="16" name="Train station" icon="" />
+	<category id="17" name="Church" icon="" />
+	<category id="18" name="Bank" icon="" />
+	<category id="19" name="Hotel" icon="" />
+	<category id="20" name="Theatre" icon="" />
+	<category id="21" name="Restaurant" icon="" />
+	<category id="22" name="Post Office" icon="" />
+	<category id="23" name="Student housing" icon="" />	
+	<category id="24" name="Hospital" icon="" />
+	<category id="25" name="Pharmacy" icon="" />
+	<category id="26" name="Cemetery" icon="" />	
+	
+	
+	<poi id="" cat_id ="" lat="" lon="" name="" addr="" photo="" user="" />
+	
+	<!-- Group 1 -->
+	
+	<poi id="1" cat_id ="23" lat="46.807203" lon="4.42216" name="Residénce Jean Moulin" addr="2 Avenue Jean Monnet" photo="" user="Group1" />
+	<poi id="2" cat_id ="12" lat="46.808421" lon="4.423673" name="Condorcet Library" addr="Avenue de l''Europa" photo="" user="Group1" />	
+	<poi id="3" cat_id ="12" lat="46.808405" lon="4.422941" name="Condorcet" addr="Avenue de l''Europa" photo="" user="Group1" />
+	<poi id="4" cat_id ="22" lat="46.808211" lon="4.419541" name="La Poste l''Europa" addr="Avenue de l''Europa" photo="" user="Group1" />
+	<poi id="5" cat_id ="14" lat="46.808164" lon="4.419126" name="Wide Club Gym" addr="Avenue de l''Europa" photo="" user="Group1" />
+	<poi id="6" cat_id ="12" lat="46.806491" lon="4.41395" name="Tecniques de Commercialisation" addr="Rue de la Fonderie" photo="" user="Group1" />
+	<poi id="7" cat_id ="12" lat="46.80724" lon="4.414153" name="Measueres Physiques" addr="Rue de la Fonderie" photo="" user="Group1" />
+	<poi id="8" cat_id ="12" lat="46.807341" lon="4.413667" name="Halle de Technologie Laser" addr="Rue de la Fonderie" photo="" user="Group1" />
+	<poi id="9" cat_id ="12" lat="46.806436" lon="4.413667" name="IUT" addr="12 Rue de la Fonderie" photo="" user="Group1" />
+	<poi id="10" cat_id ="14" lat="46.806857" lon="4.415146" name="Centre Sportif" addr="Avenue de l''Europa" photo="" user="Group1" />
+	<poi id="11" cat_id ="14" lat="46.80725" lon="4.418427" name="Halle des Sports" addr="5 Avenue Jean Monnet" photo="" user="Group1" />
+	<poi id="12" cat_id ="21" lat="46.807141" lon="4.420554" name="Crous" addr="3 Avenue Jean Monnet" photo="" user="Group1" />
+	<poi id="13" cat_id ="9" lat="46.805142" lon="4.420592" name="Aurel au Carre" addr="4 Rue Marcel Sembat" photo="" user="Group1" />
+	<poi id="14" cat_id ="21" lat="46.805138" lon="4.420554" name="Le Taverene" addr="4 Rue Marcel Sembat" photo="" user="Group1" />
+	<poi id="15" cat_id ="10" lat="46.80544" lon="4.420752" name="Le Chez Emilio" addr="Plaça Schneider" photo="" user="Group1" />
+	<poi id="16" cat_id ="21" lat="46.805974" lon="4.420853" name="Le Bourgogne" addr="Plaça Schneider" photo="" user="Group1" />
+	<poi id="17" cat_id ="19" lat="46.805738" lon="4.420989" name="Le Belle Epoque" addr="Plaça Schneider" photo="" user="Group1" />
+	<poi id="18" cat_id ="21" lat="46.805932" lon="4.420803" name="Banque Populaire Plaça Schneider" addr="Plaça Schneider" photo="" user="Group1" />
+	<poi id="19" cat_id ="25" lat="46.806186" lon="4.421717" name="Pharmacie du Park" addr="4 Rue Jean Jaures" photo="" user="Group1" />
+	
+	<!-- Group 2 -->
+	
+	<poi id="20" cat_id ="1" lat="46.80547" lon="4.423147" name="Château de la Verrerie" addr="Château Verrerie" photo="" user="Group2" />
+	<poi id="21" cat_id ="1" lat="46.80644" lon="4.423847" name="Porte De Léscalier" addr="Rue Jules Guesde / Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="22" cat_id ="10" lat="46.80664" lon="4.425111" name="Le Cristal" addr="11-13 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="23" cat_id ="6" lat="46.80666" lon="4.425154" name="OPTIC 2000" addr="3 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="24" cat_id ="11" lat="46.80679" lon="4.425669" name="Les Coctails de Pause-Café" addr="7 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="25" cat_id ="13" lat="46.80679" lon="4.42576" name="LIBRAIRIE PLEIN CIEL" addr="9 et 11 rue du, Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="26" cat_id ="6" lat="46.80683" lon="4.425905" name="France Loisirs" addr="9-11, rue du Marechal Leclerc" photo="" user="Group2" />
+	<poi id="27" cat_id ="5" lat="46.80697" lon="4.426111" name="Controle Technique Automobile" addr="2 Rue du Guide Car" photo="" user="Group2" />
+	<poi id="28" cat_id ="6" lat="46.80688" lon="4.426444" name="Reviera Flowers" addr="19 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="29" cat_id ="6" lat="46.80689" lon="4.426908" name="Panta Shop" addr="25 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="30" cat_id ="11" lat="46.80687" lon="4.427077" name="Chaud'Colat" addr="25 Rue Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="31" cat_id ="11" lat="46.80685" lon="4.427315" name="Gautheron" addr="27 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="32" cat_id ="6" lat="46.80687" lon="4.427321" name="Yves Rocher" addr="27 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="33" cat_id ="19" lat="46.80683" lon="4.427616" name="Hotel Restaurant Jour et Nuit" addr="33 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="34" cat_id ="6" lat="46.80679" lon="4.427994" name="Krys Duraffourg Gaetan" addr="37 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="35" cat_id ="11" lat="46.80681" lon="4.428142" name="Le Sercey" addr="39 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="36" cat_id ="6" lat="46.80651" lon="4.428962" name="Tabac Le Havane" addr="Espace François Mitterrand" photo="" user="Group2" />
+	<poi id="37" cat_id ="20" lat="46.80629" lon="4.429738" name="'L'arc" addr="Esplanade F. Mitterrand" photo="" user="Group2" />
+	<poi id="38" cat_id ="22" lat="46.80642" lon="4.429" name="La Poste" addr="29 Rue Jules Guesde" photo="" user="Group2" />
+	<poi id="39" cat_id ="15" lat="46.8065" lon="4.428125" name="Agence du Crédit agricole Centre-est" addr="8 Boulevard Henri Paul Schneider" photo="" user="Group2" />
+	<poi id="40" cat_id ="4" lat="46.80679" lon="4.427592" name="Stock Amerikan Jean's" addr="1-9 Rue de la Chaise" photo="" user="Group2" />
+	<poi id="41" cat_id ="9" lat="46.80681" lon="4.427122" name="Pascal Coste" addr="24 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="42" cat_id ="6" lat="46.80683" lon="4.426739" name="Oïa Beauté" addr="20 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="43" cat_id ="6" lat="46.80679" lon="4.426366" name="Les Opticiens Mutualistes" addr="18 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="44" cat_id ="6" lat="46.80674" lon="4.42599" name="Boutique MonREZO" addr="16 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="45" cat_id ="21" lat="46.80669" lon="4.425897" name="Le Roi de la Pizza" addr="14 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="46" cat_id ="6" lat="46.8066" lon="4.42528" name="Vehicules Electriques" addr="31 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="47" cat_id ="6" lat="46.80659" lon="4.42525" name="Thi Thuan Ongles" addr="10-12 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="48" cat_id ="9" lat="46.80656" lon="4.42518" name="L'Hair Unique" addr="4 Rue du Maréchal Leclerc" photo="" user="Group2" />
+	<poi id="49" cat_id ="2" lat="46.80641" lon="4.429995" name="Carrefour Market" addr="Avenue François Mitterrand, Centre Commercial l''Arche" photo="" user="Group2" />
+	<poi id="50" cat_id ="21" lat="46.80655" lon="4.430239" name="Chez Shao" addr="5 Avenue François Mitterrand" photo="" user="Group2" />
+	<poi id="51" cat_id ="25" lat="46.80672" lon="4.430464" name="Pharmacie Centrale" addr="Avenue François Mitterrand" photo="" user="Group2" />
+	<poi id="52" cat_id ="11" lat="46.80676" lon="4.430548" name="Central Park" addr="3 Avenue François Mitterrand" photo="" user="Group2" />
+	<poi id="53" cat_id ="1" lat="46.80747" lon="4.432138" name="Le Monument aux morts" addr="Place Charles de Gaulle" photo="" user="Group2" />
+	<poi id="54" cat_id ="19" lat="46.80587" lon="4.43405" name="Hotel 19 Cent" addr="1, Rue marechal Foch" photo="" user="Group2" />
+	<poi id="55" cat_id ="10" lat="46.80562" lon="4.434613" name="Bar du Marche" addr="1-25 Rue Anatole France" photo="" user="Group2" />
+	<poi id="56" cat_id ="25" lat="46.80547" lon="4.435555" name="Pharmacie Saint Charles" addr="16 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="57" cat_id ="21" lat="46.80544" lon="4.435652" name="Belinda Pizza Kebab" addr="16 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="58" cat_id ="3" lat="46.80531" lon="4.43625" name="Orange" addr="26 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="59" cat_id ="25" lat="46.80527" lon="4.436505" name="Pharmacie Martinon" addr="32 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="60" cat_id ="21" lat="46.80521" lon="4.436859" name="Dolce Pizz" addr="36 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="61" cat_id ="6" lat="46.80528" lon="4.436915" name="Nadtech" addr="33 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="62" cat_id ="6" lat="46.80521" lon="4.43717" name="Leonidas Chocolat Belges" addr="40 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="63" cat_id ="3" lat="46.80509" lon="4.437819" name="Magasin Espace SFR" addr="53 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="64" cat_id ="9" lat="46.8057" lon="4.434654" name="Brigitte Coiffure" addr="13 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="65" cat_id ="9" lat="46.80554" lon="4.435086" name="Mille Et Une Coiffure Yamina" addr="10 Rue Maréchal Foch" photo="" user="Group2" />	
+	<poi id="66" cat_id ="9" lat="46.80551" lon="4.435628" name="Hair Libre" addr="25 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="67" cat_id ="10" lat="46.80454" lon="4.440372" name="St Patrick's Pub" addr="89 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="68" cat_id ="5" lat="46.80522" lon="4.437135" name="F.A.C" addr="40-42 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="69" cat_id ="26" lat="46.80017" lon="4.422023" name="Cemetry" addr="Chemin du Cimetière Saint-Laurent" photo="" user="Group2" />
+	<poi id="70" cat_id ="5" lat="46.80854" lon="4.427525" name="Buror" addr="784-1072 Avenue de l'Europe" photo="" user="Group2" />
+	<poi id="71" cat_id ="21" lat="46.80853" lon="4.428885" name="McDonald's" addr="Plaine des Riaux Avenue de l'Europe" photo="" user="Group2" />
+	<poi id="72" cat_id ="16" lat="46.80768" lon="4.430134" name="Gare Du Creusot Ville" addr="1072-1344 Avenue de l'Europe" photo="" user="Group2" />
+	<poi id="73" cat_id ="5" lat="46.80269" lon="4.437752" name="Lecat et Fils" addr="" photo="18 Rue Anatole France" user="Group2" />
+	<poi id="74" cat_id ="1" lat="46.80878" lon="4.429035" name="Chemin de Fer Creusot" addr="1241 Avenue Europe" photo="" user="Group2" />
+	<poi id="75" cat_id ="3" lat="46.80481" lon="4.438852" name="Club bouygues telecom" addr="66 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="76" cat_id ="6" lat="46.8048" lon="4.438868" name="Ets Cautel / PULSAT'" addr="64 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="77" cat_id ="6" lat="46.80505" lon="4.437639" name="Optique Courvoisier" addr="48 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="78" cat_id ="9" lat="46.8048" lon="4.438597" name="Salon Rémye" addr="62 Rue Maréchal Foch" photo="" user="Group2" />
+	<poi id="79" cat_id ="10" lat="46.80467" lon="4.438516" name="Le Cellier Saint Charles" addr="30 Rue Yser" photo="" user="Group2" />
+	<poi id="80" cat_id ="19" lat="46.8044" lon="4.438406" name="Hôtel Le Bodsonn" addr="26 Rue de l'Yser" photo="" user="Group2" />
+	<poi id="81" cat_id ="21" lat="46.80509" lon="4.435059" name="La Conca d'Oro" addr="17 Rue Anatole France" photo="" user="Group2" />
+	<poi id="82" cat_id ="6" lat="46.80454" lon="4.435646" name="Tatto" addr="33 Rue Anatole France" photo="" user="Group2" />
+	
+	<!-- Group 3 -->
+	
+	<poi id="83" cat_id ="18" lat="46.804982" lon="4.43868" name="BNP Paribas" addr="65 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="84" cat_id ="3" lat="46.80476" lon="4.43883" name="Club bouygues telecom" addr="66 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="85" cat_id ="24" lat="46.803842" lon="4.448519" name="Hotel Dieu du Creusot" addr="175 Rue Marchal Foch" photo="" user="Group3" />
+	<poi id="86" cat_id ="12" lat="46.802804" lon="4.445951" name="École Camille Claudel" addr="168 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="87" cat_id ="25" lat="46.803129" lon="4.451383" name="Pharmacie de la Croix Menée" addr="186 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="88" cat_id ="1" lat="46.802672" lon="4.448382" name="Monument for Schneider 9" addr="Rue Guynemer" photo="" user="Group3" />
+	<poi id="89" cat_id ="7" lat="46.803405" lon="4.452129" name="La Favorite" addr="198 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="90" cat_id ="10" lat="46.803653" lon="4.452802" name="Bar L''eden P.M.U" addr="199 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="91" cat_id ="7" lat="46.804249" lon="4.441247" name="Caney Roger" addr="4 Rue Victor Hugo" photo="" user="Group3" />
+	<poi id="92" cat_id ="25" lat="46.804418" lon="4.44118" name="Pharmacie" addr="107 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="93" cat_id ="8" lat="46.803856" lon="4.442992" name="Euro Lav" addr="112 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="94" cat_id ="18" lat="46.803195" lon="4.450373" name="Banque Populaire" addr="177 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="95" cat_id ="21" lat="46.803856" lon="4.442992" name="REYNA" addr="181 Rue Maréchal Foch" photo="" user="Group3" />
+	<poi id="96" cat_id ="21" lat="46.803504" lon="4.45165" name="LE STROMBOLI" addr="189 rue maréchal foch" photo="" user="Group3" />
+	<poi id="97" cat_id ="2" lat="46.803001" lon="4.454274" name="Netto" addr="14 Rue Albert Camus" photo="" user="Group3" />
+	<poi id="98" cat_id ="6" lat="46.801616" lon="4.453764" name="Bricomarché" addr="13 Rue Albert Camus" photo="" user="Group3" />
+	<poi id="99" cat_id ="10" lat="46.801286" lon="4.444592" name="Le Bilou S Bar" addr="67 Rue Marceau" photo="" user="Group3" />
+	
+	<!-- Group 4 --> 
+	
+	<poi id="100" cat_id ="5" lat="46.79702597670257" lon="4.4412854220718145" name="Citroen" addr="8 Rue de Chanzy" photo="" user="Group4" />
+	<poi id="101" cat_id ="2" lat="46.79665884934366" lon="4.441535957157612" name="La Foire Aux Affaires" addr="12 Rue de Chanzy" photo="" user="Group4" />
+	<poi id="102" cat_id ="3" lat="46.79643480107188" lon="4.44168733432889" name="ADI Communication" addr="14 Rue de Chanzy" photo="" user="Group4" />
+	<poi id="103" cat_id ="2" lat="46.79610840976238" lon="4.441866120323539" name="Dia" addr="18 Rue de Chanzy" photo="" user="Group4" />
+	<poi id="104" cat_id ="5" lat="46.79596302565187" lon="4.441623045131564" name="Midas" addr="18 Rue de Chanzy" photo="" user="Group4" />
+	<poi id="105" cat_id ="6" lat="46.79406867362559" lon="4.443905018270016" name="GiFi" addr="57 Rue de Chanzy" photo="" user="Group4" />
+	<poi id="106" cat_id ="2" lat="46.793200937099755" lon="4.445981215685606" name="InterMarche" addr="Rue de Pologne" photo="" user="Group4" />
+	<poi id="107" cat_id ="2" lat="46.79259350057691" lon="4.447574866935611" name="Delbard" addr="Rue de Pologne" photo="" user="Group4" />
+	<poi id="108" cat_id ="21" lat="46.79212164133787" lon="4.446948487311602" name="SubWay" addr="Rue de Pologne" photo="" user="Group4" />
+	<poi id="109" cat_id ="4" lat="46.79126107133925" lon="4.4478806387633085" name="Intersport" addr="81 Avenue de la République" photo="" user="Group4" />
+	<poi id="110" cat_id ="2" lat="46.79066943470389" lon="4.447896312922239" name="Grand Frais" addr="Zone Harfleur 2000, Rue de la République" photo="" user="Group4" />
+	<poi id="111" cat_id ="5" lat="46.79646040778607" lon="4.454380972310901" name="Centre Auto Montvaltin" addr="Avenue de Montvaltin" photo="" user="Group4" />
+	<poi id="112" cat_id ="24" lat="46.796598876826465" lon="4.453584775328636" name="Hospital Harfleur" addr="2000	26 Rue Harfleur" photo="" user="Group4" />
+	<poi id="113" cat_id ="12" lat="46.796345952898264" lon="4.448637356981635" name="Ecole Maternelle" addr="69 Avenue de la République" photo="" user="Group4" />
+	<poi id="114" cat_id ="2" lat="46.7996301445538" lon="4.440581218774275" name="Leader Price" addr="1 Rue Marceau" photo="" user="Group4" />
+	<poi id="115" cat_id ="14" lat="46.800282598640784" lon="4.441871876245788" name="Évasion centre de remis en forme" addr="31 Rue Marceau" photo="" user="Group4" />
+	<poi id="116" cat_id ="9" lat="46.800386857880866" lon="4.441986033149843" name="Coiffure mixte Laure M" addr="53 Rue Marceau" photo="" user="Group4" />
+	<poi id="117" cat_id ="9" lat="46.800386857880866" lon="4.441986033149843" name="Stéph coiffure" addr="52 Rue de Marceau" photo="" user="Group4" />
+	<poi id="118" cat_id ="9" lat="46.800386857880876" lon="4.441986033149853" name="Coiffure Masculine" addr="62 Rue Marceau" photo="" user="Group4" />
+	<poi id="119" cat_id ="10" lat="46.80095227443959" lon="4.444182391473954" name="Le Bilou''s Bar" addr="67 Rue Marceau" photo="" user="Group4" />
+	<poi id="120" cat_id ="17" lat="46.801838436611824" lon="4.4476474158548225" name="Paroisse Saint Joseph	Maison des association" addr="Rue Guynemer" photo="" user="Group4" />
+	<poi id="121" cat_id ="18" lat="46.80259843693202" lon="4.449971650556551" name="Caisse d' espargne" addr="7 Mazenay" photo="" user="Group4" />
+	<poi id="122" cat_id ="2" lat="46.80239897069813" lon="4.4541953639716" name="Brico Marché" addr="14 Rue Albert Camus" photo="" user="Group4" />
+	<poi id="123" cat_id ="26" lat="46.80020913142239" lon="4.456099320939664" name="Cimetière Saint Eugène" addr="Rue de Brassac" photo="" user="Group4" />
+	<poi id="124" cat_id ="23" lat="46.7982512" lon="4.4264407" name="Acacias Residence" addr="2 Rue des Acacias" photo="" user="Group4" />
+	
+	<!-- Group 5 -->
+	
+	<poi id="125" cat_id ="7" lat="46.80127" lon="4.42004" name="Darbon Jean-Marc" addr="10 Rue Edith Cavell" photo="" user="Group5" />
+	
+	<!-- Group 6 -->
+	
+	<poi id="126" cat_id ="21" lat="46.799075" lon="4.422307" name="Allegro Pizza" addr="27 Rue Edith Cavell" photo="" user="Group6" />
+	<poi id="127" cat_id ="21" lat="46.800427" lon="4.420805" name="Saint-Laurent" addr="36 Rue Edith Cavell" photo="" user="Group6" />
+	<poi id="128" cat_id ="21" lat="46.79978" lon="4.421717" name="Campos Francisco" addr="7 Rue Edith Cavell" photo="" user="Group6" />
+	<poi id="129" cat_id ="21" lat="46.801448" lon="4.420129" name="Pizza Roll" addr="Rue Edith Cavell" photo="" user="Group6" />
+	<poi id="130" cat_id ="21" lat="46.801367" lon="4.419903" name="Jean Michel Medjoubi" addr="2 Rue Edith Cavell" photo="" user="Group6" />
+	<poi id="131" cat_id ="21" lat="46.801741" lon="4.418766" name="Mehmet Tosun" addr="24 Rue de la Couronne" photo="" user="Group6" />
+	<poi id="132" cat_id ="21" lat="46.802887" lon="4.414764" name="The Crown Bar" addr="2 Rue de la Couronne" photo="" user="Group6" />
+	<poi id="133" cat_id ="21" lat="46.802887" lon="4.414764" name="Vega" addr="2 Rue de la Couronne" photo="" user="Group6" />
+	<poi id="134" cat_id ="21" lat="46.796248" lon="4.42456" name="Dursun Yurdagül" addr="95 Rue Edith Cavell" photo="" user="Group6" />
+	<poi id="135" cat_id ="21" lat="46.794962" lon="4.418398" name="Restaurant du Coeur" addr="18 Rue Vaucanson" photo="" user="Group6" />
+	<poi id="136" cat_id ="10" lat="46.801719" lon="4.418959" name="Vincent Di Fiore" addr="32 Rue de la Couronne" photo="" user="Group6" />
+	<poi id="137" cat_id ="10" lat="46.801984" lon="4.418003" name="Sarl Cerchio" addr="10 Rue de la Couronne" photo="" user="Group6" />
+	<poi id="138" cat_id ="10" lat="46.802865" lon="4.414763" name="Bar La Couronne" addr="2 Rue de la Couronne" photo="" user="Group6" />
+	<poi id="139" cat_id ="1" lat="46.801411" lon="4.419891" name="Tobacco Park" addr="6 Rue Edith Cavell" photo="" user="Group6" />
+	<poi id="140" cat_id ="1" lat="46.801881" lon="4.413754" name="Union Copropriete Park Crown" addr="Park Residence Crown" photo="" user="Group6" />
+	<poi id="141" cat_id ="1" lat="46.797254" lon="4.417925" name="Park Quarries" addr="35 Rue Saint-Eugène" photo="" user="Group6" />
+	<poi id="142" cat_id ="14" lat="46.798194" lon="4.41073" name="Stage Riaux" addr="Avenue du Stade Jean Garnier" photo="" user="Group6" />
+	<poi id="143" cat_id ="14" lat="46.797056" lon="4.411696" name="Basketball Alliance Creusot" addr="Avenue du Stade Jean Garnier" photo="" user="Group6" />
+	<poi id="144" cat_id ="14" lat="46.797276" lon="4.409614" name="Jean Garnier stage" addr="Avenue du Stade Jean Garnier" photo="" user="Group6" />
+	<poi id="145" cat_id ="12" lat="46.794889" lon="4.416792" name="School South Michelet" addr="24 Rue Jouffroy" photo="" user="Group6" />
+	<poi id="146" cat_id ="17" lat="46.798759" lon="4.416127" name="Reformed Church" addr="36 Rue de Nevers" photo="" user="Group6" />
+	<poi id="147" cat_id ="17" lat="46.796857" lon="4.421969" name="Church" addr="18 Rue Saint-Henri" photo="" user="Group6" />
+	
+	<!-- Group 7 -->
+	
+	<poi id="148" cat_id ="12" lat="46.787098" lon="4.419084" name="College le Epontots" addr="7 Impasse Bel- air" photo="" user="Group7" />
+	<poi id="149" cat_id ="6" lat="46.787511" lon="4.441797" name="Materiaux Menuserie Carrelage Outillage" addr="47-49 Rue des Abattoirs" photo="" user="Group7" />
+	<poi id="150" cat_id ="6" lat="46.786539" lon="4.431205" name="Cuisines Chalmadrier" addr="60 Avenue de Conselve" photo="" user="Group7" />
+	<poi id="151" cat_id ="2" lat="46.786106" lon="4.434513" name="Lidl" addr="8 Rue des Abattoir" photo="" user="Group7" />
+	<poi id="152" cat_id ="21" lat="46.784954" lon="4.434503" name="La Patterie Restaurant" addr="23 Carrefour du Huit Mai" photo="" user="Group7" />
+	<poi id="153" cat_id ="19" lat="46.784619" lon="4.433674" name="Hotel de ille" addr="Avenue de Bourgogne" photo="" user="Group7" />
+	<poi id="154" cat_id ="5" lat="46.782629" lon="4.436159" name="Center Auto" addr="12 Carrefour du Huit Mai" photo="" user="Group7" />
+	<poi id="155" cat_id ="6" lat="46.781533" lon="4.437967" name="Electro Manager" addr="8-12 D28" photo="" user="Group7" />
+	<poi id="156" cat_id ="6" lat="46.781079" lon="4.438804" name="Speedy" addr="7 Avenue du 8 Mai 1945" photo="" user="Group7" />
+	<poi id="157" cat_id ="2" lat="46.780828" lon="4.440951" name="Hypermarche Casino" addr="Avenue du 8 Mai 1945" photo="" user="Group7" />
+	<poi id="158" cat_id ="1" lat="46.786639" lon="4.432903" name="Marteau Pilon" addr="Le Pilon" photo="" user="Group7" />
+	<poi id="159" cat_id ="25" lat="46.786429" lon="4.432466" name="Pharmacy de Pion" addr="111 Avenue du 8 Mai 1945" photo="" user="Group7" />
+	<poi id="160" cat_id ="6" lat="46.785455" lon="4.433409" name="Rapid Flore" addr="29 Avenue du 8 Mai 1945" photo="" user="Group7" />
+	<poi id="161" cat_id ="6" lat="46.787795" lon="4.443551" name="Chausson Matriaux" addr="51-55 Rue des Abattoirs" photo="" user="Group7" />
+	<poi id="162" cat_id ="6" lat="46.783639" lon="4.434652" name="Let Oile de Carthge" addr="14 Avenue du 8 Mai 1945" photo="" user="Group7" />
+	<poi id="163" cat_id ="7" lat="46.781177" lon="4.437899" name="La Boulangere de Markit Blachere" addr="8-9 Avenue du 8 Mai 1945" photo="" user="Group7" />
+	<poi id="164" cat_id ="21" lat="46.780792" lon="4.43846" name="Buffet a Volonte" addr="7 Avenue du 8 Mai 1945" photo="" user="Group7" />
+	<poi id="165" cat_id ="21" lat="46.786449" lon="4.435235" name="Courtepaille" addr="8 Rue des Abattoirs" photo="" user="Group7" />
+	<poi id="166" cat_id ="7" lat="46.793291" lon="4.419438" name="Le Monticinois" addr="41 Rue Maréchal Joffre" photo="" user="Group7" />
+	<poi id="167" cat_id ="6" lat="46.79343" lon="4.41943" name="La Civette" addr="42 Rue Maréchal Joffr" photo="" user="Group7" />
+	<poi id="168" cat_id ="10" lat="46.793471" lon="4.41946" name="Meteor" addr="40 Rue Maréchal Joffre" photo="" user="Group7" />
+	<poi id="169" cat_id ="9" lat="46.793614" lon="4.419883" name="Design" addr="36 Rue Maréchal Joffre" photo="" user="Group7" />
+	<poi id="170" cat_id ="21" lat="46.791995" lon="4.415183" name="Restaurant La Gondola" addr="81 Rue Maréchal Joffre" photo="" user="Group7" />
+	
+</data>

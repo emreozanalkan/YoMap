@@ -3,6 +3,11 @@
 #include "commonFunctions.hpp"
 #include <iostream>
 #include "../algorithms/pathalgorithms.h"
+
+#include "poi/poicategory.h"
+#include "poi/poipoint.h"
+
+
 using namespace std;
 using namespace rapidxml;
 
@@ -15,18 +20,18 @@ Database::Database(string path)
 }
 Database::~Database()
 {
-//    cout <<" Delete constructor"<<endl;
-//    //Delete all ways
-//    map<unsigned long int,Way *>::iterator it = all_ways.begin();
-//    for(;it!=all_ways.end();it++){
-//        delete it->second;
-//    }
+    cout <<" Delete constructor"<<endl;
+    //Delete all ways
+    map<unsigned long int,Way *>::iterator it = all_ways.begin();
+    for(;it!=all_ways.end();it++){
+        delete it->second;
+    }
 
-//    //delete all nodes -> deletes all waysegments
-//    map<unsigned long int,Node *>::iterator itn = all_nodes.begin();
-//    for(;itn!=all_nodes.end();it++){
-//        delete itn->second;
-//    }
+    //delete all nodes -> deletes all waysegments
+    map<unsigned long int,Node *>::iterator itn = all_nodes.begin();
+    for(;itn!=all_nodes.end();it++){
+        delete itn->second;
+    }
 
 }
 void Database::build(string path){
@@ -55,13 +60,22 @@ void Database::build(string path){
     {
         string node_name(node->name());
 
+
         //First we check if it is a node or relation
-        if(node_name=="node"){
+        if(node_name=="bounds"){
+            float min_lat,min_lon,max_lat,max_lon;
+            getValueFromString( node->first_attribute("minlat")->value(), min_lat );
+            getValueFromString( node->first_attribute("minlon")->value(), min_lon );
+            getValueFromString( node->first_attribute("maxlat")->value(), max_lat );
+            getValueFromString( node->first_attribute("maxlon")->value(), max_lon );
+            setBounds(min_lon,min_lat,max_lon,max_lat);
+        }
+        else if(node_name=="node"){
             getValueFromString( node->first_attribute("id")->value(), id );
 
             //Create new Node
             Node *n = new Node(id);
-            double lat,lon;
+            float lat,lon;
             getValueFromString( node->first_attribute("lat")->value(), lat );
             getValueFromString( node->first_attribute("lon")->value(), lon );
             n->setGeoPosition(lon,lat);
@@ -86,12 +100,25 @@ void Database::build(string path){
                 }
             }
         }
-
-
     }
-
-
 }
+
+void Database::setBounds(float &min_lon, float &min_lat, float &max_lon, float &max_lat){
+    min_bound.x(min_lon);
+    min_bound.y(min_lat);
+    max_bound.x(max_lon);
+    max_bound.y(max_lat);
+}
+
+bool Database::checkIfInBoundsOfMap(boost_xy_point p){
+    if(p.x()>=min_bound.x() && p.x()<=max_bound.x()){
+        if(p.y()>=min_bound.x() && p.y()<=max_bound.y()){
+            return true;
+        }
+    }
+    return false;
+}
+
 
 Relation * Database::processWay(xml_node<> * node, string t){
     unsigned long int id;
@@ -231,4 +258,84 @@ void Database::searchWaySegmentsInArea(boost_xy_point min,boost_xy_point max,vec
 
 map<unsigned long int,Way *>* Database::getAllWays(){
     return &all_ways;
+}
+
+
+
+void Database::buildPOIs(string path){
+    //code partially taken from example at http://rapidxml.sourceforge.net/manual.html
+
+    cout << "Building POI structure..." << endl;
+
+    //XML PARSER
+    xml_document<> doc;
+    xml_node<> * root_node;
+
+    // Read the xml file into a vector
+    ifstream theFile(path.c_str());
+    vector<char> buffer((istreambuf_iterator<char>(theFile)), istreambuf_iterator<char>());
+    buffer.push_back('\0');
+
+    // Parse the buffer using the xml file parsing library into doc
+    doc.parse<0>(&buffer[0]);
+
+    // Find our root node
+    root_node = doc.first_node("data");
+
+    unsigned int id;
+    // Iterate over the all the nodes
+    for (xml_node<> * node = root_node->first_node(); node; node = node->next_sibling())
+    {
+        string node_name(node->name());
+
+        //First we check if it is a category or poi
+        if(node_name=="category"){
+            getValueFromString( node->first_attribute("id")->value(), id );
+            //Create new category
+            POICategory *poi_c = new POICategory(id,node->first_attribute("name")->value(),node->first_attribute("icon")->value());
+            insertNewPOICategory(poi_c);
+        }
+        else if(node_name=="poi"){
+            //It is POI
+            getValueFromString( node->first_attribute("id")->value(), id );
+            unsigned int cat_id;
+            getValueFromString( node->first_attribute("cat_id")->value(), cat_id );
+
+            POICategory *p_cat = getPOICategoryById(cat_id);
+            //Check if category exists
+            if(p_cat!=0){
+                double lat,lon;
+                getValueFromString( node->first_attribute("lat")->value(), lat );
+                getValueFromString( node->first_attribute("lon")->value(), lon );
+
+                POIPoint *poi = new POIPoint(id,lon,lat,node->first_attribute("name")->value(),node->first_attribute("addr")->value(),node->first_attribute("photo")->value(),node->first_attribute("user")->value());
+                poi->setCategory(p_cat);
+                p_cat->addPOI(poi);
+                insertNewPOIPoint(poi);
+            }
+
+        }
+    }
+}
+void Database::insertNewPOICategory(POICategory *poi_c){
+    all_poi_categories.insert(make_pair<unsigned int,POICategory *>(poi_c->getId(),poi_c));
+}
+void Database::insertNewPOIPoint(POIPoint *poi_p){
+    all_poi_points.insert(make_pair<unsigned int,POIPoint *>(poi_p->getId(),poi_p));
+}
+POICategory* Database::getPOICategoryById(unsigned int i){
+    map<unsigned int,POICategory *>::iterator it = all_poi_categories.find(i);
+    if(it!=all_poi_categories.end()){
+        return it->second;
+    }
+    return 0;
+}
+
+POIPoint* Database::getPOIPointByPosition(unsigned int cat_id,unsigned int point_pos){
+    POICategory* p_cat = getPOICategoryById(cat_id);
+
+    if(p_cat!=0){
+        return p_cat->getPOIPointAt(point_pos);
+    }
+    return 0;
 }
