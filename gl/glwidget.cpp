@@ -33,7 +33,7 @@ void GLWidget::initializeGL()
     glColor3f(1.0, 1.0, 1.0);
 
     glEnable(GL_DEPTH_TEST);
-    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLC()));
     timer->start(10);
@@ -51,48 +51,40 @@ void GLWidget::updateLC()
 
 void GLWidget::paintGL()
 {
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    glLoadIdentity();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
 
-//    gluLookAt(camera->x, camera->y, camera->z,
-//              camera->look_x, camera->look_y, camera->look_z,
-//              0.0, 1.0, 0.0);
+    gluLookAt(camera->x, camera->y, camera->z,
+              camera->look_x, camera->look_y, camera->look_z,
+              0.0, 1.0, 0.0);
 
-//    glPushMatrix();
+    glPushMatrix();
 
-//    glColor3f(1.0f, 1.0f, 1.0f);
-//    glBegin(GL_LINES);
-//        glVertex2f(0.0f, 0.0f);
-//        glVertex2f(0.5f, 0.5f);
-//    glEnd();
+    glColor3f(1.0f, 1.0f, 1.0f);
 
-//    //glScalef(1.001f, 1.000f, 1.0f);
-
-//    glColor3f(1.0f, 1.0f, 1.0f);
-
-//    //glLineWidth(5.0f);
-
-//    glLineWidth(1.0f);
+    glLineWidth(1.0f);
 
 //    map<unsigned long int,Way*>* allWays = db->getAllWays();
-//    map<unsigned long int, Way*>::iterator wayIt;
-//    for(wayIt = allWays->begin(); wayIt != allWays->end(); ++wayIt)
-//    {
-//        glBegin(GL_LINE_STRIP);
-//        //((Way*)(*wayIt).second)->getNodesBegin()
-//        for (vector<Node*>::iterator nodeIt = ((Way*)(*wayIt).second)->getNodesBegin(); nodeIt != ((Way*)(*wayIt).second)->getNodesEnd(); nodeIt++){
-//            //cout<<(*nodeIt)->getId()<<endl;
-//            boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
-//            //qDebug() << "Node Pos: " << nodeGeoPos.x() << " " << nodeGeoPos.y();
-//            //glVertex2f(nodeGeoPos.x() * 1000000, nodeGeoPos.y() * 1000000);
-//            //glVertex2f(nodeGeoPos.x() * 100, nodeGeoPos.y() * 100);
-//            glVertex3f(nodeGeoPos.x() * 100, nodeGeoPos.y() * 100, 0.0f);
-//            //qDebug() << "Node Pos: " << nodeGeoPos.x() * 100<< " " << nodeGeoPos.y() * 100;
-//            //glVertex2d(nodeGeoPos.x(), nodeGeoPos.y());
-//            // lat="46.7918039" lon="4.4277047"
-//        }
-//        glEnd();
-//    }
+    if(allWays == 0)
+        return;
+    map<unsigned long int, Way*>::iterator wayIt;
+    for(wayIt = allWays->begin(); wayIt != allWays->end(); ++wayIt)
+    {
+        glBegin(GL_LINE_STRIP);
+        //((Way*)(*wayIt).second)->getNodesBegin()
+        for (vector<Node*>::iterator nodeIt = ((Way*)(*wayIt).second)->getNodesBegin(); nodeIt != ((Way*)(*wayIt).second)->getNodesEnd(); nodeIt++){
+            //cout<<(*nodeIt)->getId()<<endl;
+            boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
+            //qDebug() << "Node Pos: " << nodeGeoPos.x() << " " << nodeGeoPos.y();
+            //glVertex2f(nodeGeoPos.x() * 1000000, nodeGeoPos.y() * 1000000);
+            //glVertex2f(nodeGeoPos.x() * 100, nodeGeoPos.y() * 100);
+            glVertex3f(nodeGeoPos.x() * 100, nodeGeoPos.y() * 100, 0.0f);
+            //qDebug() << "Node Pos: " << nodeGeoPos.x() * 100<< " " << nodeGeoPos.y() * 100;
+            //glVertex2d(nodeGeoPos.x(), nodeGeoPos.y());
+            // lat="46.7918039" lon="4.4277047"
+        }
+        glEnd();
+    }
 
 ////        vector<WaySegment*> segments_in_area;
 ////        //d->searchWaySegmentsInArea(boost_xy_point(46.78,4.402), boost_xy_point(46.79,4.403),segments_in_area);
@@ -143,7 +135,7 @@ void GLWidget::paintGL()
 //        }
 //    }
 
-//    glPopMatrix();
+    glPopMatrix();
 }
 
 void GLWidget::resizeGL(int w, int h)
@@ -271,43 +263,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     lastPos = event->pos();
 }
 
-//void GLWidget::mouseReleaseEvent(QMouseEvent *event)
-//{
-//    if(event->button() == Qt::RightButton)
-//    {
-//        lastRightClickPos = event->pos();
-//        QMenu menu;
-
-//        QAction* actionStart = new QAction("Set as Start Point", this);
-//        menu.addAction(actionStart);
-
-//        menu.addSeparator();
-
-//        QAction* actionEnd = new QAction("Set as End Point", this);
-//        menu.addAction(actionEnd);
-
-//        connect(actionStart, SIGNAL(triggered()), this, SLOT(setStartPoint()));
-//        connect(actionEnd, SIGNAL(triggered()), this, SLOT(setEndPoint()));
-
-//        menu.exec(mapToGlobal(event->pos()));
-//    }
-
-//    QGLWidget::mouseReleaseEvent(event);
-//}
-
-//void GLWidget::setStartPoint()
-//{
-//    qDebug() << "set end point called";
-//    qDebug() << lastRightClickPos;
-
-//}
-
-//void GLWidget::setEndPoint()
-//{
-//    qDebug() << "set end point called";
-//    qDebug() << lastRightClickPos;
-//}
-
 void GLWidget::startGL()
 {
     isStop = false;
@@ -338,13 +293,15 @@ QPointF GLWidget::getGeoPosition(QPoint point)
 
     gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
-//    qDebug() << "Returned posX: " << posX / 100.0;
-//    qDebug() << "Returned posY: " << posY / 100.0;
-
     return QPointF(posX / 100.0, posY / 100.0);
 }
 
 void GLWidget::centerMap()
 {
 
+}
+
+void GLWidget::setMap(map<unsigned long int,Way*>* ways)
+{
+    allWays = ways;
 }

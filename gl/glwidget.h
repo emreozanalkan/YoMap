@@ -22,11 +22,9 @@ private:
     int canvasWidth;
     int canvasHeight;
 
-    QPoint lastRightClickPos;
-
-    Database* db;
-
     bool isStop;
+
+    map<unsigned long int,Way*>* allWays;
 
 public:
     explicit GLWidget(QWidget *parent = 0);
@@ -41,21 +39,19 @@ public:
 
     void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
-    //void mouseReleaseEvent(QMouseEvent *);
 
     void startGL();
     void stopGL();
     QPointF getGeoPosition(QPoint);
     void centerMap();
-    //void dataPassing
+
+    void setMap(map<unsigned long int,Way*>*);
 
 signals:
 
 
 public slots:
     void updateLC();
-//    void setStartPoint();
-//    void setEndPoint();
 };
 
 #endif // GLWIDGET_H
