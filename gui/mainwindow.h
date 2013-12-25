@@ -20,6 +20,7 @@ private:
     Ui::MainWindow *ui;
     Logic l;
     QPoint lastRightClickPoint;
+    QPointF startPoint, endPoint;
     Database *db;
 
 protected:
