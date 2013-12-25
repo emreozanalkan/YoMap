@@ -37,6 +37,9 @@ void GLWidget::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
+    glEnable(GL_POINT_SMOOTH);
 
 //    glEnable( GL_POINT_SPRITE );
 //    glEnable( GL_BLEND );
@@ -140,26 +143,23 @@ void GLWidget::paintGL()
 //        }
 //    }
 
+
     if(startPoint != NULL)
     {
-        //glPushMatrix();
         glColor3f(0.0f, 1.0f, 0.0f);
-        glPointSize(2.0f);
+        glPointSize(7.0f);
         glBegin(GL_POINTS);
-            glVertex3f(startPoint->x() / 100.f, startPoint->y() / 100.f, 2.0f);
+        glVertex3f(startPoint->x() * 100.0f, startPoint->y() * 100.0f, 0.1f);
         glEnd();
-        //glPopMatrix();
     }
 
     if(endPoint != NULL)
     {
-        //glPushMatrix();
         glColor3f(1.0f, 0.0f, 0.0f);
-        glPointSize(2.0f);
+        glPointSize(7.0f);
         glBegin(GL_POINTS);
-            glVertex3f(endPoint->x() / 100.f, endPoint->y() / 100.f, 2.0f);
+        glVertex3f(endPoint->x() * 100.0f, endPoint->y() * 100.0f, 0.2f);
         glEnd();
-        //glPopMatrix();
     }
 
     glPopMatrix();
