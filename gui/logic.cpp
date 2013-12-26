@@ -20,6 +20,11 @@ map<unsigned long int,Way *>* Logic::getAllWays(){
     return db.getAllWays();
 }
 
+map<unsigned int,POICategory *>* Logic::getCategoryCatalog(){
+    return db.getCategoryCatalog();
+}
+
+
 
 int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time)
 {
@@ -37,6 +42,11 @@ int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<Wa
     boost_xy_point start_point(A.x(),A.y());
     boost_xy_point end_point(B.x(),B.y());
     ns_permisions::transport_type tt;
+
+    //CHECK for inbounds for point A and B
+    //OKSANA IMPLEMENT IT!
+    //db.checkIfInBoundsOfMap(start_point);
+
 
     if (transportMode == 0) tt = ns_permisions::car;
     else if (transportMode == 1) tt = ns_permisions::foot;

@@ -374,6 +374,6 @@ POIPoint* Database::getPOIPointByPosition(unsigned int cat_id,unsigned int point
 }
 
 map<unsigned int,POICategory *>* Database::getCategoryCatalog(){
-    return all_poi_categories;
+    return &all_poi_categories;
 }
 
