@@ -35,6 +35,7 @@ public:
 
     POICategory* getPOICategoryById(unsigned int i);
     POIPoint* getPOIPointByPosition(unsigned int cat_id,unsigned int point_pos);
+    map<unsigned int,POICategory *>* getCategoryCatalog();
 
     map<unsigned long int,Way *>* getAllWays();
 
