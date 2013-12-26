@@ -15,6 +15,7 @@ public:
     map<unsigned long int,Way *>* getAllWays();
    // void printmsg();
     int getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time);
+    map<unsigned int,POICategory *>* getCategoryCatalog();
 };
 
 #endif // LOGIC_H
