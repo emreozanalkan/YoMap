@@ -424,3 +424,13 @@ void GLWidget::deletePath()
 {
     path.clear();
 }
+
+void GLWidget::setPOIs(vector<POIPoint*> pois)
+{
+    POI = pois;
+}
+
+void GLWidget::deletePOIs()
+{
+    POI.clear();
+}

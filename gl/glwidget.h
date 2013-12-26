@@ -26,6 +26,8 @@ private:
 
     map<unsigned long int,Way*>* allWays;
     vector<WaySegment*> path;
+    vector<POIPoint*> POI;
+
 
     QPointF *startPoint;
     QPointF *endPoint;
@@ -50,8 +52,13 @@ public:
     void centerMap();
 
     void setMap(map<unsigned long int,Way*>*);
+
     void setPath(vector<WaySegment*>);
     void deletePath();
+
+    void setPOIs(vector<POIPoint*>);
+    void deletePOIs();
+
 
     void drawStartPoint(QPointF*);
     void drawEndPoint(QPointF*);
