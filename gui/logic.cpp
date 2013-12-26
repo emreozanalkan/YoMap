@@ -5,20 +5,16 @@
 using namespace std;
 
 Logic::Logic(){
-
-#ifdef __APPLE__
-    db.build("/Users/emreozanalkan/QTWorkspace/YoMap/data/LeCreusotWaysFF.osm");
-    db.buildPOIs("/Users/emreozanalkan/QTWorkspace/YoMap/data/LeCreusot_POI.xml");
-#else
-    db.build("C:\\Users\\tuitikki\\Documents\\GitHub\\YoMap\\data\\LeCreusotWaysFF.osm");
-    db.buildPOIs("C:\\Users\\tuitikki\\Documents\\GitHub\\YoMap\\data\\LeCreusot_POI.xml");
-#endif
-
+    db.build(":/data/ways.osm");
+    db.buildPOIs(":/data/POI.xml");
 }
 
-//void Logic::printmsg(){
-//    cout << "Button pressed" << endl;
-//}
+bool Logic::checkIfWaysDBIsBuild(){
+    return db.isWaysBuild();
+}
+bool Logic::checkIfPOIDBIsBuild(){
+    return db.isPOIBuild();
+}
 
 map<unsigned long int,Way *>* Logic::getAllWays(){
     return db.getAllWays();

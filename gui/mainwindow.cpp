@@ -10,6 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    if(logic.checkIfWaysDBIsBuild() && logic.checkIfWaysDBIsBuild()){
+        //HANDLE OF DB DOESNT GET BUILD
+    }
+
     ui->setupUi(this);
     //get data for the lists
     //ui->comboBoxCatA->

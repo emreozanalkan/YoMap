@@ -2,6 +2,7 @@
 #include "db_definitions.hpp"
 #include "commonFunctions.hpp"
 #include <iostream>
+
 #include "../algorithms/pathalgorithms.h"
 
 #include "poi/poicategory.h"
@@ -9,12 +10,11 @@
 
 
 using namespace std;
-using namespace rapidxml;
 
 Database::Database()
 {
 }
-Database::Database(string path)
+Database::Database(QString path)
 {
     build(path);
 }
@@ -41,73 +41,94 @@ Database::~Database()
     }
 
 }
-void Database::build(string path){
-    //code partially taken from example at http://rapidxml.sourceforge.net/manual.html
+bool Database::isWaysBuild(){
+    return ways_build;
+}
 
+bool Database::isPOIBuild(){
+    return poi_build;
+}
+
+int Database::build(QString path){
+    ways_build = false;
+    QFile file(path);
     cout << "Building data structure..." << endl;
 
-    //XML PARSER
-    xml_document<> doc;
-    xml_node<> * root_node;
+    QDomDocument doc( "OSM" );
 
-    // Read the xml file into a vector
-    ifstream theFile(path.c_str());
-    vector<char> buffer((istreambuf_iterator<char>(theFile)), istreambuf_iterator<char>());
-    buffer.push_back('\0');
-
-    // Parse the buffer using the xml file parsing library into doc
-    doc.parse<0>(&buffer[0]);
-
-    // Find our root node
-    root_node = doc.first_node("osm");
-    unsigned long int id;
-
-    // Iterate over the all the nodes
-    for (xml_node<> * node = root_node->first_node(); node; node = node->next_sibling())
-    {
-        string node_name(node->name());
-
-
-        //First we check if it is a node or relation
-        if(node_name=="bounds"){
-            float min_lat,min_lon,max_lat,max_lon;
-            getValueFromString( node->first_attribute("minlat")->value(), min_lat );
-            getValueFromString( node->first_attribute("minlon")->value(), min_lon );
-            getValueFromString( node->first_attribute("maxlat")->value(), max_lat );
-            getValueFromString( node->first_attribute("maxlon")->value(), max_lon );
-            setBounds(min_lon,min_lat,max_lon,max_lat);
-        }
-        else if(node_name=="node"){
-            getValueFromString( node->first_attribute("id")->value(), id );
-
-            //Create new Node
-            Node *n = new Node(id);
-            float lat,lon;
-            getValueFromString( node->first_attribute("lat")->value(), lat );
-            getValueFromString( node->first_attribute("lon")->value(), lon );
-            n->setGeoPosition(lon,lat);
-            //Insert node in vector of all nodes
-            insertNewNode(n);
-        }
-        else if(node_name=="way"){
-            //It is somekind of relation
-
-            //Figure out what kind of relation
-            for(xml_node<> * way_node = node->first_node("tag"); way_node; way_node = way_node->next_sibling())
-            {
-                string tag_type(way_node->first_attribute("k")->value());
-                if(tag_type.compare("highway")==0){
-                    //Its a way
-                    Relation * rel = processWay(node,string(way_node->first_attribute("v")->value()));
-                    insertNewWay((Way*)rel);
-
-                }
-                else if(tag_type.compare("building")==0 && string(way_node->first_attribute("v")->value()).compare("yes")==0){
-                    //its a building
-                }
-            }
-        }
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        ways_build = false;
+        return -1;
     }
+
+    if( !doc.setContent( &file ) )
+     {
+       file.close();
+       ways_build = false;
+       return -2;
+     }
+
+    QDomElement root = doc.documentElement();
+    if( root.tagName() != "osm" )
+      return -2;
+
+    QDomNode n = root.firstChild();
+     while( !n.isNull() )
+     {
+           QDomElement e = n.toElement();
+           if( !e.isNull() )
+           {
+             if( e.tagName() == "bounds" )
+             {
+                 if(e.hasAttribute("minlat") && e.hasAttribute("minlon") && e.hasAttribute("maxlat") && e.hasAttribute("maxlon")){
+
+                     float min_lat = e.attribute("minlat").toFloat();
+                     float min_lon = e.attribute("minlon").toFloat();
+                     float max_lat = e.attribute("maxlat").toFloat();
+                     float max_lon = e.attribute("maxlon").toFloat();
+                     setBounds(min_lon,min_lat,max_lon,max_lat);
+                 }
+             }
+             else if(e.tagName() == "node"){
+                if(e.hasAttribute("id")){
+                    unsigned long int id;
+                    getValueFromString( e.attribute("id").toStdString(), id );
+
+                    Node *n = new Node(id);
+
+                    if(e.hasAttribute("lat") && e.hasAttribute("lon")){
+                        float lat = e.attribute("lat").toFloat();
+                        float lon = e.attribute("lon").toFloat();
+                        n->setGeoPosition(lon,lat);
+                    }
+                        //Insert node in vector of all nodes
+                        insertNewNode(n);
+                }
+             }
+             else if(e.tagName() == "way"){
+                 if(e.hasAttribute("id")) {
+                     QDomElement elem = e.firstChildElement("tag");
+                     while( !elem.isNull() )
+                     {
+                         if(elem.attribute("k")=="highway"){
+                             //It is a road
+                             Relation * rel = processWay(e,elem.attribute("v").toStdString());
+                             insertNewWay((Way*)rel);
+                         }
+                         else if(elem.attribute("k")=="building" && elem.attribute("v")=="yes"){
+                             //It is a building
+                         }
+
+                         elem = elem.nextSiblingElement("tag");
+                     }
+                 }
+             }
+           }
+           n = n.nextSibling();
+     }
+     file.close();
+     ways_build = true;
+     return 0;
 }
 
 void Database::setBounds(float &min_lon, float &min_lat, float &max_lon, float &max_lat){
@@ -127,45 +148,41 @@ bool Database::checkIfInBoundsOfMap(boost_xy_point p){
 }
 
 
-Relation * Database::processWay(xml_node<> * node, string t){
+Relation * Database::processWay(QDomElement &e, string t){
     unsigned long int id;
-     unsigned long int idA;
-    getValueFromString( node->first_attribute("id")->value(), id );
-    getValueFromString( node->first_attribute("id")->value(), idA );
+    getValueFromString(e.attribute("id").toStdString(), id );
 
     Relation * rel = new Way(id);
     ((Way*)rel)->setWayType(getWayTypeFromString(t));
 
-    for(xml_node<> * way_node = node->first_node(); way_node; way_node = way_node->next_sibling())
-    {
-        string sub_name(way_node->name());
-        if(sub_name=="nd"){
-            getValueFromString( way_node->first_attribute("ref")->value(), id );
+    QDomElement child = e.firstChildElement();
+    while(!child.isNull()){
+        if(child.tagName()=="nd"){
+            getValueFromString( child.attribute("ref").toStdString(), id );
             Node * n = getNodeById(id);
             ((Way*)rel)->insertNode(n);
             n->addRelation(rel);
         }
-        else if(sub_name=="tag"){
-            string tag_type(way_node->first_attribute("k")->value());
+        else if(child.tagName()=="tag"){
+            string tag_type = child.attribute("k").toStdString();
             if(tag_type=="oneway"){
-                ((Way*)rel)->setOnewayType(getOnewayTypeFromString(string(way_node->first_attribute("v")->value())));
+                ((Way*)rel)->setOnewayType(getOnewayTypeFromString(child.attribute("v").toStdString()));
             }
             else if(tag_type=="access"){
-                ((Way*)rel)->setAccessType(getAccessTypeFromString(string(way_node->first_attribute("v")->value())));
+                ((Way*)rel)->setAccessType(getAccessTypeFromString(child.attribute("v").toStdString()));
             }
             else if(tag_type=="name"){
-                ((Way*)rel)->setStreetName(string(way_node->first_attribute("v")->value()));
+                ((Way*)rel)->setStreetName(child.attribute("v").toStdString());
             }
-            else if(tag_type=="junction" && string(way_node->first_attribute("v")->value())=="roundabout"){
+            else if(tag_type=="junction" && child.attribute("v")=="roundabout"){
                 ((Way*)rel)->setAsRoundabout(true);
             }
-            else if(tag_type=="bridge" && string(way_node->first_attribute("v")->value())=="true"){
+            else if(tag_type=="bridge" && child.attribute("v")=="true"){
                 ((Way*)rel)->setAsBridge(true);
             }
-
         }
+        child = child.nextSiblingElement();
     }
-
     return rel;
 }
 void Database::insertNewWay(Way *w){
@@ -269,60 +286,69 @@ map<unsigned long int,Way *>* Database::getAllWays(){
 
 
 
-void Database::buildPOIs(string path){
-    //code partially taken from example at http://rapidxml.sourceforge.net/manual.html
-
+int Database::buildPOIs(QString path){
+    poi_build = false;
+    QFile file(path);
     cout << "Building POI structure..." << endl;
 
-    //XML PARSER
-    xml_document<> doc;
-    xml_node<> * root_node;
+    QDomDocument doc( "POI" );
 
-    // Read the xml file into a vector
-    ifstream theFile(path.c_str());
-    vector<char> buffer((istreambuf_iterator<char>(theFile)), istreambuf_iterator<char>());
-    buffer.push_back('\0');
-
-    // Parse the buffer using the xml file parsing library into doc
-    doc.parse<0>(&buffer[0]);
-
-    // Find our root node
-    root_node = doc.first_node("data");
-
-    unsigned int id;
-    // Iterate over the all the nodes
-    for (xml_node<> * node = root_node->first_node(); node; node = node->next_sibling())
-    {
-        string node_name(node->name());
-
-        //First we check if it is a category or poi
-        if(node_name=="category"){
-            getValueFromString( node->first_attribute("id")->value(), id );
-            //Create new category
-            POICategory *poi_c = new POICategory(id,node->first_attribute("name")->value(),node->first_attribute("icon")->value());
-            insertNewPOICategory(poi_c);
-        }
-        else if(node_name=="poi"){
-            //It is POI
-            getValueFromString( node->first_attribute("id")->value(), id );
-            unsigned int cat_id;
-            getValueFromString( node->first_attribute("cat_id")->value(), cat_id );
-
-            POICategory *p_cat = getPOICategoryById(cat_id);
-            //Check if category exists
-            if(p_cat!=0){
-                double lat,lon;
-                getValueFromString( node->first_attribute("lat")->value(), lat );
-                getValueFromString( node->first_attribute("lon")->value(), lon );
-
-                POIPoint *poi = new POIPoint(id,lon,lat,node->first_attribute("name")->value(),node->first_attribute("addr")->value(),node->first_attribute("photo")->value(),node->first_attribute("user")->value());
-                poi->setCategory(p_cat);
-                p_cat->addPOI(poi);
-                insertNewPOIPoint(poi);
-            }
-
-        }
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        poi_build = false;
+        return -1;
     }
+
+    if( !doc.setContent( &file ) )
+     {
+       file.close();
+       poi_build = false;
+       return -2;
+     }
+
+    QDomElement root = doc.documentElement();
+    if( root.tagName() != "data" )
+      return -2;
+
+    QDomNode n = root.firstChild();
+     while( !n.isNull() )
+     {
+         QDomElement e = n.toElement();
+         if( !e.isNull() )
+         {
+           if( e.tagName() == "category" )
+           {
+               unsigned int id;
+               getValueFromString( e.attribute("id").toStdString(), id );
+               //Create new category
+               POICategory *poi_c = new POICategory(id,e.attribute("name").toStdString(),e.attribute("icon").toStdString());
+               insertNewPOICategory(poi_c);
+           }
+           else if(e.tagName() == "poi"){
+               unsigned int id,cat_id;
+
+
+               getValueFromString(e.attribute("id").toStdString(), id );
+               getValueFromString(e.attribute("cat_id").toStdString(), cat_id );
+
+               POICategory *p_cat = getPOICategoryById(cat_id);
+               //Check if category exists
+               if(p_cat!=0){
+                   float lat = e.attribute("lat").toFloat();
+                   float lon = e.attribute("lon").toFloat();
+
+                   POIPoint *poi = new POIPoint(id,lon,lat,e.attribute("name").toStdString(),e.attribute("addr").toStdString(),e.attribute("photo").toStdString(),e.attribute("user").toStdString());
+                   poi->setCategory(p_cat);
+                   p_cat->addPOI(poi);
+                   insertNewPOIPoint(poi);
+               }
+           }
+         }
+         n = n.nextSibling();
+     }
+    file.close();
+    poi_build = true;
+    return 0;
+
 }
 void Database::insertNewPOICategory(POICategory *poi_c){
     all_poi_categories.insert(make_pair<unsigned int,POICategory *>(poi_c->getId(),poi_c));
@@ -345,14 +371,4 @@ POIPoint* Database::getPOIPointByPosition(unsigned int cat_id,unsigned int point
         return p_cat->getPOIPointAt(point_pos);
     }
     return 0;
-}
-
-QStringList Database::getCategoryCatalog(){
-    QStringList qlist;
-
-    for(map<unsigned int,POICategory *>::iterator it = all_poi_categories.begin();it!=all_poi_categories.end();it++){
-        qlist<<QString::fromStdString(it->second->getName());
-    }
-
-    return qlist;
 }

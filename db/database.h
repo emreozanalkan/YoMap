@@ -9,28 +9,24 @@
 #include "poi/poicategory.h"
 #include "poi/poipoint.h"
 
-#include "libs/RapidXML/rapidxml.hpp"
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 
- #include <QStringList>
+#include <QFile>
 #include <QString>
+#include <QDomDocument>
 
-
-
-using namespace rapidxml;
 
 class Database
 {
 public:
     Database();
-    Database(string path);
+    Database(QString path);
     ~Database();
-    void build(string path);
-    void buildPOIs(string path);
+    int build(QString path);
+    int buildPOIs(QString path);
 
     bool checkIfInBoundsOfMap(boost_xy_point);
 
@@ -39,7 +35,6 @@ public:
 
     POICategory* getPOICategoryById(unsigned int i);
     POIPoint* getPOIPointByPosition(unsigned int cat_id,unsigned int point_pos);
-    QStringList getCategoryCatalog();
 
     map<unsigned long int,Way *>* getAllWays();
 
@@ -49,7 +44,11 @@ public:
     bool findShortestWay(boost_xy_point &A, boost_xy_point &B, vector<WaySegment*> &path,float &total_cost);
     bool findClosestWaySegment(boost_xy_point &A, WaySegment* closestSegment, boost_xy_point &pointOfContact);
     boost_xy_point&  projectPointToSegment(boost_xy_point &A,boost_xy_point &B, boost_xy_point &C);
+    bool isWaysBuild();
+    bool isPOIBuild();
 private:
+    bool ways_build;
+    bool poi_build;
     //containers of all nodes by type
     map<unsigned long int,Node *> all_nodes;
 
@@ -69,7 +68,7 @@ private:
     void setBounds(float &min_lon, float &min_lat, float &max_lon, float &max_lat);
 
 
-    Relation * processWay(xml_node<> *, string);
+    Relation* processWay(QDomElement &e, string t);
     void insertNewWay(Way *);
     void insertNewNode(Node *);
 

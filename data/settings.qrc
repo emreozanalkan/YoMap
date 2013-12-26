@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/data">
+        <file alias="POI.xml">LeCreusot_POI.xml</file>
+        <file alias="ways.osm">LeCreusotWaysFF.osm</file>
+    </qresource>
+</RCC>

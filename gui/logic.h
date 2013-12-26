@@ -10,6 +10,8 @@ private:
 
 public:
     Logic();
+    bool checkIfWaysDBIsBuild();
+    bool checkIfPOIDBIsBuild();
     map<unsigned long int,Way *>* getAllWays();
    // void printmsg();
     int getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time);
