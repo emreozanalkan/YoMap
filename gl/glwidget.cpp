@@ -412,13 +412,11 @@ void GLWidget::drawEndPoint(QPointF *endp)
 
 void GLWidget::deleteStartPoint()
 {
-    delete startPoint;
     startPoint = 0;
 }
 
 void GLWidget::deleteEndPoint()
 {
-    delete endPoint;
     endPoint = 0;
 }
 
