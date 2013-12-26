@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));   
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
     connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
+    connect( ui->comboBoxCatA, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA(int)));
+    connect( ui->comboBoxPOIA, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIA(int)));
 
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
@@ -213,3 +215,43 @@ void MainWindow::setEndPoint()
     std::cout << "ResizeEvent" << std::endl;
   //this->graphicsView->fitInView(this->BlackItem);
 }*/
+
+void MainWindow::handleSelectedCategoryA(int index)
+{
+
+    if (ui->comboBoxPOIA->count()) ui->comboBoxPOIA->clear();
+    POICategory *data = (POICategory *)ui->comboBoxCatA->itemData(index).value<void *>();
+
+   // map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
+
+    for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+        //qDebug<< ((*it)->getName());
+       ui->comboBoxPOIA->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+    }
+    ui->comboBoxPOIA->model()->sort(0);
+
+}
+
+void MainWindow::handleSelectedPOIA(int index)
+{
+    if (index>=0)
+    {
+    POIPoint *data = (POIPoint *)ui->comboBoxPOIA->itemData(index).value<void *>();
+
+    QString StrLon, StrLat;
+
+    StrLat.setNum(data->getGeoPosition().y());
+    StrLon.setNum(data->getGeoPosition().x());
+
+    startPoint.setX(data->getGeoPosition().x());
+    startPoint.setY(data->getGeoPosition().y());
+
+    ui->lineEditLatA->setText(StrLat);
+    ui->lineEditLonA->setText(StrLon);
+
+    ui->widget->deleteStartPoint();
+    ui->widget->drawStartPoint(&startPoint);
+
+    ui->widget->deletePath();
+    }
+}
