@@ -121,3 +121,14 @@ void GLCamera::setViewingVolume()
 
 }
 
+void GLCamera::center()
+{
+    x = 0.0;
+    y = 0.0;
+    z = 1.0;
+
+    look_x = 0.0;
+    look_y = 0.0;
+    look_z = 0.0;
+}
+

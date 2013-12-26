@@ -167,6 +167,7 @@ void GLWidget::paintGL()
 //        }
 //    }
 
+    glLineWidth(5.0f);
     glColor3f(1.0f, 0.0f, 0.0f);
         glBegin(GL_LINES);
         if(startPoint != NULL && !path.empty())
@@ -175,7 +176,6 @@ void GLWidget::paintGL()
             glVertex3f(startPoint->x() * 100.0f, startPoint->y() * 100.0f, 0.1f);
             WaySegment* waySegment = path[0];
             boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
-            boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
             glVertex3f(nodeGeoPosA.x() * 100.0f, nodeGeoPosA.y() * 100.0f, 0.1f);
         }
         glColor3f(1.0f, 0.0f, 0.0f);
@@ -196,7 +196,6 @@ void GLWidget::paintGL()
         {
             glColor3f(0.0f, 0.0f, 1.0f);
             WaySegment* waySegment = path[i-1];
-            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
             boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
             glVertex3f(nodeGeoPosB.x() * 100.0f, nodeGeoPosB.y() * 100.0f, 0.1f);
             glVertex3f(endPoint->x() * 100.0f, endPoint->y() * 100.0f, 0.1f);
@@ -255,6 +254,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key())
     {
+    case Qt::Key_C:
+        camera->center();
+        break;
     case Qt::Key_W:
         camera->up();
         break;
@@ -385,7 +387,7 @@ QPointF GLWidget::getGeoPosition(QPoint point)
 
 void GLWidget::centerMap()
 {
-
+    camera->center();
 }
 
 void GLWidget::setMap(map<unsigned long int,Way*>* ways)

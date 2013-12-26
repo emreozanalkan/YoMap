@@ -43,6 +43,8 @@ public:
     void zoomOut();
 
     void setViewingVolume();
+
+    void center();
 };
 
 #endif // GLCAMERA_H
