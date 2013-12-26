@@ -51,6 +51,7 @@ public:
 
     void setMap(map<unsigned long int,Way*>*);
     void setPath(vector<WaySegment*>);
+    void deletePath();
 
     void drawStartPoint(QPointF*);
     void drawEndPoint(QPointF*);
