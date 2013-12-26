@@ -143,32 +143,41 @@ void GLWidget::paintGL()
 //        }
 //    }
 
-
-    glBegin(GL_LINES);
-    if(startPoint != NULL)
-    {
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(startPoint->x() * 100.0f, startPoint->y() * 100.0f, 0.1f);
-    }
     glColor3f(1.0f, 0.0f, 0.0f);
-    for(int i = 0; i < path.size(); i++)
-    {
-        WaySegment* waySegment = path[i];
-        boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
-        boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
-        //glBegin(GL_LINES);
-        //qDebug() << "A: " <<nodeGeoPosA.x() << "-" << nodeGeoPosA.y();
-        //qDebug() << "B: " <<nodeGeoPosB.x() << "-" << nodeGeoPosB.y();
-        glVertex3f(nodeGeoPosA.x() * 100.0f, nodeGeoPosA.y() * 100.0f, 0.1f);
-        glVertex3f(nodeGeoPosB.x() * 100.0f, nodeGeoPosB.y() * 100.0f, 0.1f);
-        //glEnd();
-    }
-    if(endPoint != NULL)
-    {
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(endPoint->x() * 100.0f, endPoint->y() * 100.0f, 0.1f);
-    }
-    glEnd();
+        glBegin(GL_LINES);
+        if(startPoint != NULL && !path.empty())
+        {
+            glColor3f(0.0f, 0.0f, 1.0f);
+            glVertex3f(startPoint->x() * 100.0f, startPoint->y() * 100.0f, 0.1f);
+            WaySegment* waySegment = path[0];
+            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
+            boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
+            glVertex3f(nodeGeoPosA.x() * 100.0f, nodeGeoPosA.y() * 100.0f, 0.1f);
+        }
+        glColor3f(1.0f, 0.0f, 0.0f);
+        int i;
+        for(i = 0; i < path.size(); i++)
+        {
+            WaySegment* waySegment = path[i];
+            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
+            boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
+            //glBegin(GL_LINES);
+            //qDebug() << "A: " <<nodeGeoPosA.x() << "-" << nodeGeoPosA.y();
+            //qDebug() << "B: " <<nodeGeoPosB.x() << "-" << nodeGeoPosB.y();
+            glVertex3f(nodeGeoPosA.x() * 100.0f, nodeGeoPosA.y() * 100.0f, 0.1f);
+            glVertex3f(nodeGeoPosB.x() * 100.0f, nodeGeoPosB.y() * 100.0f, 0.1f);
+            //glEnd();
+        }
+        if(endPoint != NULL && !path.empty())
+        {
+            glColor3f(0.0f, 0.0f, 1.0f);
+            WaySegment* waySegment = path[i-1];
+            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
+            boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
+            glVertex3f(nodeGeoPosB.x() * 100.0f, nodeGeoPosB.y() * 100.0f, 0.1f);
+            glVertex3f(endPoint->x() * 100.0f, endPoint->y() * 100.0f, 0.1f);
+        }
+        glEnd();
 
 
     if(startPoint != NULL)
