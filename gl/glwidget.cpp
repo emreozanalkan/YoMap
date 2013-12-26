@@ -78,9 +78,33 @@ void GLWidget::paintGL()
     map<unsigned long int, Way*>::iterator wayIt;
     for(wayIt = allWays->begin(); wayIt != allWays->end(); ++wayIt)
     {
+        Way* way = ((Way*)(*wayIt).second);
+        switch(way->getWayType())
+        {
+            case ns_way::primary:
+            default:
+                glColor3f(1.0f, 1.0f, 1.0f);
+                break;
+            case ns_way::footway:
+                glColor3f(1.0f, 1.0f, 0.0f);
+                break;
+            case ns_way::steps:
+                glColor3f(0.0f, 1.0f, 1.0f);
+                break;
+            case ns_way::track:
+                glColor3f(1.0f, 0.0f, 1.0f);
+                break;
+            case ns_way::raceway:
+                glColor3f(1.0f, 0.5f, 0.0f);
+                break;
+            case ns_way::service:
+                glColor3f(0.737255f, 0.560784f, 0.560784f);
+                break;
+        }
+
         glBegin(GL_LINE_STRIP);
         //((Way*)(*wayIt).second)->getNodesBegin()
-        for (vector<Node*>::iterator nodeIt = ((Way*)(*wayIt).second)->getNodesBegin(); nodeIt != ((Way*)(*wayIt).second)->getNodesEnd(); nodeIt++){
+        for (vector<Node*>::iterator nodeIt = way->getNodesBegin(); nodeIt != way->getNodesEnd(); nodeIt++){
             //cout<<(*nodeIt)->getId()<<endl;
             boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
             //qDebug() << "Node Pos: " << nodeGeoPos.x() << " " << nodeGeoPos.y();
