@@ -21,6 +21,7 @@ public:
    // void printmsg();
     int getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time);
     map<unsigned int,POICategory *>* getCategoryCatalog();
+    QString TimetoSting(double Time);
 };
 
 #endif // LOGIC_H

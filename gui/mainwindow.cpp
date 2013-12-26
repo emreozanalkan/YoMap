@@ -71,6 +71,8 @@ void MainWindow::handleButtonSwap()
     startPoint = endPoint;
     endPoint = temp_point;
 
+    //TODO switch the combobox inputs
+
     ui->widget->deletePath();
 }
 
@@ -88,7 +90,7 @@ void MainWindow::handleButtonGo()
 
     endPoint.setX(ui->lineEditLonB->text().toFloat());
     endPoint.setY(ui->lineEditLatB->text().toFloat());
-    //validator? error!
+    //TODO validator? error!
 
     if (ui->radioButtonDriving->isChecked()) mode = 0; //driving 0
     else
@@ -112,19 +114,23 @@ void MainWindow::handleButtonGo()
     } else
     if (found==0)
     {
-
         //text output
         QString timeOutput;
-        qDebug() << " " << Distance <<" "<< Time <<endl;
-
+        //qDebug() << " " << Distance <<" "<< Time <<endl;
+         //setPlainText();
         //timeOutput << "";
         //ui->plainTextEditOutput->clear();
         //ui->plainTextEditOutput->appendPlainText(output);
 
-        //TODO: map output
+        //QString StrDistance = setNum(StrDistance);
+
+
+        ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(Time));
+
         ui->widget->setPath(Path);
     }
 }
+
 
 
 void MainWindow::mouseReleaseEvent(QMouseEvent * event)
@@ -162,9 +168,6 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
 
     }
 
-    //get geo position
-    //ui->widget->getGeoPosition(event->pos() - ui->widget->pos());
-
     QMainWindow::mouseReleaseEvent(event);
 
 }
@@ -185,6 +188,7 @@ void MainWindow::setStartPoint()
    ui->widget->drawStartPoint(&startPoint);
 
    ui->widget->deletePath();
+
 }
 
 void MainWindow::setEndPoint()

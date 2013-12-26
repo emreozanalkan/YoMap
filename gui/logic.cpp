@@ -62,3 +62,29 @@ int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<Wa
     if (found) return 0;
     return 3; //no path found
 }
+
+QString Logic::TimetoSting(double Time)
+{
+    double TimeHours, TimeMinutes;
+    TimeMinutes = modf(Time, &TimeHours);
+    TimeMinutes = round(TimeMinutes*60);
+
+    QString StrTimeMinutes = "";
+    QString StrTimeHours = "";
+
+    if (TimeHours>0)
+    {
+        StrTimeHours.setNum(TimeHours);
+        if (TimeHours>1) StrTimeHours.append(" hours ");
+        else StrTimeHours.append(" hour ");
+    }
+
+    if (TimeMinutes>0)
+    {
+        StrTimeMinutes.setNum(TimeMinutes);
+        if (TimeMinutes>1) StrTimeMinutes.append(" minutes");
+        else StrTimeMinutes.append(" minute");
+    }
+
+    return StrTimeHours + StrTimeMinutes;
+}
