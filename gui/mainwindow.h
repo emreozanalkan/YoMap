@@ -31,8 +31,10 @@ private slots:
     void handleButtonSwap();
     void setStartPoint();
     void setEndPoint();
-    void handleSelectedCategoryA(int index);
+    void handleSelectedCategoryA(int);
+    void handleSelectedCategoryB(int);
     void handleSelectedPOIA(int);
+    void handleSelectedPOIB(int);
 };
 
 #endif // MAINWINDOW_H

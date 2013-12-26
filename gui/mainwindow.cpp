@@ -19,25 +19,26 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));   
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
     connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
+
     connect( ui->comboBoxCatA, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA(int)));
     connect( ui->comboBoxPOIA, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIA(int)));
+
+    connect( ui->comboBoxCatB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB(int)));
+    connect( ui->comboBoxPOIB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB(int)));
 
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
     for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
        ui->comboBoxCatA->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+       ui->comboBoxCatB->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
     }
 
-    //for (int i = 0; i < ui->comboBoxCatA->count(); ++i)
-       // qDebug() << ui->comboBoxCatA->itemText(i) << ui->comboBoxCatA->itemData(i).toString();
-     // sort
     ui->comboBoxCatA->model()->sort(0);
+    ui->comboBoxCatB->model()->sort(0);
 
-   // for (int i = 0; i < ui->comboBoxCatA->count(); ++i)
-       // qDebug() << ui->comboBoxCatA->itemText(i) << ui->comboBoxCatA->itemData(i).toString();
+    //Set up the map
 
-    //Map Rendering
     ui->widget->setMap(logic.getAllWays());
     ui->widget->startGL();
 
@@ -251,6 +252,46 @@ void MainWindow::handleSelectedPOIA(int index)
 
     ui->widget->deleteStartPoint();
     ui->widget->drawStartPoint(&startPoint);
+
+    ui->widget->deletePath();
+    }
+}
+
+void MainWindow::handleSelectedCategoryB(int index)
+{
+
+    if (ui->comboBoxPOIB->count()) ui->comboBoxPOIB->clear();
+    POICategory *data = (POICategory *)ui->comboBoxCatB->itemData(index).value<void *>();
+
+   // map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
+
+    for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+        //qDebug<< ((*it)->getName());
+       ui->comboBoxPOIB->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+    }
+    ui->comboBoxPOIB->model()->sort(0);
+
+}
+
+void MainWindow::handleSelectedPOIB(int index)
+{
+    if (index>=0)
+    {
+    POIPoint *data = (POIPoint *)ui->comboBoxPOIA->itemData(index).value<void *>();
+
+    QString StrLon, StrLat;
+
+    StrLat.setNum(data->getGeoPosition().y());
+    StrLon.setNum(data->getGeoPosition().x());
+
+    startPoint.setX(data->getGeoPosition().x());
+    startPoint.setY(data->getGeoPosition().y());
+
+    ui->lineEditLatB->setText(StrLat);
+    ui->lineEditLonB->setText(StrLon);
+
+    ui->widget->deleteEndPoint();
+    ui->widget->drawEndPoint(&endPoint);
 
     ui->widget->deletePath();
     }
