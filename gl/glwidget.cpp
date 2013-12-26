@@ -73,7 +73,7 @@ void GLWidget::paintGL()
     glLineWidth(1.0f);
 
 //    map<unsigned long int,Way*>* allWays = db->getAllWays();
-    if(allWays == 0)
+    if(allWays == NULL)
         return;
     map<unsigned long int, Way*>::iterator wayIt;
     for(wayIt = allWays->begin(); wayIt != allWays->end(); ++wayIt)
@@ -143,13 +143,29 @@ void GLWidget::paintGL()
 //        }
 //    }
 
+    if(!path.empty())
+    {
+        for(int i = 0; i < path.size(); i++)
+        {
+            WaySegment* waySegment = path[i];
+            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
+            boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
+            glBegin(GL_LINES);
+            //qDebug() << "A: " <<nodeGeoPosA.x() << "-" << nodeGeoPosA.y();
+            //qDebug() << "B: " <<nodeGeoPosB.x() << "-" << nodeGeoPosB.y();
+            glVertex3f(nodeGeoPosA.x() * 100.0f, nodeGeoPosA.y() * 100.0f, 0.1f);
+            glVertex3f(nodeGeoPosB.x() * 100.0f, nodeGeoPosB.y() * 100.0f, 0.1f);
+            glEnd();
+        }
+    }
+
 
     if(startPoint != NULL)
     {
         glColor3f(0.0f, 1.0f, 0.0f);
         glPointSize(7.0f);
         glBegin(GL_POINTS);
-        glVertex3f(startPoint->x() * 100.0f, startPoint->y() * 100.0f, 0.1f);
+        glVertex3f(startPoint->x() * 100.0f, startPoint->y() * 100.0f, 0.2f);
         glEnd();
     }
 
@@ -316,9 +332,9 @@ QPointF GLWidget::getGeoPosition(QPoint point)
 
     winX = (float)point.x();
     winY = (float)viewport[3] - (float)point.y();
-    glReadPixels(point.x(), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+    glReadPixels(point.x(), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
 
-    gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+    gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
     return QPointF(posX / 100.0, posY / 100.0);
 }
@@ -331,6 +347,11 @@ void GLWidget::centerMap()
 void GLWidget::setMap(map<unsigned long int,Way*>* ways)
 {
     allWays = ways;
+}
+
+void GLWidget::setPath(vector<WaySegment*> waySegments)
+{
+    path = waySegments;
 }
 
 void GLWidget::drawStartPoint(QPointF *startp)

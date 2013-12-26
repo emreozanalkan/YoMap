@@ -25,6 +25,7 @@ private:
     bool isStop;
 
     map<unsigned long int,Way*>* allWays;
+    vector<WaySegment*> path;
 
     QPointF *startPoint;
     QPointF *endPoint;
@@ -49,6 +50,7 @@ public:
     void centerMap();
 
     void setMap(map<unsigned long int,Way*>*);
+    void setPath(vector<WaySegment*>);
 
     void drawStartPoint(QPointF*);
     void drawEndPoint(QPointF*);
