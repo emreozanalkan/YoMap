@@ -377,3 +377,24 @@ map<unsigned int,POICategory *>* Database::getCategoryCatalog(){
     return &all_poi_categories;
 }
 
+
+vector<POIPoint*> Database::getPOIPointsInCategories(vector<unsigned int> &cat_ids){
+    vector<POIPoint*> poi_points;
+    for (vector<unsigned int>::iterator it = cat_ids.begin(); it!=cat_ids.end();it++){
+        POICategory* cat_current = getPOICategoryById(*it);
+        poi_points.insert(poi_points.end(),cat_current->getPOIPointsBegin(),cat_current->getPOIPointsEnd());
+    }
+    return poi_points;
+}
+
+vector<POIPoint*> Database::getPOIPointsInCategories(){
+    vector<POIPoint*> poi_points;
+    for(map<unsigned int,POIPoint *>::iterator it = all_poi_points.begin(); it!=all_poi_points.end();it++){
+        poi_points.push_back(it->second);
+    }
+    return poi_points;
+}
+
+
+
+
