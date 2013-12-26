@@ -1,4 +1,5 @@
 #include "poipoint.h"
+#include "poicategory.h"
 
 
 POIPoint::POIPoint(const unsigned int &i)
