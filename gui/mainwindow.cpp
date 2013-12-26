@@ -15,17 +15,31 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     ui->setupUi(this);
-    //get data for the lists
-    //ui->comboBoxCatA->
-    //draw the map
-    //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));
+
+    //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));   
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
     connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
 
+    //Category Combo Box filling
+    map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
+    for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
+       ui->comboBoxCatA->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+    }
+
+    //for (int i = 0; i < ui->comboBoxCatA->count(); ++i)
+       // qDebug() << ui->comboBoxCatA->itemText(i) << ui->comboBoxCatA->itemData(i).toString();
+     // sort
+    ui->comboBoxCatA->model()->sort(0);
+
+   // for (int i = 0; i < ui->comboBoxCatA->count(); ++i)
+       // qDebug() << ui->comboBoxCatA->itemText(i) << ui->comboBoxCatA->itemData(i).toString();
+
+    //Map Rendering
     ui->widget->setMap(logic.getAllWays());
     ui->widget->startGL();
 
+    //Set up inputs
     ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
     ui->lineEditLonA->setValidator( new QDoubleValidator(0, 100, 7, this) );
 
