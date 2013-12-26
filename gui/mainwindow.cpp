@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //draw the map
     //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
+    connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
+
 
     ui->widget->setMap(logic.getAllWays());
     ui->widget->startGL();
@@ -33,12 +35,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::handleButtonSwap()
+{
+    QString temp;
+    temp = ui->lineEditLatA->text();
+    ui->lineEditLatA->setText(ui->lineEditLatB->text());
+    ui->lineEditLatB->setText(temp);
+
+    temp = ui->lineEditLonA->text();
+    ui->lineEditLonA->setText(ui->lineEditLonB->text());
+    ui->lineEditLonB->setText(temp);
+
+    QPointF temp_point=startPoint;
+    startPoint = endPoint;
+    endPoint = temp_point;
+
+    ui->widget->deletePath();
+}
+
 void MainWindow::handleButtonGo()
 {
+
     float Time, Distance;
     vector<WaySegment*> Path;
     int mode;
 
+    ui->widget->deletePath();
+
+    startPoint.setX(ui->lineEditLonA->text().toFloat());
+    startPoint.setY(ui->lineEditLatA->text().toFloat());
+
+    endPoint.setX(ui->lineEditLonB->text().toFloat());
+    endPoint.setY(ui->lineEditLatB->text().toFloat());
     //validator? error!
 
     if (ui->radioButtonDriving->isChecked()) mode = 0; //driving 0
@@ -63,11 +91,17 @@ void MainWindow::handleButtonGo()
     } else
     if (found==0)
     {
+
+        //text output
         QString timeOutput;
         qDebug() << " " << Distance <<" "<< Time <<endl;
+
         //timeOutput << "";
-       // ui->plainTextEditOutput->clear();
+        //ui->plainTextEditOutput->clear();
         //ui->plainTextEditOutput->appendPlainText(output);
+
+        //TODO: map output
+        ui->widget->setPath(Path);
     }
 }
 
@@ -87,6 +121,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
 
         if(widgetRect->contains(event->pos().x(), event->pos().y()))
         {
+            lastRightClickPoint = event->pos();
             QMenu menu;
 
             QAction* actionStart = new QAction("Set as Start Point", this);
@@ -108,7 +143,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
 
     //get geo position
     //ui->widget->getGeoPosition(event->pos() - ui->widget->pos());
-    lastRightClickPoint = event->pos();
+
     QMainWindow::mouseReleaseEvent(event);
 
 }
@@ -125,6 +160,10 @@ void MainWindow::setStartPoint()
    ui->lineEditLatA->setText(StrLat);
    ui->lineEditLonA->setText(StrLon);
 
+   ui->widget->deleteStartPoint();
+   ui->widget->drawStartPoint(&startPoint);
+
+   ui->widget->deletePath();
 }
 
 void MainWindow::setEndPoint()
@@ -138,6 +177,11 @@ void MainWindow::setEndPoint()
 
     ui->lineEditLatB->setText(StrLat);
     ui->lineEditLonB->setText(StrLon);
+
+    ui->widget->deleteEndPoint();
+    ui->widget->drawEndPoint(&endPoint);
+
+    ui->widget->deletePath();
 }
 
 
