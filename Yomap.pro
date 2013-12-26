@@ -59,4 +59,5 @@ LIBS += -lglut32 -lopengl32
 }
 
 RESOURCES += \
-    data/settings.qrc
+    data/settings.qrc \
+    data/Resources.qrc

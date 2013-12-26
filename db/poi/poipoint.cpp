@@ -39,3 +39,6 @@ unsigned int POIPoint::getId(){
 string POIPoint::getName(){
     return name;
 }
+string POIPoint::getIconPath(){
+    return category->getIconPath();
+}

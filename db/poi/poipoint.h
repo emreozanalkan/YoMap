@@ -18,6 +18,7 @@ public:
     POICategory* getCategory();
     unsigned int getId();
     string getName();
+    string getIconPath();
 
 private:
     unsigned int id;

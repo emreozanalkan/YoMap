@@ -19,6 +19,10 @@ void POICategory::addPOI(POIPoint* p){
     poi_points.push_back(p);
 }
 
+string POICategory::getIconPath(){
+    return ":/map_icons/"+icon_path;
+}
+
 vector<POIPoint *>::iterator POICategory::getPOIPointsBegin(){
     return poi_points.begin();
 }

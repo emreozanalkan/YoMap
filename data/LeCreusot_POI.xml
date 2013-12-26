@@ -1,34 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <data version="1.0">
-	<category id="1" name="Touristic Attraction" icon="" />
-	<category id="2" name="Grocery Store" icon="" />
-	<category id="3" name="Mobile Store" icon="" />
-	<category id="4" name="Clothes Store" icon="" />
-	<category id="5" name="Car Store" icon="" />
-	<category id="6" name="Other Store" icon="" />
-	<category id="7" name="Bakery" icon="" />
-	<category id="8" name="Laundry" icon="" />
-	<category id="9" name="Hairdresser" icon="" />
-	<category id="10" name="Bar" icon="" />
-	<category id="11" name="Café" icon="" />	
-	<category id="12" name="Education" icon="" />
-	<category id="13" name="Library" icon="" />
-	<category id="14" name="Sports centre" icon="" />
-	<category id="15" name="Government" icon="" />
-	<category id="16" name="Train station" icon="" />
-	<category id="17" name="Church" icon="" />
-	<category id="18" name="Bank" icon="" />
-	<category id="19" name="Hotel" icon="" />
-	<category id="20" name="Theatre" icon="" />
-	<category id="21" name="Restaurant" icon="" />
-	<category id="22" name="Post Office" icon="" />
-	<category id="23" name="Student housing" icon="" />	
-	<category id="24" name="Hospital" icon="" />
-	<category id="25" name="Pharmacy" icon="" />
-	<category id="26" name="Cemetery" icon="" />	
+	<category id="1" name="Touristic Attraction" icon="turistic" />
+	<category id="2" name="Grocery Store" icon="grocery" />
+	<category id="3" name="Mobile Store" icon="mobile" />
+	<category id="4" name="Clothes Store" icon="clothes" />
+	<category id="5" name="Car Store" icon="car" />
+	<category id="6" name="Other Store" icon="shops" />
+	<category id="7" name="Bakery" icon="bakery" />
+	<category id="8" name="Laundry" icon="laundry" />
+	<category id="9" name="Hairdresser" icon="hairdresser" />
+	<category id="10" name="Bar" icon="bar" />
+	<category id="11" name="Café" icon="cafe" />	
+	<category id="12" name="Education" icon="edu" />
+	<category id="13" name="Library" icon="library" />
+	<category id="14" name="Sports centre" icon="sports" />
+	<category id="15" name="Government" icon="government" />
+	<category id="16" name="Train station" icon="train" />
+	<category id="17" name="Church" icon="worship" />
+	<category id="18" name="Bank" icon="bank" />
+	<category id="19" name="Hotel" icon="hotel" />
+	<category id="20" name="Theatre" icon="theatre" />
+	<category id="21" name="Restaurant" icon="restaurant" />
+	<category id="22" name="Post Office" icon="post" />
+	<category id="23" name="Student housing" icon="hotel" />	
+	<category id="24" name="Hospital" icon="hospital" />
+	<category id="25" name="Pharmacy" icon="pharmacy" />
+	<category id="26" name="Cemetery" icon="cemetery" />	
 	
-	
-	<poi id="" cat_id ="" lat="" lon="" name="" addr="" photo="" user="" />
 	
 	<!-- Group 1 -->
 	
@@ -49,7 +47,7 @@
 	<poi id="15" cat_id ="10" lat="46.80544" lon="4.420752" name="Le Chez Emilio" addr="Plaça Schneider" photo="" user="Group1" />
 	<poi id="16" cat_id ="21" lat="46.805974" lon="4.420853" name="Le Bourgogne" addr="Plaça Schneider" photo="" user="Group1" />
 	<poi id="17" cat_id ="19" lat="46.805738" lon="4.420989" name="Le Belle Epoque" addr="Plaça Schneider" photo="" user="Group1" />
-	<poi id="18" cat_id ="21" lat="46.805932" lon="4.420803" name="Banque Populaire Plaça Schneider" addr="Plaça Schneider" photo="" user="Group1" />
+	<poi id="18" cat_id ="18" lat="46.805932" lon="4.420803" name="Banque Populaire Plaça Schneider" addr="Plaça Schneider" photo="" user="Group1" />
 	<poi id="19" cat_id ="25" lat="46.806186" lon="4.421717" name="Pharmacie du Park" addr="4 Rue Jean Jaures" photo="" user="Group1" />
 	
 	<!-- Group 2 -->

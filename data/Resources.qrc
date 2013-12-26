@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/map_icons">
+        <file alias="bakery">icons/bakery-24@2x.png</file>
+        <file alias="bank">icons/bank-24@2x.png</file>
+        <file alias="bar">icons/beer-24@2x.png</file>
+        <file alias="cafe">icons/cafe-24@2x.png</file>
+        <file alias="car">icons/car-24@2x.png</file>
+        <file alias="cemetery">icons/cemetery-24@2x.png</file>
+        <file alias="clothes">icons/clothing-store-24@2x.png</file>
+        <file alias="edu">icons/college-24@2x.png</file>
+        <file alias="grocery">icons/grocery-24@2x.png</file>
+        <file alias="hairdresser">icons/hairdresser-24@2x.png</file>
+        <file alias="hospital">icons/hospital-24@2x.png</file>
+        <file alias="laundry">icons/laundry-24@2x.png</file>
+        <file alias="library">icons/library-24@2x.png</file>
+        <file alias="hotel">icons/lodging-24@2x.png</file>
+        <file alias="turistic">icons/monument-24@2x.png</file>
+        <file alias="cemetery">icons/pharmacy-24@2x.png</file>
+        <file alias="sports">icons/pitch-24@2x.png</file>
+        <file alias="worship">icons/place-of-worship-24@2x.png</file>
+        <file alias="post">icons/post-24@2x.png</file>
+        <file alias="train">icons/rail-24@2x.png</file>
+        <file alias="restaurant">icons/restaurant-24@2x.png</file>
+        <file alias="shops">icons/shop-24@2x.png</file>
+        <file alias="mobile">icons/telephone-24@2x.png</file>
+        <file alias="theatre">icons/theatre-24@2x.png</file>
+        <file alias="government">icons/town-hall-24@2x.png</file>
+    </qresource>
+</RCC>

@@ -14,6 +14,7 @@ public:
     unsigned int getId();
     string getName();
     void addPOI(POIPoint*);
+    string getIconPath();
 
     vector<POIPoint *>::iterator getPOIPointsBegin();
     vector<POIPoint *>::iterator getPOIPointsEnd();
