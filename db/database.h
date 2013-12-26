@@ -16,6 +16,10 @@
 #include <string>
 #include <vector>
 
+ #include <QStringList>
+#include <QString>
+
+
 
 using namespace rapidxml;
 
@@ -35,6 +39,7 @@ public:
 
     POICategory* getPOICategoryById(unsigned int i);
     POIPoint* getPOIPointByPosition(unsigned int cat_id,unsigned int point_pos);
+    QStringList getCategoryCatalog();
 
     map<unsigned long int,Way *>* getAllWays();
 

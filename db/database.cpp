@@ -346,3 +346,13 @@ POIPoint* Database::getPOIPointByPosition(unsigned int cat_id,unsigned int point
     }
     return 0;
 }
+
+QStringList Database::getCategoryCatalog(){
+    QStringList qlist;
+
+    for(map<unsigned int,POICategory *>::iterator it = all_poi_categories.begin();it!=all_poi_categories.end();it++){
+        qlist<<QString::fromStdString(it->second->getName());
+    }
+
+    return qlist;
+}
