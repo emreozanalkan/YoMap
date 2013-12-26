@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBoxCatB->model()->sort(0);
 
     //Set up the map
-
     ui->widget->setMap(logic.getAllWays());
+    ui->widget->setPOIs(logic.getPOIPointsInCategories());
     ui->widget->startGL();
 
     //Set up inputs
