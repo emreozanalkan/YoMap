@@ -24,7 +24,14 @@ map<unsigned int,POICategory *>* Logic::getCategoryCatalog(){
     return db.getCategoryCatalog();
 }
 
+vector<POIPoint*> Logic::getPOIPointsInCategories(vector<unsigned int> &cat_ids){
+    return db.getPOIPointsInCategories(cat_ids);
+}
 
+//if we want all POIPoints from all categories
+vector<POIPoint*> Logic::getPOIPointsInCategories(){
+    return db.getPOIPointsInCategories();
+}
 
 int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time)
 {
