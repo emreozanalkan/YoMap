@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     gui/logic.cpp \
     gui/mainwindow.cpp \
     db/poi/poicategory.cpp \
-    db/poi/poipoint.cpp
+    db/poi/poipoint.cpp \
+    gl/glpoipoint.cpp
 
 HEADERS  += algorithms/pathalgorithms.h \
     db/node.h \
@@ -40,7 +41,8 @@ HEADERS  += algorithms/pathalgorithms.h \
     gui/mainwindow.h \
     db/db_definitions.hpp \
     db/poi/poicategory.h \
-    db/poi/poipoint.h
+    db/poi/poipoint.h \
+    gl/glpoipoint.h
 
 FORMS    +=gui/mainwindow.ui
 
