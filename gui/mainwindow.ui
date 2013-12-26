@@ -22,7 +22,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,10">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetFixedSize</enum>
       </property>
@@ -101,6 +101,13 @@
           </layout>
          </item>
         </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonSwap">
+        <property name="text">
+         <string>Swap</string>
+        </property>
        </widget>
       </item>
       <item>

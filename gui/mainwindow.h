@@ -28,6 +28,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
 private slots:
     void handleButtonGo();
+    void handleButtonSwap();
     void setStartPoint();
     void setEndPoint();
 };
