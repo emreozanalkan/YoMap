@@ -15,7 +15,7 @@
         <file alias="library">icons/library-24@2x.png</file>
         <file alias="hotel">icons/lodging-24@2x.png</file>
         <file alias="turistic">icons/monument-24@2x.png</file>
-        <file alias="cemetery">icons/pharmacy-24@2x.png</file>
+        <file alias="pharmacy">icons/pharmacy-24@2x.png</file>
         <file alias="sports">icons/pitch-24@2x.png</file>
         <file alias="worship">icons/place-of-worship-24@2x.png</file>
         <file alias="post">icons/post-24@2x.png</file>
