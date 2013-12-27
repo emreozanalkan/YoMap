@@ -16,7 +16,7 @@ GLPOIPoint::GLPOIPoint()
 void GLPOIPoint::setupVertices()
 {
     vertices.clear();
-    auto geoPos = point->getGeoPosition();
+    boost_xy_point geoPos = point->getGeoPosition();
     vertices.append(QVector3D((geoPos.x() * 100.0f) + 0.005f, (geoPos.y() * 100.0f) + 0.005f, 0.3f));
     vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.005f, (geoPos.y() * 100.0f) + 0.005f, 0.3f));
     vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.005f, (geoPos.y() * 100.0f) - 0.005f, 0.3f));
