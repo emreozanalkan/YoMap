@@ -52,8 +52,8 @@ INCLUDEPATH += "/usr/local/Cellar/boost/1.55.0/include"
 LIBS += -L"/usr/local/Cellar/boost/1.55.0/lib"
 }
 win32{
-#INCLUDEPATH += "C:\boost\boost_1_55_0\boost_1_55_0"
-INCLUDEPATH += "C:\boost\boost_1_55_0"
+INCLUDEPATH += "C:\boost\boost_1_55_0\boost_1_55_0"
+#INCLUDEPATH += "C:\boost\boost_1_55_0"
 
 INCLUDEPATH += "C:\MinGW\GLUT\include"
 LIBS += -L"C:\MinGW\GLUT\lib"
