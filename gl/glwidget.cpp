@@ -33,26 +33,20 @@ GLWidget::GLWidget(QWidget *parent) :
 void GLWidget::initializeGL()
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-//    // OTHER GRAYS
-//    #declare DimGray = color red 0.329412 green 0.329412 blue 0.329412
-//    #declare DimGrey = color red 0.329412 green 0.329412 blue 0.329412
-//    #declare Gray = color red 0.752941 green 0.752941 blue 0.752941
-//    #declare Grey = color red 0.752941 green 0.752941 blue 0.752941
-//    #declare LightGray = color red 0.658824 green 0.658824 blue 0.658824
-//    #declare LightGrey = color red 0.658824 green 0.658824 blue 0.658824
-//    #declare VLightGray = color red 0.80 green 0.80 blue 0.80
-//    #declare VLightGrey = color red 0.80 green 0.80 blue 0.80
     glClearColor(0.329412, 0.329412, 0.329412, 1.0);
     glColor3f(1.0, 1.0, 1.0);
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
     glEnable(GL_POINT_SMOOTH);
 
-//    glEnable( GL_POINT_SPRITE );
-//    glEnable( GL_BLEND );
+    //glEnable( GL_POINT_SPRITE );
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLC()));
     this->setFocus();
@@ -92,7 +86,6 @@ void GLWidget::paintGL()
 
     glLineWidth(1.0f);
 
-//    map<unsigned long int,Way*>* allWays = db->getAllWays();
     if(allWays == NULL)
         return;
     map<unsigned long int, Way*>::iterator wayIt;
@@ -123,69 +116,12 @@ void GLWidget::paintGL()
         }
 
         glBegin(GL_LINE_STRIP);
-        //((Way*)(*wayIt).second)->getNodesBegin()
         for (vector<Node*>::iterator nodeIt = way->getNodesBegin(); nodeIt != way->getNodesEnd(); nodeIt++){
-            //cout<<(*nodeIt)->getId()<<endl;
             boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
-            //qDebug() << "Node Pos: " << nodeGeoPos.x() << " " << nodeGeoPos.y();
-            //glVertex2f(nodeGeoPos.x() * 1000000, nodeGeoPos.y() * 1000000);
-            //glVertex2f(nodeGeoPos.x() * 100, nodeGeoPos.y() * 100);
             glVertex3f(nodeGeoPos.x() * 100, nodeGeoPos.y() * 100, 0.0f);
-            //qDebug() << "Node Pos: " << nodeGeoPos.x() * 100<< " " << nodeGeoPos.y() * 100;
-            //glVertex2d(nodeGeoPos.x(), nodeGeoPos.y());
-            // lat="46.7918039" lon="4.4277047"
         }
         glEnd();
     }
-
-////        vector<WaySegment*> segments_in_area;
-////        //d->searchWaySegmentsInArea(boost_xy_point(46.78,4.402), boost_xy_point(46.79,4.403),segments_in_area);
-////        d->searchWaySegmentsInArea(boost_xy_point(4.400,46.76), boost_xy_point(4.403,46.79),segments_in_area);
-
-////        //qDebug() << "Size of the segment: " << segments_in_area.size();
-
-
-
-////        glColor3f(1.0f, 0.0f, 0.0f);
-
-////        for(int i = 0; i < segments_in_area.size(); i++)
-////        {
-////            WaySegment* waySegment = segments_in_area[i];
-////            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
-////            boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
-////            glBegin(GL_LINES);
-////                glVertex3f(nodeGeoPosA.x() * 100, nodeGeoPosA.y() * 100, 1.0f);
-////                glVertex3f(nodeGeoPosB.x() * 100, nodeGeoPosB.y() * 100, 1.0f);
-////            glEnd();
-////        }
-
-//    glColor3f(1.0f, 0.0f, 0.0f);
-//    glLineWidth(5.0f);
-
-//    vector<WaySegment*> path;
-//    float cost,time;
-//    boost_xy_point start_point(4.4097667,46.7901184);
-//    boost_xy_point end_point(4.4249021,46.7990036);
-//    ns_permisions::transport_type tt = ns_permisions::foot;
-
-//    bool found = PathAlgorithms::findShortestPath(d, start_point, end_point, tt, path, cost, time);
-//    //bool found = PathAlgorithms::findShortestPath(&d, &start_point, &end_point, tt, path, cost, time);
-
-//    if(found)
-//    {
-//        for(int i = 0; i < path.size(); i++)
-//        {
-//            WaySegment* waySegment = path[i];
-//            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
-//            boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
-//            glBegin(GL_LINES);
-//            //qDebug() << "A: " <<nodeGeoPosA.x() << "-" << nodeGeoPosA.y();
-//            //qDebug() << "B: " <<nodeGeoPosB.x() << "-" << nodeGeoPosB.y();
-//            glVertex3f(nodeGeoPosA.x() * 100, nodeGeoPosA.y() * 100, 1.0f);
-//            glVertex3f(nodeGeoPosB.x() * 100, nodeGeoPosB.y() * 100, 1.0f);
-//            glEnd();
-//        }
-//    }
 
     glLineWidth(5.0f);
     glColor3f(1.0f, 0.0f, 0.0f);
@@ -243,22 +179,22 @@ void GLWidget::paintGL()
 
 
     glPushMatrix();
-//    glScalef(1.0f, 1.0f, 1.0f);
-//    glScalef(1.0f, 1.0f, 1.0f);
-    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+    //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    //glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+    glColor3f(0.3f, 0.3f, 0.3f);
+    glEnable(GL_TEXTURE_2D);
     for(int i = 0; i < glPOIPoints.size(); i++)
     {
         if(!glPOIPoints[i]->texture)
             continue;
-        glEnable(GL_TEXTURE_2D);
         glVertexPointer(3, GL_FLOAT, 0, glPOIPoints[i]->vertices.constData());
         glTexCoordPointer(2, GL_FLOAT, 0, glPOIPoints[i]->textureCoordinates.constData());
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glBindTexture(GL_TEXTURE_2D, glPOIPoints[i]->texture);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-        glDisable(GL_TEXTURE_2D);
     }
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
     glPopMatrix();
@@ -395,7 +331,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::startGL()
 {
     isStop = false;
-    timer->start(10);
+    timer->start(30);
 }
 
 void GLWidget::stopGL()
@@ -467,6 +403,7 @@ void GLWidget::deletePath()
 
 void GLWidget::setPOIs(vector<POIPoint*> pois)
 {
+    glPOIPoints.clear();
     for(int i = 0; i < pois.size(); i++)
     {
         GLPOIPoint* poiPoint = new GLPOIPoint();
@@ -482,5 +419,5 @@ void GLWidget::setPOIs(vector<POIPoint*> pois)
 
 void GLWidget::deletePOIs()
 {
-    //POI.clear();
+    glPOIPoints.clear();
 }
