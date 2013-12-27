@@ -10,6 +10,8 @@
 
 #include "db/database.h"
 
+#include "gl/glpoipoint.h"
+
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -23,14 +25,15 @@ private:
     int canvasHeight;
 
     bool isStop;
+    bool isGLInitialized;
 
     map<unsigned long int,Way*>* allWays;
     vector<WaySegment*> path;
-    vector<POIPoint*> POI;
-
 
     QPointF *startPoint;
     QPointF *endPoint;
+
+    vector<GLPOIPoint*> glPOIPoints;
 
 public:
     explicit GLWidget(QWidget *parent = 0);

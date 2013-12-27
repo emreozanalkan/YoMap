@@ -23,6 +23,7 @@ GLWidget::GLWidget(QWidget *parent) :
     camera = new GLCamera();
 
     isStop = true;
+    isGLInitialized = false;
 
     startPoint = 0;
     endPoint = 0;
@@ -32,7 +33,16 @@ GLWidget::GLWidget(QWidget *parent) :
 void GLWidget::initializeGL()
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glClearColor(0, 0, 0, 1.0);
+//    // OTHER GRAYS
+//    #declare DimGray = color red 0.329412 green 0.329412 blue 0.329412
+//    #declare DimGrey = color red 0.329412 green 0.329412 blue 0.329412
+//    #declare Gray = color red 0.752941 green 0.752941 blue 0.752941
+//    #declare Grey = color red 0.752941 green 0.752941 blue 0.752941
+//    #declare LightGray = color red 0.658824 green 0.658824 blue 0.658824
+//    #declare LightGrey = color red 0.658824 green 0.658824 blue 0.658824
+//    #declare VLightGray = color red 0.80 green 0.80 blue 0.80
+//    #declare VLightGrey = color red 0.80 green 0.80 blue 0.80
+    glClearColor(0.329412, 0.329412, 0.329412, 1.0);
     glColor3f(1.0, 1.0, 1.0);
 
     glEnable(GL_DEPTH_TEST);
@@ -46,6 +56,16 @@ void GLWidget::initializeGL()
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLC()));
     this->setFocus();
+
+    if(!glPOIPoints.empty())
+    {
+        for(int i = 0; i < glPOIPoints.size(); i++)
+        {
+            glPOIPoints[i]->texture = bindTexture(QPixmap(QString::fromStdString(glPOIPoints[i]->point->getIconPath())), GL_TEXTURE_2D);
+        }
+    }
+
+    isGLInitialized = true;
 }
 
 void GLWidget::updateLC()
@@ -220,6 +240,26 @@ void GLWidget::paintGL()
         glVertex3f(endPoint->x() * 100.0f, endPoint->y() * 100.0f, 0.2f);
         glEnd();
     }
+
+
+    glPushMatrix();
+//    glScalef(1.0f, 1.0f, 1.0f);
+//    glScalef(1.0f, 1.0f, 1.0f);
+    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+    for(int i = 0; i < glPOIPoints.size(); i++)
+    {
+        if(!glPOIPoints[i]->texture)
+            continue;
+        glEnable(GL_TEXTURE_2D);
+        glVertexPointer(3, GL_FLOAT, 0, glPOIPoints[i]->vertices.constData());
+        glTexCoordPointer(2, GL_FLOAT, 0, glPOIPoints[i]->textureCoordinates.constData());
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glBindTexture(GL_TEXTURE_2D, glPOIPoints[i]->texture);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glDisable(GL_TEXTURE_2D);
+    }
+    glPopMatrix();
 
     glPopMatrix();
 }
@@ -427,10 +467,20 @@ void GLWidget::deletePath()
 
 void GLWidget::setPOIs(vector<POIPoint*> pois)
 {
-    POI = pois;
+    for(int i = 0; i < pois.size(); i++)
+    {
+        GLPOIPoint* poiPoint = new GLPOIPoint();
+        poiPoint->point = pois[i];
+        //qDebug() << "Icon Path: " << poiPoint->point->getIconPath();
+        //qDebug() << "Icon Path: " << QString::fromStdString(poiPoint->point->getIconPath());
+        if(isGLInitialized)
+            poiPoint->texture = bindTexture(QPixmap(QString::fromStdString(poiPoint->point->getIconPath())), GL_TEXTURE_2D);
+        poiPoint->setupVertices();
+        glPOIPoints.push_back(poiPoint);
+    }
 }
 
 void GLWidget::deletePOIs()
 {
-    POI.clear();
+    //POI.clear();
 }

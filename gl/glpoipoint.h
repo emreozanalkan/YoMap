@@ -3,11 +3,11 @@
 
 #include "db/poi/poipoint.h"
 
-#ifdef __APPLE__
-    #include <GLUT/glut.h>
-#else
-    #include <glut.h>
-#endif
+//#ifdef __APPLE__
+//    #include <GLUT/glut.h>
+//#else
+//    #include <glut.h>
+//#endif
 
 #include <QVector>
 #include <QVector2D>
@@ -20,11 +20,13 @@ public:
 
     POIPoint* point;
 
-    GLuint texture;
+    unsigned int texture;
 
     QVector<QVector3D> vertices;
 
-    QVector<QVector2D> coordinates;
+    QVector<QVector2D> textureCoordinates;
+
+    void setupVertices();
 };
 
 #endif // GLPOIPOINT_H
