@@ -4,6 +4,8 @@
 #
 #-------------------------------------------------
 
+cache()
+
 QT       += core gui opengl xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -11,6 +13,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Yomap
 TEMPLATE = app
 
+CONFIG += warn_off precompile_header
+
+PRECOMPILED_HEADER  = stable.h
 
 SOURCES += main.cpp\
     algorithms/pathalgorithms.cpp \
