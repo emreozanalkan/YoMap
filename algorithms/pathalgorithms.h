@@ -24,6 +24,7 @@ public:
     static bool findShortestPath(Node* start, Node* end,ns_permisions::transport_type &tt,vector<WaySegment*> &best_path);
     static bool findShortestPath(Database *d,unsigned long int A, unsigned long int B,ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_cost, float &total_time);
     static bool findShortestPath(Database *d,boost_xy_point &A, boost_xy_point &B,ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_cost, float &total_time);
+    static bool findShortestPath(Node* &node_start,WaySegment* &start_segment, Node* &node_end, WaySegment* &end_segment, ns_permisions::transport_type &tt, vector<WaySegment *> &best_path);
 
     static void constructBackShortestPath(vector<WaySegment*> &,Node* element, Node* start);
     static void safelyDeletePath(vector<WaySegment*> &path);

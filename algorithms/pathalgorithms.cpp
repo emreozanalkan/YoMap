@@ -228,18 +228,8 @@ bool PathAlgorithms::findShortestPath(Database *d,unsigned long int A, unsigned 
     }
     return false;
 }
-//Find shortest path by any two positions on the map
-bool PathAlgorithms::findShortestPath(Database *d, boost_xy_point &A, boost_xy_point &B,ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_distance, float &total_time){
 
-    //Find closest point on road to point A
-    WaySegment* start_segment;
-    boost_xy_point pointOfContactStart;
-    if (!findClosestWaySegment(d,A,tt,start_segment,pointOfContactStart)){
-        return false;
-    }
-    Node *node_start = new Node();
-    node_start->setGeoPosition(pointOfContactStart.x(),pointOfContactStart.y());
-
+bool PathAlgorithms::findShortestPath(Node* &node_start,WaySegment* &start_segment, Node* &node_end, WaySegment* &end_segment, ns_permisions::transport_type &tt, vector<WaySegment *> &best_path){
     //Create waysegment with nodes on closest waysegment
     //Add connection:   Start -> startNodeA
     //                  Start -> startNodeB
@@ -258,18 +248,6 @@ bool PathAlgorithms::findShortestPath(Database *d, boost_xy_point &A, boost_xy_p
         node_start->addOutcomingConnection((WaySegment*)wsB);
     }
 
-
-    //Find closest point on road to point A
-    int flag_end_way=0; //0 - twoway, 1 - oneway or opposite
-    WaySegment* end_segment;
-    boost_xy_point pointOfContactEnd;
-
-    if (!findClosestWaySegment(d,B,tt,end_segment,pointOfContactEnd)){
-        return false;
-    }
-    Node *node_end = new Node(1);
-    node_end->setGeoPosition(pointOfContactEnd.x(),pointOfContactEnd.y());
-
     //Create waysegment with nodes on closest waysegment
     //Add connection:   endNodeA -> End
     //                  endNodeB -> End
@@ -278,7 +256,6 @@ bool PathAlgorithms::findShortestPath(Database *d, boost_xy_point &A, boost_xy_p
         //add connection EndNodeA -> End
         WaySegment* wsA = new WaySegment(end_segment->getPointA(),node_end,end_segment->getWay());
         end_segment->getPointA()->addOutcomingConnection((WaySegment*)wsA);
-        flag_end_way=1;
     }
     else{
         //add connection EndNodeA -> End
@@ -289,12 +266,39 @@ bool PathAlgorithms::findShortestPath(Database *d, boost_xy_point &A, boost_xy_p
         end_segment->getPointB()->addOutcomingConnection((WaySegment*)wsB);
     }
 
+
+    return findShortestPath(node_start, node_end,tt,best_path);
+
+}
+
+
+//Find shortest path by any two positions on the map
+bool PathAlgorithms::findShortestPath(Database *d, boost_xy_point &A, boost_xy_point &B,ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_distance, float &total_time){
+
+    //Find closest point on road to point A
+    WaySegment* start_segment;
+    boost_xy_point pointOfContactStart;
+    if (!findClosestWaySegment(d,A,tt,start_segment,pointOfContactStart)){
+        return false;
+    }
+    Node *node_start = new Node();
+    node_start->setGeoPosition(pointOfContactStart.x(),pointOfContactStart.y());
+
+    //Find closest point on road to point B
+    WaySegment* end_segment;
+    boost_xy_point pointOfContactEnd;
+
+    if (!findClosestWaySegment(d,B,tt,end_segment,pointOfContactEnd)){
+        return false;
+    }
+    Node *node_end = new Node(1);
+    node_end->setGeoPosition(pointOfContactEnd.x(),pointOfContactEnd.y());
+
+
     //////////////////////////////////
     //Search algorithm
     //////////////////////////////////
-
-
-    bool found = findShortestPath(node_start, node_end,tt,path);
+    bool found = PathAlgorithms::findShortestPath(node_start,start_segment,node_end,end_segment,tt,path);
 
     total_distance = distanceToTravelPath(path);
     total_time = timeToTravelPath(tt,path);
@@ -303,7 +307,7 @@ bool PathAlgorithms::findShortestPath(Database *d, boost_xy_point &A, boost_xy_p
     delete node_start;
 
     //end point
-    if(flag_end_way==0){
+    if(!(end_segment->getWay()->getOnewayType()==ns_oneway::yes || end_segment->getWay()->getOnewayType()==ns_oneway::opposite)){
         delete end_segment->getPointB()->removeLastOutcomingConnection();
     }
     delete end_segment->getPointA()->removeLastOutcomingConnection();
@@ -331,6 +335,48 @@ float PathAlgorithms::distanceToTravelPath(vector<WaySegment*> &path){
     }
     return cost;
 }
+
+
+
+//void PathAlgorithms::findPathsInRadius(Database *d, boost_xy_point &A, POICategory* p_cat, float &max_radius, ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_distance, float &total_time){
+//    //Find closest point on road to point A
+//    WaySegment* start_segment;
+//    boost_xy_point pointOfContactStart;
+//    if (!findClosestWaySegment(d,A,tt,start_segment,pointOfContactStart)){
+//        return false;
+//    }
+//    Node *node_start = new Node();
+//    node_start->setGeoPosition(pointOfContactStart.x(),pointOfContactStart.y());
+
+
+//    for(vector<POIPoint*>::iterator it = p_cat->getPOIPointsBegin();it!=p_cat->getPOIPointsEnd();it++){
+//        //Find closest point on road to the POI
+//        WaySegment* end_segment;
+//        boost_xy_point pointOfContactEnd;
+
+//        if (!findClosestWaySegment(d,*it,tt,end_segment,pointOfContactEnd)){
+//            return false;
+//        }
+//        Node *node_end = new Node(1);
+//        node_end->setGeoPosition(pointOfContactEnd.x(),pointOfContactEnd.y());
+
+//        float air_distance = calculateDistancePoints(A,(*it)->getGeoPosition());
+//        //if air distance is bigger than max radius we can have smaller distance
+//        if(air_distance>max_radius){
+//            delete node_end;
+//            continue;
+//        }
+
+
+
+
+//    }
+
+//}
+
+
+
+
 
 
 
