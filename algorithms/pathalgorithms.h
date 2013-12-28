@@ -26,6 +26,8 @@ public:
     static bool findShortestPath(Database *d,boost_xy_point &A, boost_xy_point &B,ns_permisions::transport_type &tt, vector<WaySegment*> &path,float &total_cost, float &total_time);
     static bool findShortestPath(Node* &node_start,WaySegment* &start_segment, Node* &node_end, WaySegment* &end_segment, ns_permisions::transport_type &tt, vector<WaySegment *> &best_path);
 
+    static bool findPathsInRadius(Database *d, boost_xy_point &A, POICategory* p_cat, float &max_radius, ns_permisions::transport_type &tt, vector<vector<WaySegment*> > &possible_paths, vector<POIPoint*> &poi_goals);
+
     static void constructBackShortestPath(vector<WaySegment*> &,Node* element, Node* start);
     static void safelyDeletePath(vector<WaySegment*> &path);
     static float timeToTravelPath(ns_permisions::transport_type &tt, vector<WaySegment*> &path);
