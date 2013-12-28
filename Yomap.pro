@@ -15,7 +15,7 @@ TEMPLATE = app
 
 CONFIG += warn_off precompile_header
 
-PRECOMPILED_HEADER  = stable.h
+#PRECOMPILED_HEADER  = stable.h
 
 SOURCES += main.cpp\
     algorithms/pathalgorithms.cpp \
