@@ -105,7 +105,7 @@
 	<poi id="70" cat_id ="5" lat="46.80854" lon="4.427525" name="Buror" addr="784-1072 Avenue de l'Europe" photo="" user="Group2" />
 	<poi id="71" cat_id ="21" lat="46.80853" lon="4.428885" name="McDonald's" addr="Plaine des Riaux Avenue de l'Europe" photo="" user="Group2" />
 	<poi id="72" cat_id ="16" lat="46.80768" lon="4.430134" name="Gare Du Creusot Ville" addr="1072-1344 Avenue de l'Europe" photo="" user="Group2" />
-	<poi id="73" cat_id ="5" lat="46.80269" lon="4.437752" name="Lecat et Fils" addr="" photo="18 Rue Anatole France" user="Group2" />
+	<poi id="73" cat_id ="5" lat="46.80269" lon="4.437752" name="Lecat et Fils" addr="18 Rue Anatole France" photo="" user="Group2" />
 	<poi id="74" cat_id ="1" lat="46.80878" lon="4.429035" name="Chemin de Fer Creusot" addr="1241 Avenue Europe" photo="" user="Group2" />
 	<poi id="75" cat_id ="3" lat="46.80481" lon="4.438852" name="Club bouygues telecom" addr="66 Rue Maréchal Foch" photo="" user="Group2" />
 	<poi id="76" cat_id ="6" lat="46.8048" lon="4.438868" name="Ets Cautel / PULSAT'" addr="64 Rue Maréchal Foch" photo="" user="Group2" />
