@@ -369,7 +369,54 @@ void MainWindow::handleSelectedCategoryB_Radius(int index){
     endCategory = (POICategory *)ui->comboBoxCatB_2->itemData(index).value<void *>();
 }
 
-void MainWindow::handleButtonGo_Radius(){}
+void MainWindow::handleButtonGo_Radius(){
+
+    float Time, Distance;
+    int mode;
+    vector<vector<WaySegment*> > PossiblePaths;
+    vector<POIPoint*> POIGoals;
+    maxDistance = 1;
+
+    ui->widget->deletePath();
+
+    startPoint.setX(ui->lineEditLonA_2->text().toFloat());
+    startPoint.setY(ui->lineEditLatA_2->text().toFloat());
+    //TODO validator? error!
+
+    if (ui->radioButtonDriving_2->isChecked()) mode = 0; //driving 0
+    else
+    if (ui->radioButtonWalking_2->isChecked()) mode = 1; //walking 1
+
+    int found = logic.getShortestPathsInRadius( startPoint, endCategory, maxDistance, mode, PossiblePaths, POIGoals, Distance, Time);
+
+    QMessageBox msgBox;
+
+    if (found==1) {
+       msgBox.setText("Sorry, can't calculate the path. Starting point out of bound!");
+       msgBox.exec();
+    } else
+    if (found==3) {
+       msgBox.setText("Sorry, path not found.");
+       msgBox.exec();
+    } else
+    if (found==0)
+    {
+        //text output
+        //QString timeOutput;
+        //qDebug() << " " << Distance <<" "<< Time <<endl;
+         //setPlainText();
+        //timeOutput << "";
+        //ui->plainTextEditOutput->clear();
+        //ui->plainTextEditOutput->appendPlainText(output);
+
+        //QString StrDistance = setNum(StrDistance);
+
+        qDebug() << "Path found" << endl;
+        //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
+
+        //ui->widget->setPath(Path);
+    }
+}
 
 void MainWindow::poiClicked(POIPoint* poiPoint)
 {

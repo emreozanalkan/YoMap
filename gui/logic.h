@@ -20,6 +20,7 @@ public:
 
    // void printmsg();
     int getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time);
+    int getShortestPathsInRadius( QPointF &A,  POICategory* p_cat, float &max_radius, int transportMode,  vector<vector<WaySegment*> > &possible_paths, vector<POIPoint*> &poi_goals, float &distance, float &time);
     map<unsigned int,POICategory *>* getCategoryCatalog();
     QString TimetoSting(double Time);
 };

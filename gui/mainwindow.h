@@ -22,6 +22,7 @@ private:
     QPoint lastRightClickPoint;
     QPointF startPoint, endPoint; //put to Logic??
     POICategory* endCategory;
+    float maxDistance;
 
 
 protected:
