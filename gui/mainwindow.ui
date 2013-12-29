@@ -36,7 +36,7 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="two_points">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -127,13 +127,6 @@
                </layout>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QPushButton" name="pushButtonSwap">
-             <property name="text">
-              <string>Swap</string>
-             </property>
             </widget>
            </item>
            <item row="2" column="0">
@@ -247,11 +240,18 @@
              </property>
             </widget>
            </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButtonSwap">
+             <property name="text">
+              <string>Swap</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tab_2">
+       <widget class="QWidget" name="radius">
         <attribute name="title">
          <string>Radius</string>
         </attribute>
@@ -261,7 +261,7 @@
            <property name="sizeConstraint">
             <enum>QLayout::SetNoConstraint</enum>
            </property>
-           <item row="5" column="0">
+           <item row="4" column="0">
             <widget class="QPushButton" name="pushButton_2">
              <property name="text">
               <string>Go!</string>
@@ -269,13 +269,6 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pushButtonSwap_2">
-             <property name="text">
-              <string>Swap</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
             <widget class="QGroupBox" name="groupBoxB_2">
              <property name="title">
               <string>Finish</string>
@@ -381,7 +374,7 @@
              </layout>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="3" column="0">
             <widget class="QGroupBox" name="groupBox_2">
              <property name="title">
               <string>Method</string>
@@ -407,7 +400,7 @@
              </layout>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="2" column="0">
             <layout class="QGridLayout" name="gridLayout_9">
              <item row="0" column="0">
               <widget class="QLabel" name="label">
@@ -428,7 +421,7 @@
              </item>
             </layout>
            </item>
-           <item row="6" column="0">
+           <item row="5" column="0">
             <widget class="QPlainTextEdit" name="plainTextEditOutput_2">
              <property name="readOnly">
               <bool>true</bool>

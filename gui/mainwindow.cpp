@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+// 2 point search
+
     //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));   
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
     connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
@@ -27,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( ui->comboBoxCatB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB(int)));
     connect( ui->comboBoxPOIB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB(int)));
 
-    connect(ui->widget, SIGNAL(poiClicked(POIPoint*)), this, SLOT(poiClicked(POIPoint*)));
+
 
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
@@ -37,14 +39,9 @@ MainWindow::MainWindow(QWidget *parent) :
        ui->comboBoxCatB->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
     }
 
-
     ui->comboBoxCatA->model()->sort(0);
     ui->comboBoxCatB->model()->sort(0);
 
-    //Set up the map
-    ui->widget->setMap(logic.getAllWays());
-    ui->widget->setPOIs(logic.getPOIPointsInCategories());
-    ui->widget->startGL();
 
     //Set up inputs
     ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
@@ -52,6 +49,31 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->lineEditLatB->setValidator( new QDoubleValidator(0, 100, 7, this) );
     ui->lineEditLonB->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
+//Radius search
+    connect( ui->pushButton_2, SIGNAL(released()), this, SLOT(handleButtonGo_Radius()));
+
+    connect( ui->comboBoxCatA_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA_Radius(int)));
+    connect( ui->comboBoxPOIA_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIA_Radius(int)));
+
+    connect( ui->comboBoxCatB_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Radius(int)));
+
+    //Category Combo Box filling
+    for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
+       ui->comboBoxCatA_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+       ui->comboBoxCatB_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+    }
+
+    ui->comboBoxCatA_2->model()->sort(0);
+    ui->comboBoxCatB_2->model()->sort(0);
+
+
+    //Set up the map
+    connect(ui->widget, SIGNAL(poiClicked(POIPoint*)), this, SLOT(poiClicked(POIPoint*)));
+
+    ui->widget->setMap(logic.getAllWays());
+    ui->widget->setPOIs(logic.getPOIPointsInCategories());
+    ui->widget->startGL();
 
 }
 
@@ -305,8 +327,54 @@ void MainWindow::handleSelectedPOIB(int index)
     }
 }
 
+void MainWindow::handleSelectedCategoryA_Radius(int index){
+    if (ui->comboBoxPOIA_2->count()) ui->comboBoxPOIA_2->clear();
+    POICategory *data = (POICategory *)ui->comboBoxCatA_2->itemData(index).value<void *>();
+
+   // map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
+
+    for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+        //qDebug<< ((*it)->getName());
+       ui->comboBoxPOIA_2->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+    }
+    ui->comboBoxPOIA_2->model()->sort(0);
+}
+
+
+void MainWindow::handleSelectedPOIA_Radius(int index){
+    if (index>=0)
+    {
+    POIPoint *data = (POIPoint *)ui->comboBoxPOIA_2->itemData(index).value<void *>();
+
+    QString StrLon, StrLat;
+
+    StrLat.setNum(data->getGeoPosition().y());
+    StrLon.setNum(data->getGeoPosition().x());
+
+    startPoint.setX(data->getGeoPosition().x());
+    startPoint.setY(data->getGeoPosition().y());
+
+    ui->lineEditLatA_2->setText(StrLat);
+    ui->lineEditLonA_2->setText(StrLon);
+
+    ui->widget->deleteStartPoint();
+    ui->widget->drawStartPoint(&startPoint);
+
+    ui->widget->deletePath();
+    }
+}
+
+void MainWindow::handleSelectedCategoryB_Radius(int index){
+
+    endCategory = (POICategory *)ui->comboBoxCatB_2->itemData(index).value<void *>();
+}
+
+void MainWindow::handleButtonGo_Radius(){}
+
 void MainWindow::poiClicked(POIPoint* poiPoint)
 {
+
+
     //qDebug() << "POI Point Name: " << poiPoint->getName();
     qDebug() << "POI Point Name: " << poiPoint->getName().c_str();
 }

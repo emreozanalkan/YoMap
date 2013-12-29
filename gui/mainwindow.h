@@ -20,13 +20,15 @@ private:
     Ui::MainWindow *ui;
     Logic logic;
     QPoint lastRightClickPoint;
-    QPointF startPoint, endPoint;
+    QPointF startPoint, endPoint; //put to Logic??
+    POICategory* endCategory;
 
 
 protected:
     //void resizeEvent ( QResizeEvent * event );
     void mouseReleaseEvent(QMouseEvent *);
 private slots:
+        //two points
     void handleButtonGo();
     void handleButtonSwap();
     void setStartPoint();
@@ -35,6 +37,12 @@ private slots:
     void handleSelectedCategoryB(int);
     void handleSelectedPOIA(int);
     void handleSelectedPOIB(int);
+        //radius
+    void handleSelectedCategoryA_Radius(int);
+    void handleSelectedPOIA_Radius(int);
+    void handleSelectedCategoryB_Radius(int);
+    void handleButtonGo_Radius();
+
     void poiClicked(POIPoint*);
 };
 
