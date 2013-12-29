@@ -20,217 +20,434 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,10">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetFixedSize</enum>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <item>
-       <widget class="QGroupBox" name="groupBoxA">
-        <property name="title">
-         <string>Start</string>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <layout class="QGridLayout" name="gridLayout">
+        <attribute name="title">
+         <string>2 Points</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="0">
-          <layout class="QFormLayout" name="formLayout">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetNoConstraint</enum>
            </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="labelCatA">
-             <property name="text">
-              <string>Categoty:</string>
+            <widget class="QGroupBox" name="groupBoxA">
+             <property name="title">
+              <string>Start</string>
              </property>
-             <property name="buddy">
-              <cstring>comboBoxCatA</cstring>
-             </property>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="0">
+               <layout class="QFormLayout" name="formLayout">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelCatA">
+                  <property name="text">
+                   <string>Categoty:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxCatA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBoxCatA"/>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="labelPOIA">
+                  <property name="text">
+                   <string>POI:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxPOIA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QComboBox" name="comboBoxPOIA"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="labellatA">
+                  <property name="text">
+                   <string>Latitude:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEditLatA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="labellonA">
+                  <property name="text">
+                   <string>Longitude:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEditLonA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="lineEditLonA"/>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="lineEditLatA"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="comboBoxCatA"/>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="labelPOIA">
+            <widget class="QPushButton" name="pushButtonSwap">
              <property name="text">
-              <string>POI:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>comboBoxPOIA</cstring>
+              <string>Swap</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="comboBoxPOIA"/>
-           </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="labellatA">
-             <property name="text">
-              <string>Latitude:</string>
+            <widget class="QGroupBox" name="groupBoxB">
+             <property name="title">
+              <string>Finish</string>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>lineEditLatA</cstring>
-             </property>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="0" column="0">
+               <layout class="QFormLayout" name="formLayout_2">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelCatB">
+                  <property name="text">
+                   <string>Categoty:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxCatB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBoxCatB"/>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="labelPOIB">
+                  <property name="text">
+                   <string>POI:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxPOIB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QComboBox" name="comboBoxPOIB"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="labellatB">
+                  <property name="text">
+                   <string>Latitude:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEditLatB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="lineEditLatB"/>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="labellonB">
+                  <property name="text">
+                   <string>Longitude:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEditLonB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="lineEditLonB"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="labellonA">
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Method</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QRadioButton" name="radioButtonDriving">
+                <property name="text">
+                 <string>Driving</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButtonWalking">
+                <property name="text">
+                 <string>Walking</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QPushButton" name="pushButton">
              <property name="text">
-              <string>Longitude:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>lineEditLonA</cstring>
+              <string>Go!</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEditLonA"/>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEditLatA"/>
+           <item row="5" column="0">
+            <widget class="QPlainTextEdit" name="plainTextEditOutput">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
         </layout>
        </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButtonSwap">
-        <property name="text">
-         <string>Swap</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBoxB">
-        <property name="title">
-         <string>Finish</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_2">
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Radius</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_8">
          <item row="0" column="0">
-          <layout class="QFormLayout" name="formLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="labelCatB">
+          <layout class="QGridLayout" name="gridLayout_5">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetNoConstraint</enum>
+           </property>
+           <item row="5" column="0">
+            <widget class="QPushButton" name="pushButton_2">
              <property name="text">
-              <string>Categoty:</string>
-             </property>
-             <property name="buddy">
-              <cstring>comboBoxCatB</cstring>
+              <string>Go!</string>
              </property>
             </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="comboBoxCatB"/>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="labelPOIB">
+            <widget class="QPushButton" name="pushButtonSwap_2">
              <property name="text">
-              <string>POI:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>comboBoxPOIB</cstring>
+              <string>Swap</string>
              </property>
             </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="comboBoxPOIB"/>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="labellatB">
-             <property name="text">
-              <string>Latitude:</string>
+            <widget class="QGroupBox" name="groupBoxB_2">
+             <property name="title">
+              <string>Finish</string>
              </property>
-             <property name="buddy">
-              <cstring>lineEditLatB</cstring>
-             </property>
+             <layout class="QGridLayout" name="gridLayout_7">
+              <item row="0" column="0">
+               <layout class="QFormLayout" name="formLayout_4">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelCatB_2">
+                  <property name="text">
+                   <string>Categoty:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxCatB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBoxCatB_2"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEditLatB"/>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBoxA_2">
+             <property name="title">
+              <string>Start</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_6">
+              <item row="0" column="0">
+               <layout class="QFormLayout" name="formLayout_3">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelCatA_2">
+                  <property name="text">
+                   <string>Categoty:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxCatA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBoxCatA_2"/>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="labelPOIA_2">
+                  <property name="text">
+                   <string>POI:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxPOIA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QComboBox" name="comboBoxPOIA_2"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="labellatA_2">
+                  <property name="text">
+                   <string>Latitude:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEditLatA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="labellonA_2">
+                  <property name="text">
+                   <string>Longitude:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEditLonA</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="lineEditLonA_2"/>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="lineEditLatA_2"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Method</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QRadioButton" name="radioButtonDriving_2">
+                <property name="text">
+                 <string>Driving</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButtonWalking_2">
+                <property name="text">
+                 <string>Walking</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="labellonB">
-             <property name="text">
-              <string>Longitude:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>lineEditLonB</cstring>
+            <layout class="QGridLayout" name="gridLayout_9">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Maximum distance:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QSlider" name="horizontalSlider">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="6" column="0">
+            <widget class="QPlainTextEdit" name="plainTextEditOutput_2">
+             <property name="readOnly">
+              <bool>true</bool>
              </property>
             </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEditLonB"/>
            </item>
           </layout>
          </item>
         </layout>
        </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox">
-        <property name="title">
-         <string>Method</string>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QRadioButton" name="radioButtonDriving">
-           <property name="text">
-            <string>Driving</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButtonWalking">
-           <property name="text">
-            <string>Walking</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>Go!</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="plainTextEditOutput">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="GLWidget" name="widget" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>200</horstretch>
-        <verstretch>198</verstretch>
-       </sizepolicy>
-      </property>
+      </widget>
+      <widget class="GLWidget" name="widget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>200</horstretch>
+         <verstretch>198</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>

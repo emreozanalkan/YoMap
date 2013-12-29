@@ -6,6 +6,7 @@
 #include "ui_mainwindow.h"
 #include "logic.h"
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -35,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
        ui->comboBoxCatA->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
        ui->comboBoxCatB->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
     }
+
 
     ui->comboBoxCatA->model()->sort(0);
     ui->comboBoxCatB->model()->sort(0);
