@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( ui->comboBoxCatB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB(int)));
     connect( ui->comboBoxPOIB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB(int)));
 
+    connect(ui->widget, SIGNAL(poiClicked(POIPoint*)), this, SLOT(poiClicked(POIPoint*)));
+
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
@@ -299,4 +301,10 @@ void MainWindow::handleSelectedPOIB(int index)
 
     ui->widget->deletePath();
     }
+}
+
+void MainWindow::poiClicked(POIPoint* poiPoint)
+{
+    //qDebug() << "POI Point Name: " << poiPoint->getName();
+    qDebug() << "POI Point Name: " << poiPoint->getName().c_str();
 }

@@ -35,6 +35,7 @@ private slots:
     void handleSelectedCategoryB(int);
     void handleSelectedPOIA(int);
     void handleSelectedPOIB(int);
+    void poiClicked(POIPoint*);
 };
 
 #endif // MAINWINDOW_H

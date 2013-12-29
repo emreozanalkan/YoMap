@@ -35,6 +35,8 @@ private:
 
     vector<GLPOIPoint*> glPOIPoints;
 
+    void drawPOIPoints();
+
 public:
     explicit GLWidget(QWidget *parent = 0);
 
@@ -69,7 +71,7 @@ public:
     void deleteEndPoint();
 
 signals:
-
+    void poiClicked(POIPoint*);
 
 public slots:
     void updateLC();
