@@ -31,6 +31,7 @@ namespace ns_relation {
     {
         undefined=0,
         way_segment,
+        path_segment,
         way,
         building
     };

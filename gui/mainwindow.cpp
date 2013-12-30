@@ -7,6 +7,7 @@
 #include "logic.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -105,8 +106,7 @@ void MainWindow::handleButtonSwap()
 void MainWindow::handleButtonGo()
 {
 
-    float Time, Distance;
-    vector<WaySegment*> Path;
+    Path best_path;
     int mode;
 
     ui->widget->deletePath();
@@ -122,7 +122,7 @@ void MainWindow::handleButtonGo()
     else
     if (ui->radioButtonWalking->isChecked()) mode = 1; //walking 1
 
-    int found = logic.getShortestPath( startPoint, endPoint, mode, Path, Distance, Time);
+    int found = logic.getShortestPath( startPoint, endPoint, mode, best_path);
 
     QMessageBox msgBox;
 
@@ -150,10 +150,9 @@ void MainWindow::handleButtonGo()
 
         //QString StrDistance = setNum(StrDistance);
 
+        ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
 
-        ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(Time));
-
-        ui->widget->setPath(Path);
+        ui->widget->setPath(best_path.segments[0]->segments);
     }
 }
 
@@ -371,10 +370,8 @@ void MainWindow::handleSelectedCategoryB_Radius(int index){
 
 void MainWindow::handleButtonGo_Radius(){
 
-    float Time, Distance;
     int mode;
-    vector<vector<WaySegment*> > PossiblePaths;
-    vector<POIPoint*> POIGoals;
+    set<Path*,ComparePaths> all_paths;
     maxDistance = 1;
 
     ui->widget->deletePath();
@@ -383,11 +380,13 @@ void MainWindow::handleButtonGo_Radius(){
     startPoint.setY(ui->lineEditLatA_2->text().toFloat());
     //TODO validator? error!
 
+    //Set transport mode
     if (ui->radioButtonDriving_2->isChecked()) mode = 0; //driving 0
     else
     if (ui->radioButtonWalking_2->isChecked()) mode = 1; //walking 1
 
-    int found = logic.getShortestPathsInRadius( startPoint, endCategory, maxDistance, mode, PossiblePaths, POIGoals, Distance, Time);
+    //search
+    int found = logic.getShortestPathsInRadius( startPoint, endCategory, maxDistance, mode, all_paths);
 
     QMessageBox msgBox;
 

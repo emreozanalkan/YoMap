@@ -2,14 +2,16 @@
 #define RELATION_H
 
 #include "../db_definitions.hpp"
-#include "../node.h"
 
+class Node;
 class Relation
 {
 public:
     Relation(const unsigned long int&, ns_relation::relation_type);
+    //basic data
     unsigned long int getId();
     ns_relation::relation_type getRelationType();
+    //Nodes which are joined in relationship
     bool insertNode(Node *);
     bool containsNode(unsigned long int);
     int getNumberOfNodes();

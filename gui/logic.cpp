@@ -33,47 +33,60 @@ vector<POIPoint*> Logic::getPOIPointsInCategories(){
     return db.getPOIPointsInCategories();
 }
 
-int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time)
+float Logic::getPathTime(Path &p,int transportMode){
+    //Set transportation mode
+    ns_permisions::transport_type tt;
+    if (transportMode == 0) tt = ns_permisions::car;
+    else if (transportMode == 1) tt = ns_permisions::foot;
+
+    return p.getTravelTime(tt);
+}
+
+
+
+int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, Path &best_path)
 {
     //returns 0 if query succeded;
     //1 if A out of bound;
     //2 is B out of bound;
     //3 no path found
-
     //TransportMode 0 - drive, 1 - walk
 
-    //TODO: check if A, B in bounds.
-
-    //vector<WaySegment*> path;
-    //float distance,time;
+    //Transform points to boost points
     boost_xy_point start_point(A.x(),A.y());
     boost_xy_point end_point(B.x(),B.y());
+
+    //check if point A is inbound
+    if(!db.checkIfInBoundsOfMap(start_point)){
+        return 1;
+    }
+    //check if point B is inbound
+    if(!db.checkIfInBoundsOfMap(end_point)){
+        return 2;
+    }
+
+    //Set transportation mode
     ns_permisions::transport_type tt;
-
-    //CHECK for inbounds for point A and B
-    //OKSANA IMPLEMENT IT!
-    //db.checkIfInBoundsOfMap(start_point);
-
-
     if (transportMode == 0) tt = ns_permisions::car;
     else if (transportMode == 1) tt = ns_permisions::foot;
 
-    bool found = PathAlgorithms::findShortestPath(&db, start_point, end_point, tt, path, distance, time);
-    if (found) return 0;
-    return 3; //no path found
+    //Do the search
+    int found = PathAlgorithms::findShortestPath(db, start_point, end_point, tt,best_path);
+
+    return found;
 }
 
 
 
- int  Logic::getShortestPathsInRadius( QPointF &A,  POICategory* p_cat, float &max_radius, int transportMode,  vector<vector<WaySegment*> > &possible_paths, vector<POIPoint*> &poi_goals, float &distance, float &time)
+ int Logic::getShortestPathsInRadius( QPointF &A,  POICategory* p_cat, float &max_radius, int transportMode,  set<Path*,ComparePaths> &all_paths)
  {
      //returns 0 if query succeded;
      //1 if A out of bound;
      //3 no path found
 
-     //TransportMode 0 - drive, 1 - walk
+//     //TransportMode 0 - drive, 1 - walk
 
-     //TODO: check if A, B in bounds.
+//     //TODO: check if A, B in bounds.
 
      //vector<WaySegment*> path;
      //float distance,time;
@@ -88,7 +101,7 @@ int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<Wa
      if (transportMode == 0) tt = ns_permisions::car;
      else if (transportMode == 1) tt = ns_permisions::foot;
 
-     bool found = PathAlgorithms::findPathsInRadius(&db, start_point, p_cat, max_radius, tt, possible_paths, poi_goals);
+     bool found = PathAlgorithms::findPathsInRadius(db, start_point, p_cat, max_radius, tt, all_paths);
      if (found) return 0;
      return 3; //no path found
  }

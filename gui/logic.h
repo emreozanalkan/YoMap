@@ -1,7 +1,9 @@
 #ifndef LOGIC_H
 #define LOGIC_H
 #include "db/database.h"
+#include "algorithms/pathalgorithms.h"
 #include "db/poi/poipoint.h"
+#include "db/Relations/path.h"
 #include <QPointF>
 #include <vector>
 
@@ -18,9 +20,9 @@ public:
     vector<POIPoint*> getPOIPointsInCategories(vector<unsigned int> &);
     vector<POIPoint*> getPOIPointsInCategories();
 
-   // void printmsg();
-    int getShortestPath( QPointF &A, QPointF &B, int transportMode, vector<WaySegment*> &path, float &distance, float &time);
-    int getShortestPathsInRadius( QPointF &A,  POICategory* p_cat, float &max_radius, int transportMode,  vector<vector<WaySegment*> > &possible_paths, vector<POIPoint*> &poi_goals, float &distance, float &time);
+    float getPathTime(Path &p,int mode);
+    int getShortestPath( QPointF &A, QPointF &B, int transportMode, Path &best_path);
+    int getShortestPathsInRadius( QPointF &A,  POICategory* p_cat, float &max_radius, int transportMode,  set<Path*,ComparePaths> &all_paths);
     map<unsigned int,POICategory *>* getCategoryCatalog();
     QString TimetoSting(double Time);
 };

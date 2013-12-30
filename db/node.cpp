@@ -1,7 +1,9 @@
 #include "node.h"
 #include "Relations/relation.h"
 
-
+/*
+ * Constructors of class Node
+ */
 Node::Node(const unsigned long int &i)
 {
     id = i;
@@ -9,49 +11,32 @@ Node::Node(const unsigned long int &i)
 }
 Node::Node(Node* n)
 {
+    //we clone node n
     id = n->id;
     type=n->type;
     setGeoPosition(n->getGeoPosition().x(),n->getGeoPosition().y());
     setMercatorPosition(n->getMercatorPosition().x(),n->getMercatorPosition().y());
 }
-Node::Node(const unsigned long int &i, ns_relation::relation_type r)
-{
-    id = i;
-    type = r;
-}
 Node::~Node()
 {
+    //We go through all waysements which go from this node and delete them
     vector<WaySegment*>::iterator it = outcoming.begin();
     for(;it!=outcoming.end();it++){
         delete *it;
     }
 }
 unsigned long int Node::getId(){
+    //return the ID of the node
     return id;
 }
+//Type of relations it belong to
 ns_relation::relation_type Node::getType(){
     return type;
 }
+
 void Node::setType(ns_relation::relation_type t){
     type = t;
 }
-boost_xy_point& Node::getGeoPosition(){
-    return geoPosition;
-}
-boost_xy_point& Node::getMercatorPosition(){
-    return mercatorPosition;
-}
-
-void Node::setGeoPosition(const double &x, const double &y){
-    geoPosition.x(x);
-    geoPosition.y(y);
-}
-
-void Node::setMercatorPosition(const float &x, const float &y){
-    mercatorPosition.x(x);
-    mercatorPosition.y(y);
-}
-
 
 bool Node::isMemberOf(unsigned long int &i){
     if(memberOf.find(i)==memberOf.end()){
@@ -82,20 +67,33 @@ map<unsigned long int, Relation*>::iterator Node::getRelationEnd(){
     return memberOf.end();
 }
 
-//void Node::addIncomingConnection(WaySegment *ns){
-//    incoming.push_back(ns);
-//}
+//Location of node
+boost_xy_point& Node::getGeoPosition(){
+    return geoPosition;
+}
+boost_xy_point& Node::getMercatorPosition(){
+    return mercatorPosition;
+}
+
+void Node::setGeoPosition(const float &x, const float &y){
+    geoPosition.x(x);
+    geoPosition.y(y);
+}
+
+void Node::setMercatorPosition(const float &x, const float &y){
+    mercatorPosition.x(x);
+    mercatorPosition.y(y);
+}
+
+//WaySegments which come out of this point
 void Node::addOutcomingConnection(WaySegment *ns){
     outcoming.push_back(ns);
 }
-//OZAN UPDATE
 WaySegment * Node::removeLastOutcomingConnection(){
     WaySegment* s = outcoming.back();
     outcoming.pop_back();
     return s;
 }
-
-
 vector<WaySegment *>::iterator Node::getOutcomingEdgesBegin(){
     return outcoming.begin();
 }
@@ -103,10 +101,10 @@ vector<WaySegment *>::iterator Node::getOutcomingEdgesEnd(){
     return outcoming.end();
 }
 
+//A* algorithm
 void Node::setGscore(float g){
     g_score=g;
 }
-
 void Node::setFscore(float f){
     f_score=f;
 }
@@ -117,15 +115,20 @@ float Node::getGscore(){
 float Node::getFscore(){
     return f_score;
 }
-
-void Node::setPrevNodeSegment(WaySegment* n){
-    prevNodeSegment = n;
+void Node::setPrevWaySegment(WaySegment* n){
+    prevNodeSegment = (Relation*)n;
 }
 
-WaySegment* Node::getPrevNodeSegment(){
-    return prevNodeSegment;
+WaySegment* Node::getPrevWaySegment(){
+    return (WaySegment*)prevNodeSegment;
 }
 
-
+//POI
+void Node::setPOI(POIPoint* p){
+    poi = p;
+}
+POIPoint* Node::getPOI(){
+    return poi;
+}
 
 

@@ -2,76 +2,83 @@
 #define NODE_H
 
 #include "db_definitions.hpp"
+#include "poi/poipoint.h"
+
+#include "Relations/relation.h"
+#include "Relations/waysegment.h"
+
 #include <map>
 
 using namespace std;
 
-class WaySegment;
-class Relation;
 class Node
 {
 public:
+    //Constructors
     Node(const unsigned long int & = 0);
     Node(Node*);
-    Node(const unsigned long int &, ns_relation::relation_type);
+    //Deconstructor
     ~Node();
-    //Setters
-    void setGeoPosition(const double &, const double &);
-    void setMercatorPosition(const float &x, const float &y);
-    //Getters
+
     unsigned long int getId();
+    //Type of the relation in which node is
     ns_relation::relation_type getType();
     void setType(ns_relation::relation_type);
+
+    //Location
+    void setGeoPosition(const float &, const float &);
     boost_xy_point& getGeoPosition();
+    void setMercatorPosition(const float &, const float &y);
     boost_xy_point& getMercatorPosition();
 
-//    void addIncomingConnection(WaySegment *);
-    void addOutcomingConnection(WaySegment *);
-    //OZAN UPDATE
-    WaySegment * removeLastOutcomingConnection();
-    vector<WaySegment *>::iterator getOutcomingEdgesBegin();
-    vector<WaySegment *>::iterator getOutcomingEdgesEnd();
-
-
-
+    //Ways which it belongs to
     bool isMemberOf(unsigned long int &);
     bool addRelation(Relation*);
     int getDegree();
     map<unsigned long int, Relation*>::iterator getRelationBegin();
     map<unsigned long int, Relation*>::iterator getRelationEnd();
 
+    //Outgoing connections
+    void addOutcomingConnection(WaySegment *);
+    WaySegment * removeLastOutcomingConnection();
+    vector<WaySegment *>::iterator getOutcomingEdgesBegin();
+    vector<WaySegment *>::iterator getOutcomingEdgesEnd();
 
-//    vector<WaySegment *> incoming;
-
+    //A* algorithm weights
     void setGscore(float g);
-    void setFscore(float f);
-    void setPrevNodeSegment(WaySegment *n);
     float getGscore();
+    void setFscore(float f);
     float getFscore();
-    WaySegment* getPrevNodeSegment();
+    void setPrevWaySegment(WaySegment *n);
+    WaySegment* getPrevWaySegment();
 
+    //POI
+    void setPOI(POIPoint*);
+    POIPoint* getPOI();
 
 private:
     unsigned long int id;
+    //Location
     //EPSG:3785
     boost_xy_point geoPosition;
     //EPSG:900913
     boost_xy_point mercatorPosition;
-    //container of all relations it belongs to
-    map<unsigned long int,Relation *> memberOf;
-
-    //pointer to segments where we can move from this node
-    vector<WaySegment *> outcoming;
-
 
     //what type of relations it belongs to
     ns_relation::relation_type type;
+    //container of all relations it belongs to
+    map<unsigned long int,Relation *> memberOf;
+    //pointer to segments where we can move from this node
+    vector<WaySegment *> outcoming;
 
     //A* algorithm data
     float f_score;
     float g_score;
     //segment by which we came to this point
-    WaySegment* prevNodeSegment;
+    Relation* prevNodeSegment;
+
+    //Possible POIPoint
+    POIPoint* poi;
 
 };
 
