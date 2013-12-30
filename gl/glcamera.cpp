@@ -65,10 +65,10 @@ void GLCamera::down()
 void GLCamera::move(int dx, int dy)
 {
     // TODO : Need good scrolling
-    x -= (dx * (0.10 * (1 / std::abs(zoomLevel))));
-    look_x -= (dx * (0.10 * (1 / std::abs(zoomLevel))));
-    y += (dy * (0.10 * (1 / std::abs(zoomLevel))));
-    look_y += (dy * (0.10 * (1 / std::abs(zoomLevel))));
+    x -= (dx * (0.10 * (1.0 / std::fabs(zoomLevel))));
+    look_x -= (dx * (0.10 * (1.0 / std::fabs(zoomLevel))));
+    y += (dy * (0.10 * (1.0 / std::fabs(zoomLevel))));
+    look_y += (dy * (0.10 * (1.0 / std::fabs(zoomLevel))));
 }
 
 void GLCamera::zoomIn()

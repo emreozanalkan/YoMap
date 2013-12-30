@@ -28,7 +28,7 @@ public:
 
     void setupVertices();
 
-    void setupVertices(float scale);
+    void setupVertices(double scale);
 };
 
 #endif // GLPOIPOINT_H

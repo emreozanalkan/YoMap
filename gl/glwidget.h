@@ -12,6 +12,8 @@
 
 #include "gl/glpoipoint.h"
 
+#include "db/Relations/path.h"
+
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -29,6 +31,7 @@ private:
 
     map<unsigned long int,Way*>* allWays;
     vector<WaySegment*> path;
+    Path* newPath;
 
     QPointF *startPoint;
     QPointF *endPoint;
@@ -37,6 +40,7 @@ private:
 
     void drawPOIPoints();
     void scalePOIPoints(float);
+    void drawPath();
 
 public:
     explicit GLWidget(QWidget *parent = 0);
@@ -60,6 +64,9 @@ public:
     void setMap(map<unsigned long int,Way*>*);
 
     void setPath(vector<WaySegment*>);
+    void setPath(Path*);
+
+
     void deletePath();
 
     void setPOIs(vector<POIPoint*>);
