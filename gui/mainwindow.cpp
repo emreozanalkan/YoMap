@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
+    //Add all categories
     for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
        ui->comboBoxCatA->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
        ui->comboBoxCatB->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
@@ -42,7 +43,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->comboBoxCatA->model()->sort(0);
     ui->comboBoxCatB->model()->sort(0);
+    //Add mock items
+    ui->comboBoxCatA->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatA->setCurrentIndex(0);
 
+    ui->comboBoxCatB->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatB->setCurrentIndex(0);
 
     //Set up inputs
     ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
@@ -67,7 +73,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->comboBoxCatA_2->model()->sort(0);
     ui->comboBoxCatB_2->model()->sort(0);
-
+    //Add mock items
+    ui->comboBoxCatA_2->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatA_2->setCurrentIndex(0);
+    ui->comboBoxCatB_2->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatB_2->setCurrentIndex(0);
 
     //Set up the map
     connect(ui->widget, SIGNAL(poiClicked(POIPoint*)), this, SLOT(poiClicked(POIPoint*)));
@@ -85,14 +95,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleButtonSwap()
 {
-    QString temp;
-    temp = ui->lineEditLatA->text();
-    ui->lineEditLatA->setText(ui->lineEditLatB->text());
-    ui->lineEditLatB->setText(temp);
+        int temp_poi_b = ui->comboBoxPOIB->currentIndex();
+        int temp_cat_b = ui->comboBoxCatB->currentIndex();
+        QString temp_x_a = ui->lineEditLatA->text();
+        QString temp_y_a = ui->lineEditLonA->text();
+        QString temp_x_b = ui->lineEditLatB->text();
+        QString temp_y_b = ui->lineEditLonB->text();
 
-    temp = ui->lineEditLonA->text();
-    ui->lineEditLonA->setText(ui->lineEditLonB->text());
-    ui->lineEditLonB->setText(temp);
+        ui->comboBoxCatB->setCurrentIndex(ui->comboBoxCatA->currentIndex());
+        ui->comboBoxPOIB->setCurrentIndex(ui->comboBoxPOIA->currentIndex());
+
+        ui->comboBoxCatA->setCurrentIndex(temp_cat_b);
+        ui->comboBoxPOIA->setCurrentIndex(temp_poi_b);
+
+    ui->lineEditLatA->setText(temp_x_b);
+    ui->lineEditLatB->setText(temp_x_a);
+
+    ui->lineEditLonA->setText(temp_y_b);
+    ui->lineEditLonB->setText(temp_y_a);
 
     QPointF temp_point=startPoint;
     startPoint = endPoint;
@@ -100,12 +120,13 @@ void MainWindow::handleButtonSwap()
 
     //TODO switch the combobox inputs
 
+
+
     ui->widget->deletePath();
 }
 
 void MainWindow::handleButtonGo()
 {
-
     Path best_path;
     int mode;
 
@@ -213,7 +234,14 @@ void MainWindow::setStartPoint()
    ui->widget->drawStartPoint(&startPoint);
 
    ui->widget->deletePath();
+}
+void MainWindow::deleteStartPoint()
+{
+   ui->lineEditLatA->setText("");
+   ui->lineEditLonA->setText("");
 
+   ui->widget->deleteStartPoint();
+   ui->widget->deletePath();
 }
 
 void MainWindow::setEndPoint()
@@ -233,7 +261,14 @@ void MainWindow::setEndPoint()
 
     ui->widget->deletePath();
 }
+void MainWindow::deleteEndPoint()
+{
+    ui->lineEditLatB->setText("");
+    ui->lineEditLonB->setText("");
 
+    ui->widget->deleteEndPoint();
+    ui->widget->deletePath();
+}
 
 /*void MainWindow::resizeEvent ( QResizeEvent * event )
 {
@@ -248,73 +283,99 @@ void MainWindow::setEndPoint()
 
 void MainWindow::handleSelectedCategoryA(int index)
 {
+    //if selected item is not "Please select a category"
+    if(index>0){
+        if (ui->comboBoxPOIA->count()) ui->comboBoxPOIA->clear();
 
-    if (ui->comboBoxPOIA->count()) ui->comboBoxPOIA->clear();
-    POICategory *data = (POICategory *)ui->comboBoxCatA->itemData(index).value<void *>();
+        POICategory *data = (POICategory *)ui->comboBoxCatA->itemData(index).value<void *>();
+        for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+            //qDebug<< ((*it)->getName());
+           ui->comboBoxPOIA->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        }
 
-   // map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
-
-    for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
-        //qDebug<< ((*it)->getName());
-       ui->comboBoxPOIA->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        ui->comboBoxPOIA->model()->sort(0);
+        //Add mock POI option
+        ui->comboBoxPOIA->insertItem(0,"Please select a POI");
+        ui->comboBoxPOIA->setCurrentIndex(0);
     }
-    ui->comboBoxPOIA->model()->sort(0);
+    else{
+        deleteStartPoint();
+        if (ui->comboBoxPOIA->count()) ui->comboBoxPOIA->clear();
+        ui->comboBoxPOIA->insertItem(0,"Please select a POI");
 
+        ui->comboBoxPOIA->setCurrentIndex(0);
+
+    }
 }
 
 void MainWindow::handleSelectedPOIA(int index)
 {
-    if (index>=0)
+    //Selected item has to be different from "Please select..."
+    if (index>0)
     {
-    POIPoint *data = (POIPoint *)ui->comboBoxPOIA->itemData(index).value<void *>();
+        POIPoint *data = (POIPoint *)ui->comboBoxPOIA->itemData(index).value<void *>();
 
-    QString StrLon, StrLat;
+        QString StrLon, StrLat;
 
-    StrLat.setNum(data->getGeoPosition().y());
-    StrLon.setNum(data->getGeoPosition().x());
+        StrLat.setNum(data->getGeoPosition().y());
+        StrLon.setNum(data->getGeoPosition().x());
 
-    startPoint.setX(data->getGeoPosition().x());
-    startPoint.setY(data->getGeoPosition().y());
+        startPoint.setX(data->getGeoPosition().x());
+        startPoint.setY(data->getGeoPosition().y());
 
-    ui->lineEditLatA->setText(StrLat);
-    ui->lineEditLonA->setText(StrLon);
+        ui->lineEditLatA->setText(StrLat);
+        ui->lineEditLonA->setText(StrLon);
 
-    ui->widget->deleteStartPoint();
-    ui->widget->drawStartPoint(&startPoint);
+        ui->widget->deleteStartPoint();
+        ui->widget->drawStartPoint(&startPoint);
 
-    ui->widget->deletePath();
+        ui->widget->deletePath();
+    }
+    else{
+        //Clear the selected point
+        deleteStartPoint();
     }
 }
 
 void MainWindow::handleSelectedCategoryB(int index)
 {
+    if(index>0){
+        if (ui->comboBoxPOIB->count()) ui->comboBoxPOIB->clear();
 
-    if (ui->comboBoxPOIB->count()) ui->comboBoxPOIB->clear();
-    POICategory *data = (POICategory *)ui->comboBoxCatB->itemData(index).value<void *>();
+        POICategory *data = (POICategory *)ui->comboBoxCatB->itemData(index).value<void *>();
 
-   // map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
-    for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
-        //qDebug<< ((*it)->getName());
-       ui->comboBoxPOIB->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+            //qDebug<< ((*it)->getName());
+           ui->comboBoxPOIB->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        }
+        ui->comboBoxPOIB->model()->sort(0);
+        ui->comboBoxPOIB->insertItem(0,"Please select a POI");
+        ui->comboBoxPOIB->setCurrentIndex(0);
     }
-    ui->comboBoxPOIB->model()->sort(0);
+    else{
+        deleteEndPoint();
+        if (ui->comboBoxPOIB->count()) ui->comboBoxPOIB->clear();
+        ui->comboBoxPOIB->insertItem(0,"Please select a POI");
+        ui->comboBoxPOIB->setCurrentIndex(0);
+    }
 
 }
 
 void MainWindow::handleSelectedPOIB(int index)
 {
-    if (index>=0)
+    //Selected item has to be different from "Please select..."
+    if (index>0)
     {
-    POIPoint *data = (POIPoint *)ui->comboBoxPOIA->itemData(index).value<void *>();
+    POIPoint *data = (POIPoint *)ui->comboBoxPOIB->itemData(index).value<void *>();
 
     QString StrLon, StrLat;
 
     StrLat.setNum(data->getGeoPosition().y());
     StrLon.setNum(data->getGeoPosition().x());
 
-    startPoint.setX(data->getGeoPosition().x());
-    startPoint.setY(data->getGeoPosition().y());
+    endPoint.setX(data->getGeoPosition().x());
+    endPoint.setY(data->getGeoPosition().y());
 
     ui->lineEditLatB->setText(StrLat);
     ui->lineEditLonB->setText(StrLon);
@@ -324,52 +385,73 @@ void MainWindow::handleSelectedPOIB(int index)
 
     ui->widget->deletePath();
     }
+    else{
+        //Clear the selected point
+        deleteEndPoint();
+    }
 }
 
 void MainWindow::handleSelectedCategoryA_Radius(int index){
-    if (ui->comboBoxPOIA_2->count()) ui->comboBoxPOIA_2->clear();
-    POICategory *data = (POICategory *)ui->comboBoxCatA_2->itemData(index).value<void *>();
+    //Selected option is different from "please select"
+    if(index>0){
+        deleteStartPoint();
+        if (ui->comboBoxPOIA_2->count()) ui->comboBoxPOIA_2->clear();
+        POICategory *data = (POICategory *)ui->comboBoxCatA_2->itemData(index).value<void *>();
 
-   // map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
-
-    for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
-        //qDebug<< ((*it)->getName());
-       ui->comboBoxPOIA_2->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+           ui->comboBoxPOIA_2->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        }
+        ui->comboBoxPOIA_2->model()->sort(0);
+        ui->comboBoxPOIA_2->insertItem(0,"Please select a POI");
+        ui->comboBoxPOIA_2->setCurrentIndex(0);
     }
-    ui->comboBoxPOIA_2->model()->sort(0);
+    else{
+        deleteStartPoint();
+        ui->comboBoxPOIA_2->clear();
+        ui->comboBoxPOIA_2->insertItem(0,"Please select a POI");
+        ui->comboBoxPOIA_2->setCurrentIndex(0);
+    }
 }
 
 
 void MainWindow::handleSelectedPOIA_Radius(int index){
-    if (index>=0)
+    //Selected option is different from "please select"
+    if (index>0)
     {
-    POIPoint *data = (POIPoint *)ui->comboBoxPOIA_2->itemData(index).value<void *>();
+        POIPoint *data = (POIPoint *)ui->comboBoxPOIA_2->itemData(index).value<void *>();
 
-    QString StrLon, StrLat;
+        QString StrLon, StrLat;
 
-    StrLat.setNum(data->getGeoPosition().y());
-    StrLon.setNum(data->getGeoPosition().x());
+        StrLat.setNum(data->getGeoPosition().y());
+        StrLon.setNum(data->getGeoPosition().x());
 
-    startPoint.setX(data->getGeoPosition().x());
-    startPoint.setY(data->getGeoPosition().y());
+        startPoint.setX(data->getGeoPosition().x());
+        startPoint.setY(data->getGeoPosition().y());
 
-    ui->lineEditLatA_2->setText(StrLat);
-    ui->lineEditLonA_2->setText(StrLon);
+        ui->lineEditLatA_2->setText(StrLat);
+        ui->lineEditLonA_2->setText(StrLon);
 
-    ui->widget->deleteStartPoint();
-    ui->widget->drawStartPoint(&startPoint);
+        ui->widget->deleteStartPoint();
+        ui->widget->drawStartPoint(&startPoint);
 
-    ui->widget->deletePath();
+        ui->widget->deletePath();
+    }
+    else{
+        deleteStartPoint();
     }
 }
 
 void MainWindow::handleSelectedCategoryB_Radius(int index){
-
-    endCategory = (POICategory *)ui->comboBoxCatB_2->itemData(index).value<void *>();
+    if(index>0){
+        endCategory = (POICategory *)ui->comboBoxCatB_2->itemData(index).value<void *>();
+    }
+    else{
+        endCategory = NULL;
+    }
 }
 
 void MainWindow::handleButtonGo_Radius(){
-
+    QMessageBox msgBox;
     int mode;
     set<Path*,ComparePaths> all_paths;
     maxDistance = 1;
@@ -380,6 +462,13 @@ void MainWindow::handleButtonGo_Radius(){
     startPoint.setY(ui->lineEditLatA_2->text().toFloat());
     //TODO validator? error!
 
+    //Validate endCategory
+    if(endCategory==NULL){
+        msgBox.setText("Please select an end category.");
+        msgBox.exec();
+        return;
+    }
+
     //Set transport mode
     if (ui->radioButtonDriving_2->isChecked()) mode = 0; //driving 0
     else
@@ -388,7 +477,7 @@ void MainWindow::handleButtonGo_Radius(){
     //search
     int found = logic.getShortestPathsInRadius( startPoint, endCategory, maxDistance, mode, all_paths);
 
-    QMessageBox msgBox;
+
 
     if (found==1) {
        msgBox.setText("Sorry, can't calculate the path. Starting point out of bound!");
