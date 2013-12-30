@@ -1,3 +1,4 @@
+#include <cmath>
 #include "glcamera.h"
 
 #ifdef __APPLE__
