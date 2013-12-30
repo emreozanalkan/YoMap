@@ -221,14 +221,33 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    float ratio = float(w) / float(h);
+    GLdouble dx = camera->planeRight - camera->planeLeft;
+    GLdouble dy = camera->planeTop - camera->planeBottom;
 
-    glOrtho(camera->planeLeft,
-            camera->planeRight,
-            camera->planeBottom,
-            camera->planeTop,
-            camera->planeNear,
-            camera->planeFar);
+    if(fabs(dx) > 0.001 || fabs(dy) > 0.001)//Controls how far you can zoom in
+    {
+        if(dx >= dy)
+        {
+
+            GLdouble dY = dx * h / w;
+            GLdouble yMax = camera->planeBottom + dY;
+            glOrtho(camera->planeLeft, camera->planeRight, camera->planeBottom, yMax, camera->planeNear, camera->planeFar);
+        }
+        else
+        {
+            GLdouble dX = dy * w / h;
+            GLdouble xMax = camera->planeLeft + dX;
+            glOrtho(camera->planeLeft, xMax, camera->planeBottom, camera->planeTop, camera->planeNear, camera->planeFar);
+
+        }
+    }
+
+//    glOrtho(camera->planeLeft,
+//            camera->planeRight,
+//            camera->planeBottom,
+//            camera->planeTop,
+//            camera->planeNear,
+//            camera->planeFar);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
