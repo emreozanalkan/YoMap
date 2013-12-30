@@ -2,6 +2,7 @@
 
 #include <QString>
 #include <QPixmap>
+#include <QDebug>
 
 GLPOIPoint::GLPOIPoint()
 {
@@ -17,8 +18,22 @@ void GLPOIPoint::setupVertices()
 {
     vertices.clear();
     boost_xy_point geoPos = point->getGeoPosition();
-    vertices.append(QVector3D((geoPos.x() * 100.0f) + 0.005f, (geoPos.y() * 100.0f) + 0.005f, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.005f, (geoPos.y() * 100.0f) + 0.005f, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.005f, (geoPos.y() * 100.0f) - 0.005f, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0f) + 0.005f, (geoPos.y() * 100.0f) - 0.005f, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0f) + 0.1f, (geoPos.y() * 100.0f) + 0.1f, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.1f, (geoPos.y() * 100.0f) + 0.1f, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.1f, (geoPos.y() * 100.0f) - 0.1f, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0f) + 0.1f, (geoPos.y() * 100.0f) - 0.1f, 0.3f));
+}
+
+void GLPOIPoint::setupVertices(float scale)
+{
+    vertices.clear();
+    boost_xy_point geoPos = point->getGeoPosition();
+
+    if(scale > 1.0f)
+        scale = 1.0f;
+
+    vertices.append(QVector3D((geoPos.x() * 100.0f) + 0.1f * scale, (geoPos.y() * 100.0f) + 0.1f * scale, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.1f * scale, (geoPos.y() * 100.0f) + 0.1f * scale, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0f) - 0.1f * scale, (geoPos.y() * 100.0f) - 0.1f * scale, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0f) + 0.1f * scale, (geoPos.y() * 100.0f) - 0.1f * scale, 0.3f));
 }

@@ -145,12 +145,8 @@ void GLWidget::paintGL()
             WaySegment* waySegment = path[i];
             boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
             boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
-            //glBegin(GL_LINES);
-            //qDebug() << "A: " <<nodeGeoPosA.x() << "-" << nodeGeoPosA.y();
-            //qDebug() << "B: " <<nodeGeoPosB.x() << "-" << nodeGeoPosB.y();
             glVertex3f(nodeGeoPosA.x() * 100.0f, nodeGeoPosA.y() * 100.0f, 0.1f);
             glVertex3f(nodeGeoPosB.x() * 100.0f, nodeGeoPosB.y() * 100.0f, 0.1f);
-            //glEnd();
         }
         if(endPoint != NULL && !path.empty())
         {
@@ -166,7 +162,7 @@ void GLWidget::paintGL()
     if(startPoint != NULL)
     {
         glColor3f(0.0f, 1.0f, 0.0f);
-        glPointSize(7.0f);
+        glPointSize(10.0f);
         glBegin(GL_POINTS);
         glVertex3f(startPoint->x() * 100.0f, startPoint->y() * 100.0f, 0.2f);
         glEnd();
@@ -175,9 +171,9 @@ void GLWidget::paintGL()
     if(endPoint != NULL)
     {
         glColor3f(1.0f, 0.0f, 0.0f);
-        glPointSize(7.0f);
+        glPointSize(10.0f);
         glBegin(GL_POINTS);
-        glVertex3f(endPoint->x() * 100.0f, endPoint->y() * 100.0f, 0.2f);
+        glVertex3f(endPoint->x() * 100.0f, endPoint->y() * 100.0f, 0.25f);
         glEnd();
     }
 
@@ -209,6 +205,12 @@ void GLWidget::drawPOIPoints()
     glPopMatrix();
 }
 
+void GLWidget::scalePOIPoints(float scale)
+{
+    for(int i = 0; i < glPOIPoints.size(); i++)
+        glPOIPoints[i]->setupVertices(scale);
+}
+
 void GLWidget::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
@@ -227,9 +229,6 @@ void GLWidget::resizeGL(int w, int h)
             camera->planeTop,
             camera->planeNear,
             camera->planeFar);
-
-    //gluPerspective(60.0, ratio, 1.0, 100.0);
-
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -296,6 +295,8 @@ void GLWidget::wheelEvent(QWheelEvent *event)
             camera->zoomIn();
         else
             camera->zoomOut();
+
+        scalePOIPoints((10.0f/camera->zoomLevel));
     }
     else
     {
@@ -375,23 +376,11 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    //qDebug() << "mouseMoveEvent"<<endl;
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
-//    qDebug() << "lastPos.x: "<< lastPos.x() << " lastPost.y: " << lastPos.y() <<endl;
-//    qDebug() << "event->x: "<< event->x() << " event->y: " << event->y() << endl;
-//    qDebug() << "dx: "<< dx << " dy: " << dy << endl;
-//    qDebug() << "===========================================" << endl;
-
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton)
         camera->move(dx, dy);
-        //setXRotation(xRot + 8 * dy);
-        //setYRotation(yRot + 8 * dx);
-    } else if (event->buttons() & Qt::RightButton) {
-        //setXRotation(xRot + 8 * dy);
-        //setZRotation(zRot + 8 * dx);
-    }
 
     lastPos = event->pos();
 }
@@ -476,8 +465,6 @@ void GLWidget::setPOIs(vector<POIPoint*> pois)
     {
         GLPOIPoint* poiPoint = new GLPOIPoint();
         poiPoint->point = pois[i];
-        //qDebug() << "Icon Path: " << poiPoint->point->getIconPath();
-        //qDebug() << "Icon Path: " << QString::fromStdString(poiPoint->point->getIconPath());
         if(isGLInitialized)
             poiPoint->texture = bindTexture(QPixmap(QString::fromStdString(poiPoint->point->getIconPath())), GL_TEXTURE_2D);
         poiPoint->setupVertices();

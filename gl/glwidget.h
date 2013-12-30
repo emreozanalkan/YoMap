@@ -36,6 +36,7 @@ private:
     vector<GLPOIPoint*> glPOIPoints;
 
     void drawPOIPoints();
+    void scalePOIPoints(float);
 
 public:
     explicit GLWidget(QWidget *parent = 0);

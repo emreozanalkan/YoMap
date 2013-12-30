@@ -27,6 +27,8 @@ public:
     QVector<QVector2D> textureCoordinates;
 
     void setupVertices();
+
+    void setupVertices(float scale);
 };
 
 #endif // GLPOIPOINT_H
