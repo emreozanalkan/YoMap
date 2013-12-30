@@ -47,6 +47,7 @@ private slots:
     void handleButtonGo_Radius();
     void deleteStartPoint_Radius();
     void poiClicked(POIPoint*);
+    void setMaximumDistance(int);
 };
 
 #endif // MAINWINDOW_H

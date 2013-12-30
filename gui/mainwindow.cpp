@@ -34,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect( ui->comboBoxCatB_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Radius(int)));
 
+    connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), ui->spinBox, SLOT(setValue(int)));
+    connect(ui->spinBox, SIGNAL(valueChanged(int)), ui->horizontalSlider, SLOT(setValue(int)));
+    connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(setMaximumDistance(int)));
+
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
@@ -463,7 +467,7 @@ void MainWindow::handleButtonGo_Radius(){
     QMessageBox msgBox;
     int mode;
     set<Path*,ComparePaths> all_paths;
-    maxDistance = 1;
+    //maxDistance = 1;
 
     ui->widget->deletePath();
 
@@ -511,8 +515,13 @@ void MainWindow::handleButtonGo_Radius(){
         qDebug() << "Path found" << endl;
         //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
 
-        //ui->widget->setPath(Path);
+        //ui->widget->setPath(all_paths);
     }
+}
+
+void MainWindow::setMaximumDistance(int maxDistance_)
+{
+    maxDistance = maxDistance_ / 1000.;
 }
 
 void MainWindow::poiClicked(POIPoint* poiPoint)

@@ -101,9 +101,8 @@ int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, Path &bes
      if (transportMode == 0) tt = ns_permisions::car;
      else if (transportMode == 1) tt = ns_permisions::foot;
 
-     bool found = PathAlgorithms::findPathsInRadius(db, start_point, p_cat, max_radius, tt, all_paths);
-     if (found) return 0;
-     return 3; //no path found
+     int found = PathAlgorithms::findPathsInRadius(db, start_point, p_cat, max_radius, tt, all_paths);
+     return found; //no path found
  }
 
 QString Logic::TimetoSting(double Time)
