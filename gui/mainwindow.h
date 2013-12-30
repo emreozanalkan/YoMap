@@ -45,7 +45,7 @@ private slots:
     void handleSelectedPOIA_Radius(int);
     void handleSelectedCategoryB_Radius(int);
     void handleButtonGo_Radius();
-
+    void deleteStartPoint_Radius();
     void poiClicked(POIPoint*);
 };
 

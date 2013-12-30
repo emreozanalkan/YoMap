@@ -18,9 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-// 2 point search
-
-    //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));   
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
     connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
 
@@ -30,34 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( ui->comboBoxCatB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB(int)));
     connect( ui->comboBoxPOIB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB(int)));
 
-
-
-    //Category Combo Box filling
-    map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
-
-    //Add all categories
-    for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
-       ui->comboBoxCatA->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
-       ui->comboBoxCatB->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
-    }
-
-    ui->comboBoxCatA->model()->sort(0);
-    ui->comboBoxCatB->model()->sort(0);
-    //Add mock items
-    ui->comboBoxCatA->insertItem(0,QString("Please select a category"));
-    ui->comboBoxCatA->setCurrentIndex(0);
-
-    ui->comboBoxCatB->insertItem(0,QString("Please select a category"));
-    ui->comboBoxCatB->setCurrentIndex(0);
-
-    //Set up inputs
-    ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
-    ui->lineEditLonA->setValidator( new QDoubleValidator(0, 100, 7, this) );
-
-    ui->lineEditLatB->setValidator( new QDoubleValidator(0, 100, 7, this) );
-    ui->lineEditLonB->setValidator( new QDoubleValidator(0, 100, 7, this) );
-
-//Radius search
     connect( ui->pushButton_2, SIGNAL(released()), this, SLOT(handleButtonGo_Radius()));
 
     connect( ui->comboBoxCatA_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA_Radius(int)));
@@ -66,18 +35,47 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( ui->comboBoxCatB_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Radius(int)));
 
     //Category Combo Box filling
+    map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
+
+
+    //Add all categories
     for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
+       ui->comboBoxCatA->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+       ui->comboBoxCatB->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+
        ui->comboBoxCatA_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
        ui->comboBoxCatB_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+
     }
+
+    ui->comboBoxCatA->model()->sort(0);
+    ui->comboBoxCatB->model()->sort(0);
 
     ui->comboBoxCatA_2->model()->sort(0);
     ui->comboBoxCatB_2->model()->sort(0);
+
+    //Add mock items
+    ui->comboBoxCatA->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatA->setCurrentIndex(0);
+
+    ui->comboBoxCatB->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatB->setCurrentIndex(0);
+
     //Add mock items
     ui->comboBoxCatA_2->insertItem(0,QString("Please select a category"));
     ui->comboBoxCatA_2->setCurrentIndex(0);
+
     ui->comboBoxCatB_2->insertItem(0,QString("Please select a category"));
     ui->comboBoxCatB_2->setCurrentIndex(0);
+
+    //Set up inputs
+    ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
+    ui->lineEditLonA->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
+    ui->lineEditLatB->setValidator( new QDoubleValidator(0, 100, 7, this) );
+    ui->lineEditLonB->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
+    //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));
 
     //Set up the map
     connect(ui->widget, SIGNAL(poiClicked(POIPoint*)), this, SLOT(poiClicked(POIPoint*)));
@@ -235,10 +233,20 @@ void MainWindow::setStartPoint()
 
    ui->widget->deletePath();
 }
+
 void MainWindow::deleteStartPoint()
 {
    ui->lineEditLatA->setText("");
    ui->lineEditLonA->setText("");
+
+   ui->widget->deleteStartPoint();
+   ui->widget->deletePath();
+}
+
+void MainWindow::deleteStartPoint_Radius()
+{
+   ui->lineEditLatA_2->setText("");
+   ui->lineEditLonA_2->setText("");
 
    ui->widget->deleteStartPoint();
    ui->widget->deletePath();
@@ -261,6 +269,7 @@ void MainWindow::setEndPoint()
 
     ui->widget->deletePath();
 }
+
 void MainWindow::deleteEndPoint()
 {
     ui->lineEditLatB->setText("");
@@ -299,12 +308,10 @@ void MainWindow::handleSelectedCategoryA(int index)
         ui->comboBoxPOIA->setCurrentIndex(0);
     }
     else{
-        deleteStartPoint();
+        //deleteStartPoint();
         if (ui->comboBoxPOIA->count()) ui->comboBoxPOIA->clear();
         ui->comboBoxPOIA->insertItem(0,"Please select a POI");
-
         ui->comboBoxPOIA->setCurrentIndex(0);
-
     }
 }
 
@@ -344,7 +351,6 @@ void MainWindow::handleSelectedCategoryB(int index)
 
         POICategory *data = (POICategory *)ui->comboBoxCatB->itemData(index).value<void *>();
 
-
         for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
             //qDebug<< ((*it)->getName());
            ui->comboBoxPOIB->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
@@ -354,7 +360,7 @@ void MainWindow::handleSelectedCategoryB(int index)
         ui->comboBoxPOIB->setCurrentIndex(0);
     }
     else{
-        deleteEndPoint();
+       // deleteEndPoint();
         if (ui->comboBoxPOIB->count()) ui->comboBoxPOIB->clear();
         ui->comboBoxPOIB->insertItem(0,"Please select a POI");
         ui->comboBoxPOIB->setCurrentIndex(0);
@@ -393,11 +399,12 @@ void MainWindow::handleSelectedPOIB(int index)
 
 void MainWindow::handleSelectedCategoryA_Radius(int index){
     //Selected option is different from "please select"
+    qDebug() << "handleSelectedCategoryA_Radius: "<<index << endl;
     if(index>0){
-        deleteStartPoint();
+        deleteStartPoint_Radius();
         if (ui->comboBoxPOIA_2->count()) ui->comboBoxPOIA_2->clear();
-        POICategory *data = (POICategory *)ui->comboBoxCatA_2->itemData(index).value<void *>();
 
+        POICategory *data = (POICategory *)ui->comboBoxCatA_2->itemData(index).value<void *>();
         for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
            ui->comboBoxPOIA_2->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
         }
@@ -406,16 +413,17 @@ void MainWindow::handleSelectedCategoryA_Radius(int index){
         ui->comboBoxPOIA_2->setCurrentIndex(0);
     }
     else{
-        deleteStartPoint();
-        ui->comboBoxPOIA_2->clear();
+
+        if (ui->comboBoxPOIA_2->count()) ui->comboBoxPOIA_2->clear();
         ui->comboBoxPOIA_2->insertItem(0,"Please select a POI");
-        ui->comboBoxPOIA_2->setCurrentIndex(0);
+       // ui->comboBoxPOIA_2->setCurrentIndex(0);
     }
 }
 
 
 void MainWindow::handleSelectedPOIA_Radius(int index){
     //Selected option is different from "please select"
+            qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
     if (index>0)
     {
         POIPoint *data = (POIPoint *)ui->comboBoxPOIA_2->itemData(index).value<void *>();
@@ -437,7 +445,8 @@ void MainWindow::handleSelectedPOIA_Radius(int index){
         ui->widget->deletePath();
     }
     else{
-        deleteStartPoint();
+        deleteStartPoint_Radius();
+
     }
 }
 
