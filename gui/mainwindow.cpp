@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));
 
     //Set up the map
-    connect(ui->widget, SIGNAL(poiClicked(POIPoint*)), this, SLOT(poiClicked(POIPoint*)));
+    connect(ui->widget, SIGNAL(poiClicked(POIPoint*, QMouseEvent*)), this, SLOT(poiClicked(POIPoint*, QMouseEvent*)));
 
     ui->widget->setMap(logic.getAllWays());
     ui->widget->setPOIs(logic.getPOIPointsInCategories());
@@ -524,10 +524,13 @@ void MainWindow::setMaximumDistance(int maxDistance_)
     maxDistance = maxDistance_ / 1000.;
 }
 
-void MainWindow::poiClicked(POIPoint* poiPoint)
+void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
 {
+    qDebug() << "POI Name: " << poiPoint->getName().c_str();
 
+    qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
 
-    //qDebug() << "POI Point Name: " << poiPoint->getName();
-    qDebug() << "POI Point Name: " << poiPoint->getName().c_str();
+    QPoint pointInOksanaWindow = ui->widget->mapTo(this, event->pos());
+
+    qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
 }

@@ -46,7 +46,7 @@ private slots:
     void handleSelectedCategoryB_Radius(int);
     void handleButtonGo_Radius();
     void deleteStartPoint_Radius();
-    void poiClicked(POIPoint*);
+    void poiClicked(POIPoint*, QMouseEvent*);
     void setMaximumDistance(int);
 };
 

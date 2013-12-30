@@ -79,7 +79,7 @@ public:
     void deleteEndPoint();
 
 signals:
-    void poiClicked(POIPoint*);
+    void poiClicked(POIPoint*, QMouseEvent*);
 
 public slots:
     void updateLC();

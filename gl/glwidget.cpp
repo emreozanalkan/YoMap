@@ -373,7 +373,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             }
         }
 
-        emit poiClicked(glPOIPoints[choose]->point);
+        emit poiClicked(glPOIPoints[choose]->point, event);
 
     }
 
