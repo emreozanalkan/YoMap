@@ -240,44 +240,10 @@ void GLWidget::scalePOIPoints(float scale)
 
 void GLWidget::resizeGL(int w, int h)
 {
-    glViewport(0, 0, w, h);
-
     camera->canvasWidth = w;
     camera->canvasHeight = h;
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    GLdouble dx = camera->planeRight - camera->planeLeft;
-    GLdouble dy = camera->planeTop - camera->planeBottom;
-
-    if(fabs(dx) > 0.001 || fabs(dy) > 0.001)//Controls how far you can zoom in
-    {
-        if(dx >= dy)
-        {
-
-            GLdouble dY = dx * h / w;
-            GLdouble yMax = camera->planeBottom + dY;
-            glOrtho(camera->planeLeft, camera->planeRight, camera->planeBottom, yMax, camera->planeNear, camera->planeFar);
-        }
-        else
-        {
-            GLdouble dX = dy * w / h;
-            GLdouble xMax = camera->planeLeft + dX;
-            glOrtho(camera->planeLeft, xMax, camera->planeBottom, camera->planeTop, camera->planeNear, camera->planeFar);
-
-        }
-    }
-
-//    glOrtho(camera->planeLeft,
-//            camera->planeRight,
-//            camera->planeBottom,
-//            camera->planeTop,
-//            camera->planeNear,
-//            camera->planeFar);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    camera->setViewingVolume();
 }
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
@@ -382,12 +348,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     // This Creates A Matrix That Will Zoom Up To A Small Portion Of The Screen, Where The Mouse Is.
     gluPickMatrix((GLdouble)event->pos().x(), (GLdouble) (viewport[3] - event->pos().y()), 1.0f, 1.0f, viewport);
 
-    glOrtho(camera->planeLeft,
-            camera->planeRight,
-            camera->planeBottom,
-            camera->planeTop,
-            camera->planeNear,
-            camera->planeFar);
+    camera->setProjection();
 
     glMatrixMode(GL_MODELVIEW);									// Select The Modelview Matrix
     drawPOIPoints();											// Render The Targets To The Selection Buffer

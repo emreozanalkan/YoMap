@@ -43,6 +43,7 @@ public:
     void zoomOut();
 
     void setViewingVolume();
+    void setProjection();
 
     void center();
 };

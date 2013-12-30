@@ -111,34 +111,30 @@ void GLCamera::setViewingVolume()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    GLdouble dx = planeRight - planeLeft;
-    GLdouble dy = planeTop - planeBottom;
-
-    if(fabs(dx) > 0.001 || fabs(dy) > 0.001)//Controls how far you can zoom in
-    {
-        if(dx >= dy)
-        {
-            GLdouble dY = dx * canvasHeight / canvasWidth;
-            GLdouble yMax = planeBottom + dY;
-            glOrtho(planeLeft, planeRight, planeBottom, yMax, planeNear, planeFar);
-        }
-        else
-        {
-            GLdouble dX = dy * canvasWidth / canvasHeight;
-            GLdouble xMax = planeLeft + dX;
-            glOrtho(planeLeft, xMax, planeBottom, planeTop, planeNear, planeFar);
-        }
-    }
-
-//    glOrtho(planeLeft,
-//            planeRight,
-//            planeBottom,
-//            planeTop,
-//            planeNear,
-//            planeFar);
+    this->setProjection();
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+}
+
+void GLCamera::setProjection()
+{
+    GLdouble dx = planeRight - planeLeft;
+    GLdouble dy = planeTop - planeBottom;
+
+    if(dx >= dy)
+    {
+        GLdouble dY = dx * canvasHeight / canvasWidth;
+        GLdouble yMax = planeBottom + dY;
+        glOrtho(planeLeft, planeRight, planeBottom, yMax, planeNear, planeFar);
+    }
+    else
+    {
+        GLdouble dX = dy * canvasWidth / canvasHeight;
+        GLdouble xMax = planeLeft + dX;
+        glOrtho(planeLeft, xMax, planeBottom, planeTop, planeNear, planeFar);
+    }
 }
 
 void GLCamera::center()
