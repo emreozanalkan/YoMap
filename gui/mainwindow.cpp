@@ -202,13 +202,16 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
             QAction* actionStart = new QAction("Set as Start Point", this);
             menu.addAction(actionStart);
 
+            if (ui->tabWidget->currentIndex() != 1){
             menu.addSeparator();
 
             QAction* actionEnd = new QAction("Set as End Point", this);
             menu.addAction(actionEnd);
+            connect(actionEnd, SIGNAL(triggered()), this, SLOT(setEndPoint()));
+            }
 
             connect(actionStart, SIGNAL(triggered()), this, SLOT(setStartPoint()));
-            connect(actionEnd, SIGNAL(triggered()), this, SLOT(setEndPoint()));
+
 
             menu.exec(mapToGlobal(event->pos()));
 //            qDebug() <<"signal sent"<<endl;
