@@ -138,7 +138,7 @@ void GLWidget::paintGL()
         glColor3f(0.0f, 1.0f, 0.0f);
         glPointSize(10.0f);
         glBegin(GL_POINTS);
-        glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.2);
+        glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.4);
         glEnd();
     }
 
@@ -147,7 +147,7 @@ void GLWidget::paintGL()
         glColor3f(1.0f, 0.0f, 0.0f);
         glPointSize(10.0f);
         glBegin(GL_POINTS);
-        glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.25);
+        glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.4);
         glEnd();
     }
 
