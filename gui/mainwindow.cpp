@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+    ui->widgetPOI->hide();
+
+
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
     connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
 
@@ -38,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->spinBox, SIGNAL(valueChanged(int)), ui->horizontalSlider, SLOT(setValue(int)));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(setMaximumDistance(int)));
 
+    connect(ui->pushButtonPOIClose, SIGNAL(released()), ui->widgetPOI, SLOT(hide()));
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
@@ -50,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
        ui->comboBoxCatA_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
        ui->comboBoxCatB_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
 
+       //ui->comboBoxPOICat->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
     }
 
     ui->comboBoxCatA->model()->sort(0);
@@ -529,6 +534,28 @@ void MainWindow::setMaximumDistance(int maxDistance_)
 
 void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
 {
+    ui->widgetPOI->hide();
+    //ui->lineEditPOIName->setText(QString(poiPoint->getName().c_str()));
+    //boost_xy_point point;
+    QString strlat, strlon;
+    //point = poiPoint->getGeoPosition();
+
+    strlat.setNum(poiPoint->getGeoPosition().y());
+    strlon.setNum(poiPoint->getGeoPosition().x());
+
+    ui->widgetPOI->setAutoFillBackground(true);
+    ui->labelPOIPosition->setText(strlat+" ; "+strlon);
+    ui->labelPOIName->setText(QString(poiPoint->getName().c_str()));
+    ui->labelPOICat->setText(QString(poiPoint->getCategory()->getName().c_str()));
+    ui->labelPOIpicture->setPixmap(QPixmap(QString(poiPoint->getIconPath().c_str())));
+
+    //ui->comboBoxPOICat->setCurrentIndex(0);
+
+    //ui->widgetPOI->lineEditPOIName->setText(QString(poiPoint->getName().c_str()));
+    ui->widgetPOI->move(event->pos());
+    ui->widgetPOI->show();
+
+
     qDebug() << "POI Name: " << poiPoint->getName().c_str();
 
     qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
