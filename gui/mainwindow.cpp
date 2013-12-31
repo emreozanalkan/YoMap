@@ -225,20 +225,20 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
 
 void MainWindow::setStartPoint()
 {
-   startPoint = ui->widget->getGeoPosition(lastRightClickPoint - ui->widget->pos());
+    startPoint = ui->widget->getGeoPosition(ui->widget->mapFrom(this, lastRightClickPoint));
 
-   QString StrLon, StrLat;
+    QString StrLon, StrLat;
 
-   StrLat.setNum(startPoint.y());
-   StrLon.setNum(startPoint.x());
+    StrLat.setNum(startPoint.y());
+    StrLon.setNum(startPoint.x());
 
-   ui->lineEditLatA->setText(StrLat);
-   ui->lineEditLonA->setText(StrLon);
+    ui->lineEditLatA->setText(StrLat);
+    ui->lineEditLonA->setText(StrLon);
 
-   ui->widget->deleteStartPoint();
-   ui->widget->drawStartPoint(&startPoint);
+    ui->widget->deleteStartPoint();
+    ui->widget->drawStartPoint(&startPoint);
 
-   ui->widget->deletePath();
+    ui->widget->deletePath();
 }
 
 void MainWindow::deleteStartPoint()
@@ -261,7 +261,7 @@ void MainWindow::deleteStartPoint_Radius()
 
 void MainWindow::setEndPoint()
 {
-    endPoint = ui->widget->getGeoPosition(lastRightClickPoint - ui->widget->pos());
+    endPoint = ui->widget->getGeoPosition(ui->widget->mapFrom(this, lastRightClickPoint));
 
     QString StrLon, StrLat;
 
