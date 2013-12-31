@@ -64,19 +64,30 @@ void GLCamera::down()
 
 void GLCamera::move(int dx, int dy)
 {
-    // TODO : Need good scrolling
-//    x -= (dx * (0.10 * (1.0 / std::fabs(zoomLevel))));
-//    look_x -= (dx * (0.10 * (1.0 / std::fabs(zoomLevel))));
-//    y += (dy * (0.10 * (1.0 / std::fabs(zoomLevel))));
-//    look_y += (dy * (0.10 * (1.0 / std::fabs(zoomLevel))));
+    GLdouble gldx = planeRight - planeLeft;
+    GLdouble gldy = planeTop - planeBottom;
+    GLdouble aspect = GLdouble(canvasWidth) / GLdouble(canvasHeight);
 
-    double glViewWidth = planeRight - planeLeft;
-    double glViewHeight = planeTop - planeBottom;
+    GLdouble xMax = planeRight;
+    GLdouble yMax = planeTop;
+
+    GLdouble dX = gldy * GLdouble(canvasWidth) / GLdouble(canvasHeight);
+    GLdouble dY = gldx * GLdouble(canvasHeight) / GLdouble(canvasWidth);
+
+    if(aspect >= 1.0)
+    {
+        xMax = planeLeft + dX;
+        yMax = planeBottom + dY;
+    }
+
+    double glViewWidth = xMax - planeLeft;
+    //double glViewHeight = yMax - planeBottom;
+
 
     x -= ((double(dx) / double(canvasWidth)) * glViewWidth);
     look_x -= ((double(dx) / double(canvasWidth)) * glViewWidth);
-    y += ((double(dy) / double(canvasWidth)) * glViewHeight);
-    look_y += ((double(dy) / double(canvasWidth)) * glViewHeight);
+    y += ((double(dy) / double(canvasWidth)) * gldy);
+    look_y += ((double(dy) / double(canvasWidth)) * gldy);
 }
 
 void GLCamera::zoomIn()
@@ -130,19 +141,59 @@ void GLCamera::setProjection()
 {
     GLdouble dx = planeRight - planeLeft;
     GLdouble dy = planeTop - planeBottom;
+    GLdouble aspect = GLdouble(canvasWidth) / GLdouble(canvasHeight);
 
-    if(dx >= dy)
+    //    GLdouble dx = xMax - xOrg;
+    //	GLdouble dy = yMax - yOrg;
+    //	double aspect_ratio;
+    //	if(fabs(dx) > 0.001 || fabs(dy) > 0.001)//Controls how far you can zoom in
+    //	{
+    //		if(dx >= dy)
+    //		{
+
+    //			GLdouble dY = dx * m_height / m_width;
+    //			GLdouble yMax = yOrg  + dY;
+    //			::glOrtho( xOrg, xMax, yOrg, yMax, -zMax, zMax);
+    //		}
+    //		else
+    //		{
+    //			GLdouble dX = dy * m_width / m_height;
+    //			GLdouble xMax = xOrg + dX;
+    //			::glOrtho( xOrg, xMax, yOrg, yMax, -zMax, zMax);
+    //        }
+
+
+
+    GLdouble xMax = planeRight;
+    GLdouble yMax = planeTop;
+
+    GLdouble dX = dy * GLdouble(canvasWidth) / GLdouble(canvasHeight);
+    GLdouble dY = dx * GLdouble(canvasHeight) / GLdouble(canvasWidth);
+
+    if(aspect >= 1.0)
     {
-        GLdouble dY = dx * canvasHeight / canvasWidth;
-        GLdouble yMax = planeBottom + dY;
-        glOrtho(planeLeft, planeRight, planeBottom, yMax, planeNear, planeFar);
+        xMax = planeLeft + dX;
+        yMax = planeBottom + dY;
     }
-    else
-    {
-        GLdouble dX = dy * canvasWidth / canvasHeight;
-        GLdouble xMax = planeLeft + dX;
-        glOrtho(planeLeft, xMax, planeBottom, planeTop, planeNear, planeFar);
-    }
+
+    glOrtho(planeLeft, xMax, planeBottom, yMax, planeNear, planeFar);
+
+//    if(aspect >= 1.0)
+//    {
+//        GLdouble dY = dx * GLdouble(canvasHeight) / GLdouble(canvasWidth);
+//        GLdouble yMax = planeBottom + dY;
+////        GLdouble dX = dy * GLdouble(canvasWidth) / GLdouble(canvasHeight);
+////        GLdouble xMax = planeLeft + dX;
+//        glOrtho(planeLeft, planeRight, planeBottom, yMax, planeNear, planeFar);
+//    }
+//    else
+//    {
+//        GLdouble dX = dy * GLdouble(canvasWidth) / GLdouble(canvasHeight);
+//        GLdouble xMax = planeLeft + dX;
+//        GLdouble dY = dx * GLdouble(canvasHeight) / GLdouble(canvasWidth);
+//        GLdouble yMax = planeBottom + dY;
+//        glOrtho(planeLeft, xMax, planeBottom, yMax, planeNear, planeFar);
+//    }
 }
 
 void GLCamera::center()
