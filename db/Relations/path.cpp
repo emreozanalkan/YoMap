@@ -15,11 +15,13 @@ bool Path::isEmpty(){
         return true;
     return false;
 }
-
 void Path::addSegment(PathSegment* &ps){
-    if(!ps->isEmpty()){
-        segments.push_back(ps);
-        cost += ps->calculateCost();
+    segments.push_back(ps);
+    cost += ps->calculateCost();
+}
+void Path::addSegments(Path &p){
+    for(vector<PathSegment*>::iterator it = p.segments.begin();it!=p.segments.end();it++){
+        addSegment(*it);
     }
 }
 vector<PathSegment*>::iterator Path::getPathSegmentsBegin(){

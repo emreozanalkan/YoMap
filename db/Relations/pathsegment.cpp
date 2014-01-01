@@ -27,14 +27,20 @@ vector<WaySegment*>::iterator PathSegment::getWaySegmentsEnd(){
 }
 float PathSegment::calculateCost(){
     //Go through all segments and sum for the cost of the path segment
-    cost=0.0f;
-    for (vector<WaySegment*>::iterator it=segments.begin(); it!=segments.end(); it++){
-        cost +=(*it)->getCost();
+    if(!segments.empty())
+    {
+        cost=0.0f;
+        for (vector<WaySegment*>::iterator it=segments.begin(); it!=segments.end(); it++){
+            cost +=(*it)->getCost();
+        }
     }
     return cost;
 }
 float PathSegment::getCost(){
     return cost;
+}
+void PathSegment::setCost(float &c){
+    cost = c;
 }
 
 //Calculate travel time according to means of transport
@@ -52,4 +58,14 @@ float PathSegment::getTravelTime(ns_permisions::transport_type &tt){
     return time;
 }
 
+void PathSegment::setStartEnd(Node* &start, Node* &end){
+    startNode = start;
+    endNode = end;
+}
+Node* PathSegment::getStartNode(){
+    return startNode;
+}
 
+Node* PathSegment::getEndNode(){
+    return endNode;
+}

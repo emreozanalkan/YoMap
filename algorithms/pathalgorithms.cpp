@@ -1,7 +1,7 @@
 #include "pathalgorithms.h"
 #include <math.h>
 #include <queue>
-#include <set>
+#include <list>
 #include "../db/node.h"
 #include "../db/Relations/waysegment.h"
 #include "../db/database.h"
@@ -45,7 +45,23 @@ float PathAlgorithms::calculateDistancePoints(boost_xy_point &a, boost_xy_point 
 float PathAlgorithms::calculateDistancePoints(Node* &A, Node* &B){
     return calculateDistancePoints(A->getGeoPosition(),B->getGeoPosition());
 }
-
+float PathAlgorithms::calculateDistancePoints(vector<Node*> &points){
+    float c = 0.0f;
+    //we always look at pair of points for distance, so we dont have to take last point
+    for(vector<Node*>::iterator it = points.begin();(it+1)!=points.end();it++){
+        c+=calculateDistancePoints((*it)->getGeoPosition(),(*(it+1))->getGeoPosition());
+    }
+    return c;
+}
+void PathAlgorithms::safelyDeletePath(Path* &p){
+    safelyDeletePath(*p);
+    delete p;
+}
+void PathAlgorithms::safelyDeletePath(Path &p){
+    for(vector<PathSegment*>::iterator it = p.getPathSegmentsBegin();it!=p.getPathSegmentsEnd();it++){
+        delete (*it);
+    }
+}
 boost_xy_point& PathAlgorithms::projectPointToSegment(boost_xy_point &A,boost_xy_point &B, boost_xy_point &C){
     float x1 = B.x()-A.x();
     float y1 = B.y()-A.y();
@@ -237,7 +253,9 @@ int PathAlgorithms::findShortestPath(Database &d,unsigned long int &A, unsigned 
     Node* nodeB = d.getNodeById(B);
     if(nodeA && nodeB){
         PathSegment* path_segment =  findShortestPath(nodeA, nodeB,tt);
-        best_path.addSegment(path_segment);
+        if(!path_segment->isEmpty())
+            best_path.addSegment(path_segment);
+
         if(best_path.isEmpty())
             return 3;
         return 0;
@@ -339,13 +357,14 @@ int PathAlgorithms::findShortestPath(Database &d, boost_xy_point &A, boost_xy_po
     * SHORTEST PATH SEARCH A->B between two nodes
     */
     PathSegment* p_segment = PathAlgorithms::findShortestPath(node_start,start_segment,node_end,end_segment,tt);
-    best_path.addSegment(p_segment);
+    if(!p_segment->isEmpty())
+        best_path.addSegment(p_segment);
 
     //we delete all the waysegments at start point and start point
     delete node_start;
     delete node_end;
 
-    if(best_path.isEmpty())
+    if(p_segment->isEmpty())
         return 3;
     return 0;
 }
@@ -415,6 +434,175 @@ int PathAlgorithms::findPathsInRadius(Database &d, boost_xy_point &A, POICategor
 
 }
 
+
+void printVectorContent4(std::priority_queue<vector<Node*>, vector<vector<Node*> >,CompareVectorNodes > paths){
+    int ii=0;
+    while(!paths.empty()){
+        vector<Node*> p (paths.top());
+        vector<Node*>::iterator it_r = p.begin();
+        float dist_r=0.0f;
+        for(;(it_r+1)!=p.end();it_r++){
+            dist_r+=PathAlgorithms::calculateDistancePoints((*it_r),*(it_r+1));
+        }
+        cout<<"Path "<<ii<<": "<<dist_r<<endl;
+
+        for(int i=0;i<paths.top().size();i++){
+            if(i==0){
+                cout<<"Start"<<endl;
+            }
+            else if(i==(paths.top().size()-1)){
+                cout<<"End"<<endl;
+            }
+            else{
+                cout<<paths.top().at(i)->getPOI()->getName()<<endl;
+            }
+        }
+        cout<<"--------------"<<endl;
+        paths.pop();
+    }
+}
+
+vector<vector<Node*> > createPOIList(Database &d,vector<unsigned int> &category_list){
+    vector<vector<Node*> > poi_list;
+    //go through all category ids and get related POI
+    for(vector<unsigned int>::iterator it_cat=category_list.begin();it_cat!=category_list.end();it_cat++){
+        //Put POIs in the list and add to global list
+        vector<Node*> points;
+        POICategory* p_cat = d.getPOICategoryById(*it_cat);
+        for(vector<POIPoint*>::iterator it_poi = p_cat->getPOIPointsBegin();it_poi!=p_cat->getPOIPointsEnd();it_poi++){
+            Node* n = new Node(1000);
+            n->setPOI((*it_poi));
+            n->setGeoPosition((*it_poi)->getGeoPosition().x(),(*it_poi)->getGeoPosition().y());
+            points.push_back(n);
+        }
+        poi_list.push_back(points);
+    }
+
+    return poi_list;
+}
+list<vector<Node*> > PathAlgorithms::streachPaths(vector<vector<Node*> > &poi_list,vector<vector<Node*> >::iterator cur_poi_category){
+    list<vector<Node*> > all_paths;
+    //If this category is not last in the set:
+    if((cur_poi_category+1)!=poi_list.end()){
+        //Get points on path from next category
+        list<vector<Node*> > past_paths = streachPaths(poi_list,cur_poi_category+1);
+        //add all the paths from previous categories to EACH of poi in this category
+        for(vector<Node*>::iterator it_poi = ((*cur_poi_category).begin());it_poi!=((*cur_poi_category).end());it_poi++){
+            for(list<vector<Node*> > ::iterator it = past_paths.begin();it!=past_paths.end();it++){
+                vector<Node*> p;
+                p.push_back((*it_poi));
+                p.insert(p.end(),(*it).begin(),(*it).end());
+                all_paths.push_back(p);
+            }
+        }
+    }
+    else{
+        //last category in the set
+        for(vector<Node*>::iterator it_poi = ((*cur_poi_category).begin());it_poi!=((*cur_poi_category).end());it_poi++){
+            vector<Node*> p;
+            p.push_back((*it_poi));
+            all_paths.push_back(p);
+        }
+    }
+    return all_paths;
+}
+
+
+int PathAlgorithms::BicycleSearch(Database &d,boost_xy_point &A,boost_xy_point &B, vector<unsigned int> &category_list,float max_radius,bool direction,ns_permisions::transport_type &tt,Path &final_path){
+    //returns 0 if everything ok - path found
+    // 3 - no path found
+    vector<vector<Node*> > pois_list = createPOIList(d,category_list);
+
+    //Add start and end node to every vector of nodes
+    Node *startN = new Node();
+    startN->setGeoPosition(A.x(),A.y());
+    Node *endN = new Node(1);
+    endN->setGeoPosition(B.x(),B.y());
+
+    //Construct all possible paths
+    list<vector<Node*> > all_paths = streachPaths(pois_list,pois_list.begin());
+
+    //Go through all the paths and add to queue the ones that in best option (air distance) is smaller than radius
+    std::priority_queue<vector<Node*>, vector<vector<Node*> >,CompareVectorNodes >queue_paths;
+    //Add start and end node to every path
+    for(list<vector<Node*> >::iterator it = all_paths.begin();it!=all_paths.end();it++){
+        vector<Node*> p(*it);
+        p.insert(p.begin(),startN);
+        p.insert(p.end(),endN);
+        if(PathAlgorithms::calculateDistancePoints(p)<max_radius){
+            queue_paths.push(p);
+        }
+    }
+
+//    cout<<"---------------------"<<endl<<"PATHS priority"<<endl<<"-------------------------"<<endl;
+//    printVectorContent4(queue_paths);
+//    cout<<"----------------------------------------------"<<endl<<endl;
+
+
+    //go through each (in min distance order) and calculate real path
+    //when our real calculated value is smaller than next smallest air distance of path we are done -> it cant be smaller
+    int n_path=0;
+    Path* min_path=NULL;
+    while(!queue_paths.empty()){
+        vector<Node*> vec_points(queue_paths.top());
+        //if min possible distance (air distance) is bigger than min distance of path
+        //end search...all after that will be just bigger
+        if(min_path!=NULL && PathAlgorithms::calculateDistancePoints(vec_points)>min_path->getCost()){
+            break;
+        }
+        Path* path = new Path();
+        bool complete_path=true;
+        for(vector<Node*>::const_iterator it = vec_points.begin();(it+1)!=vec_points.end();it++){
+            int found = PathAlgorithms::findShortestPath(d,(*it)->getGeoPosition(),(*(it+1))->getGeoPosition(),tt,*path);
+            if(found!=0){
+                complete_path = false;
+                break;
+            }
+            else{
+                if(path->calculateCost()>max_radius){
+                    complete_path = false;
+                    break;
+                }
+            }
+        }
+        if(complete_path){
+            //It is complete and in radius
+            if(min_path==NULL){
+                min_path = path;
+            }
+            else if(min_path->getCost()>path->getCost()){
+                PathAlgorithms::safelyDeletePath(min_path);
+                min_path = path;
+            }
+        }
+        else{
+            //not complete because of different reasons
+            //delete path and path segments
+            PathAlgorithms::safelyDeletePath(path);
+        }
+        queue_paths.pop();
+        n_path++;
+    }
+
+    //delete all created nodes
+    for(vector<vector<Node*> >::iterator it=pois_list.begin();it!=pois_list.end();it++){
+        for(vector<Node*>::iterator it_p = (*it).begin();it_p!=(*it).end();it_p++){
+            delete *it_p;
+        }
+    }
+    //delete start and end node
+    delete startN;
+    delete endN;
+
+    if(min_path==NULL){
+        //we didnt find any paths
+        return 3;
+    }
+    else{
+        final_path.addSegments(*min_path);
+    }
+    return 0;
+}
 
 
 

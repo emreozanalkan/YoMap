@@ -9,6 +9,7 @@ public:
     Path();
     ~Path();
     void addSegment(PathSegment* &);
+    void addSegments(Path &p);
     vector<PathSegment*>::iterator getPathSegmentsEnd();
     vector<PathSegment*>::iterator getPathSegmentsBegin();
     float calculateCost();

@@ -17,6 +17,7 @@ public:
     bool operator()(Path* l, Path* r) {return l->getCost() < r->getCost();}
 };
 
+class CompareVectorNodes;
 class PathAlgorithms
 {
 public:
@@ -31,6 +32,12 @@ public:
     //Calculate air distance between two points
     static float calculateDistancePoints(boost_xy_point &, boost_xy_point &);
     static float calculateDistancePoints(Node* &, Node* &);
+    //calculate sum of distances over vector of nodes
+    static float calculateDistancePoints(vector<Node*> &points);
+
+    static void safelyDeletePath(Path* &p);
+    static void safelyDeletePath(Path &p);
+
 
     //Get projection of a point on a line between two other points
     static boost_xy_point& projectPointToSegment(boost_xy_point &,boost_xy_point &, boost_xy_point &);
@@ -57,8 +64,21 @@ public:
      */
     static int findPathsInRadius(Database &, boost_xy_point &, POICategory* &, float &, ns_permisions::transport_type &,set<Path*,ComparePaths> &);
 
-
+    static int BicycleSearch(Database &d,boost_xy_point &A,boost_xy_point &B, vector<unsigned int> &category_list,float max_radius,bool direction,ns_permisions::transport_type &tt,Path &final_path);
+    //static vector<vector<int> > browseCategories(vector<vector<int> > &categories,vector<vector<int> >::iterator cat_start);
+    static list<vector<Node*> > streachPaths(vector<vector<Node*> > &poi_list,vector<vector<Node*> >::iterator cur_poi_category);
 private:
     PathAlgorithms();
 };
+
+class CompareVectorNodes
+{
+public:
+    bool operator()(vector<Node*> &l, vector<Node*> &r) {
+        float dist_l=PathAlgorithms::calculateDistancePoints(l);
+        float dist_r=PathAlgorithms::calculateDistancePoints(r);
+        return dist_l > dist_r;}
+};
+
 #endif // PATHALGORITHMS_H
+
