@@ -37,6 +37,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect( ui->comboBoxCatB_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Radius(int)));
 
+    connect( ui->comboBoxCatA_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA_Itineary(int)));
+    connect( ui->comboBoxPOIA_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIA_Itineary(int)));
+    connect( ui->comboBoxCatB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Itineary(int)));
+    connect( ui->comboBoxPOIB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB_Itineary(int)));
+    //connect( ui->comboBoxCatMid0, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Radius(int)));
+
     connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), ui->spinBox, SLOT(setValue(int)));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), ui->horizontalSlider, SLOT(setValue(int)));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(setMaximumDistance(int)));
@@ -54,6 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
        ui->comboBoxCatA_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
        ui->comboBoxCatB_2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
 
+       ui->comboBoxCatA_3->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+       ui->comboBoxCatB_3->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+
+       ui->comboBoxCatMid0->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
        //ui->comboBoxPOICat->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
     }
 
@@ -62,6 +72,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->comboBoxCatA_2->model()->sort(0);
     ui->comboBoxCatB_2->model()->sort(0);
+
+    ui->comboBoxCatA_3->model()->sort(0);
+    ui->comboBoxCatB_3->model()->sort(0);
+
+    ui->comboBoxCatMid0->model()->sort(0);
+
 
     //Add mock items
     ui->comboBoxCatA->insertItem(0,QString("Please select a category"));
@@ -76,6 +92,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->comboBoxCatB_2->insertItem(0,QString("Please select a category"));
     ui->comboBoxCatB_2->setCurrentIndex(0);
+
+    //Itineary
+    ui->comboBoxCatA_3->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatA_3->setCurrentIndex(0);
+
+    ui->comboBoxCatB_3->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatB_3->setCurrentIndex(0);
+
+    ui->comboBoxCatMid0->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatMid0->setCurrentIndex(0);
 
     //Set up inputs
     ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
@@ -563,4 +589,129 @@ void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
     QPoint pointInOksanaWindow = ui->widget->mapTo(this, event->pos());
 
     qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
+}
+
+void MainWindow::handleSelectedCategoryA_Itineary(int index){
+    //Selected option is different from "please select"
+    qDebug() << "handleSelectedCategoryA_Itineary: "<<index << endl;
+    if(index>0){
+        deleteStartPoint_Itineary();
+        if (ui->comboBoxPOIA_3->count()) ui->comboBoxPOIA_3->clear();
+
+        POICategory *data = (POICategory *)ui->comboBoxCatA_3->itemData(index).value<void *>();
+        for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+           ui->comboBoxPOIA_3->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        }
+        ui->comboBoxPOIA_3->model()->sort(0);
+        ui->comboBoxPOIA_3->insertItem(0,"Please select a POI");
+        ui->comboBoxPOIA_3->setCurrentIndex(0);
+    }
+    else{
+
+        if (ui->comboBoxPOIA_3->count()) ui->comboBoxPOIA_3->clear();
+        ui->comboBoxPOIA_3->insertItem(0,"Please select a POI");
+       // ui->comboBoxPOIA_2->setCurrentIndex(0);
+    }
+}
+
+
+void MainWindow::handleSelectedPOIA_Itineary(int index){
+    //Selected option is different from "please select"
+            qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
+    if (index>0)
+    {
+        POIPoint *data = (POIPoint *)ui->comboBoxPOIA_3->itemData(index).value<void *>();
+
+        QString StrLon, StrLat;
+
+        StrLat.setNum(data->getGeoPosition().y());
+        StrLon.setNum(data->getGeoPosition().x());
+
+        startPoint.setX(data->getGeoPosition().x());
+        startPoint.setY(data->getGeoPosition().y());
+
+        ui->lineEditLatA_3->setText(StrLat);
+        ui->lineEditLonA_3->setText(StrLon);
+
+        ui->widget->deleteStartPoint();
+        ui->widget->drawStartPoint(&startPoint);
+
+        ui->widget->deletePath();
+    }
+    else{
+        deleteStartPoint_Itineary();
+
+    }
+}
+
+void MainWindow::handleSelectedCategoryB_Itineary(int index){
+    //Selected option is different from "please select"
+    qDebug() << "handleSelectedCategoryB_Itineary: "<<index << endl;
+    if(index>0){
+        deleteEndPoint_Itineary();
+        if (ui->comboBoxPOIB_3->count()) ui->comboBoxPOIB_3->clear();
+
+        POICategory *data = (POICategory *)ui->comboBoxCatB_3->itemData(index).value<void *>();
+        for(vector<POIPoint *>::iterator it = data->getPOIPointsBegin();it!= data->getPOIPointsEnd();it++){
+           ui->comboBoxPOIB_3->addItem(QString::fromStdString((*it)->getName()),qVariantFromValue((void*)(*it)));
+        }
+        ui->comboBoxPOIB_3->model()->sort(0);
+        ui->comboBoxPOIB_3->insertItem(0,"Please select a POI");
+        ui->comboBoxPOIB_3->setCurrentIndex(0);
+    }
+    else{
+
+        if (ui->comboBoxPOIB_3->count()) ui->comboBoxPOIB_3->clear();
+        ui->comboBoxPOIB_3->insertItem(0,"Please select a POI");
+       // ui->comboBoxPOIA_2->setCurrentIndex(0);
+    }
+}
+
+
+void MainWindow::handleSelectedPOIB_Itineary(int index){
+    //Selected option is different from "please select"
+            qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
+    if (index>0)
+    {
+        POIPoint *data = (POIPoint *)ui->comboBoxPOIB_3->itemData(index).value<void *>();
+
+        QString StrLon, StrLat;
+
+        StrLat.setNum(data->getGeoPosition().y());
+        StrLon.setNum(data->getGeoPosition().x());
+
+        endPoint.setX(data->getGeoPosition().x());
+        endPoint.setY(data->getGeoPosition().y());
+
+        ui->lineEditLatB_3->setText(StrLat);
+        ui->lineEditLonB_3->setText(StrLon);
+
+        ui->widget->deleteEndPoint();
+        ui->widget->drawEndPoint(&endPoint);
+
+        ui->widget->deletePath();
+    }
+    else{
+        deleteEndPoint_Itineary();
+
+    }
+}
+
+
+void MainWindow::deleteStartPoint_Itineary()
+{
+   ui->lineEditLatA_3->setText("");
+   ui->lineEditLonA_3->setText("");
+
+   ui->widget->deleteStartPoint();
+   ui->widget->deletePath();
+}
+
+void MainWindow::deleteEndPoint_Itineary()
+{
+    ui->lineEditLatB_3->setText("");
+    ui->lineEditLonB_3->setText("");
+
+    ui->widget->deleteEndPoint();
+    ui->widget->deletePath();
 }
