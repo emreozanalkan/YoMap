@@ -14,6 +14,8 @@
 
 #include "db/Relations/path.h"
 
+#include "algorithms/pathalgorithms.h"
+
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -32,6 +34,9 @@ private:
     map<unsigned long int,Way*>* allWays;
     vector<WaySegment*> path;
     Path* newPath;
+
+    set<Path*,ComparePaths> radiusSearch;
+    float searchRadius;
 
     QPointF *startPoint;
     QPointF *endPoint;
@@ -65,9 +70,10 @@ public:
 
     void setPath(vector<WaySegment*>);
     void setPath(Path*);
-
-
     void deletePath();
+
+    void setRadiusSearch(set<Path*,ComparePaths>, float);
+    void deleteRadiusSearch();
 
     void setPOIs(vector<POIPoint*>);
     void deletePOIs();

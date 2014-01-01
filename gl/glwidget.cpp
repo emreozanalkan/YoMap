@@ -30,6 +30,8 @@ GLWidget::GLWidget(QWidget *parent) :
 
     newPath = NULL;
 
+    searchRadius = 0.0f;
+
 }
 
 void GLWidget::initializeGL()
@@ -468,6 +470,19 @@ void GLWidget::deleteEndPoint()
 void GLWidget::deletePath()
 {
     path.clear();
+    newPath = 0;
+}
+
+void GLWidget::setRadiusSearch(set<Path*,ComparePaths> radiusSeearchPaths, float searchRadius)
+{
+    radiusSearch = radiusSeearchPaths;
+    this->searchRadius = searchRadius;
+}
+
+void GLWidget::deleteRadiusSearch()
+{
+    radiusSearch.clear();
+    searchRadius = 0.0f;
 }
 
 void GLWidget::setPOIs(vector<POIPoint*> pois)
