@@ -46,6 +46,7 @@ private:
     void drawPOIPoints();
     void scalePOIPoints(float);
     void drawPath();
+    void drawRadiusSearch();
 
 public:
     explicit GLWidget(QWidget *parent = 0);

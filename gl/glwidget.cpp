@@ -31,7 +31,6 @@ GLWidget::GLWidget(QWidget *parent) :
     newPath = NULL;
 
     searchRadius = 0.0f;
-
 }
 
 void GLWidget::initializeGL()
@@ -156,8 +155,64 @@ void GLWidget::paintGL()
 
     drawPOIPoints();
 
+    if(searchRadius != 0.0f)
+        drawRadiusSearch();
 
     glPopMatrix();
+}
+
+void GLWidget::drawRadiusSearch()
+{
+    if(startPoint == NULL)
+        return;
+    if(radiusSearch.empty())
+        return;
+
+    //qDebug() << "radius";
+
+    glPushMatrix();
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    double ratio = double(camera->canvasWidth) / double(camera->canvasHeight);
+
+    if( ratio < 1.0)
+        ratio = 1.0 / ratio;
+
+    glBegin(GL_LINE_LOOP);
+    for(int i = 0; i < 360; i++)
+    {
+        double angle = 2 * 3.1415926 * i / 360;
+        double x = cos(angle);
+        double y = sin(angle);
+        glVertex2d(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0));
+    }
+    glEnd();
+
+//    int num_segments = 360;
+//    float theta = 2 * 3.1415926 / float(num_segments);
+//    float c = cosf(theta);//precalculate the sine and cosine
+//    float s = sinf(theta);
+//    float t;
+
+//    float x = searchRadius;//we start at angle = 0
+//    float y = 0;
+
+//    glColor3f(1.0f, 1.0f, 1.0f);
+//    glBegin(GL_LINE_LOOP);
+//    for(int ii = 0; ii < num_segments; ii++)
+//    {
+//        glVertex2f(x + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0));//output vertex
+
+//        //apply the rotation matrix
+//        t = x;
+//        x = c * x - s * y;
+//        y = s * t + c * y;
+//    }
+//    glEnd();
+
+    glPopMatrix();
+
 }
 
 void GLWidget::drawPath()
