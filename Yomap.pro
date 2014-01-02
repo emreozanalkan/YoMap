@@ -57,8 +57,8 @@ FORMS    +=gui/mainwindow.ui
 
 macx{
 LIBS += -framework GLUT
-INCLUDEPATH += "/usr/local/Cellar/boost/1.55.0/include"
-LIBS += -L"/usr/local/Cellar/boost/1.55.0/lib"
+INCLUDEPATH += "/Users/emreozanalkan/boost_1_55_0"
+LIBS += -L"/Users/emreozanalkan/boost_1_55_0/libs"
 }
 win32{
 #INCLUDEPATH += "C:\boost\boost_1_55_0\boost_1_55_0"
