@@ -8,6 +8,7 @@
 #include "poi/poicategory.h"
 #include "poi/poipoint.h"
 
+#include <iomanip>
 
 using namespace std;
 
@@ -129,6 +130,121 @@ int Database::build(QString path){
      file.close();
      ways_build = true;
      return 0;
+}
+
+int Database::buildPOIs(QString path){
+    poi_build = false;
+    QFile file(path);
+    cout << "Building POI structure..." << endl;
+
+    QDomDocument doc( "POI" );
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        poi_build = false;
+        return -1;
+    }
+
+    if( !doc.setContent( &file ) )
+     {
+       file.close();
+       poi_build = false;
+       return -2;
+     }
+
+    QDomElement root = doc.documentElement();
+    if( root.tagName() != "data" )
+      return -2;
+
+    QDomNode n = root.firstChild();
+     while( !n.isNull() )
+     {
+         QDomElement e = n.toElement();
+         if( !e.isNull() )
+         {
+           if( e.tagName() == "category" )
+           {
+               unsigned int id;
+               getValueFromString( e.attribute("id").toStdString(), id );
+               //Create new category
+               POICategory *poi_c = new POICategory(id,e.attribute("name").toStdString(),e.attribute("icon").toStdString());
+               insertNewPOICategory(poi_c);
+           }
+           else if(e.tagName() == "poi"){
+               unsigned int id,cat_id;
+
+               id = e.attribute("id").toInt();
+               cat_id = e.attribute("cat_id").toInt();
+
+               POICategory *p_cat = getPOICategoryById(cat_id);
+               //Check if category exists
+               if(p_cat!=0){
+
+                   float lat = e.attribute("lat").toDouble();
+                   float lon = e.attribute("lon").toDouble();
+                   POIPoint *poi = new POIPoint(id,lon,lat,e.attribute("name").toStdString(),e.attribute("addr").toStdString(),e.attribute("photo").toStdString(),e.attribute("user").toStdString());
+                   poi->setCategory(p_cat);
+                   p_cat->addPOI(poi);
+                   insertNewPOIPoint(poi);
+               }
+           }
+         }
+         n = n.nextSibling();
+     }
+    file.close();
+    poi_build = true;
+    return 0;
+
+}
+
+int Database::savePOIs(QString path){
+    QFile file(path);
+    cout << "Saving POI structure..." << endl;
+
+    /*open a file */
+    if (!file.open(QIODevice::WriteOnly))
+    {
+    /* show wrror message if not able to open file */
+        //QMessageBox::warning(0, "Read only", "The file is in read only mode");
+    }
+    else
+    {
+        /*if file is successfully opened then create XML*/
+        QXmlStreamWriter* xmlWriter = new QXmlStreamWriter();
+        xmlWriter->setDevice(&file);
+        xmlWriter->setAutoFormatting(true);
+        xmlWriter->writeStartDocument();
+        /* Writes a start element with name,*/
+        xmlWriter->writeStartElement("data");
+
+        //Write all the category data
+        for(map<unsigned int,POICategory *>::iterator it_cat = all_poi_categories.begin();it_cat!=all_poi_categories.end();it_cat++){
+             xmlWriter->writeStartElement("category");
+             xmlWriter->writeAttribute("id", QString::number(it_cat->second->getId()));
+             xmlWriter->writeAttribute("name", QString::fromStdString(it_cat->second->getName()));
+             xmlWriter->writeAttribute("icon", QString::fromStdString(it_cat->second->getIcon()));
+             xmlWriter->writeEndElement();
+        }
+        //Write all poi data
+        for(map<unsigned int,POIPoint *>::iterator it_cat = all_poi_points.begin();it_cat!=all_poi_points.end();it_cat++){
+             xmlWriter->writeStartElement("poi");
+             xmlWriter->writeAttribute("id", QString::number(it_cat->second->getId()));
+             xmlWriter->writeAttribute("cat_id", QString::number(it_cat->second->getCategory()->getId()));
+             xmlWriter->writeAttribute("lat", QString::number(it_cat->second->getGeoPosition().y(),'f',6));
+             xmlWriter->writeAttribute("lon", QString::number(it_cat->second->getGeoPosition().x(),'f',6));
+             xmlWriter->writeAttribute("name", QString::fromStdString(it_cat->second->getName()));
+             xmlWriter->writeAttribute("addr", QString::fromStdString(it_cat->second->getAddress()));
+             xmlWriter->writeAttribute("photo", QString::fromStdString(it_cat->second->getPhotoPath()));
+             xmlWriter->writeAttribute("user", QString::fromStdString(it_cat->second->getUser()));
+             xmlWriter->writeEndElement();
+        }
+        /*end data tag
+        xmlWriter->writeEndElement();
+        /*end document */
+        xmlWriter->writeEndDocument();
+               delete xmlWriter;
+    }
+    file.close();
+    return 0;
 }
 
 void Database::setBounds(float &min_lon, float &min_lat, float &max_lon, float &max_lat){
@@ -286,70 +402,6 @@ map<unsigned long int,Way *>* Database::getAllWays(){
 
 
 
-int Database::buildPOIs(QString path){
-    poi_build = false;
-    QFile file(path);
-    cout << "Building POI structure..." << endl;
-
-    QDomDocument doc( "POI" );
-
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        poi_build = false;
-        return -1;
-    }
-
-    if( !doc.setContent( &file ) )
-     {
-       file.close();
-       poi_build = false;
-       return -2;
-     }
-
-    QDomElement root = doc.documentElement();
-    if( root.tagName() != "data" )
-      return -2;
-
-    QDomNode n = root.firstChild();
-     while( !n.isNull() )
-     {
-         QDomElement e = n.toElement();
-         if( !e.isNull() )
-         {
-           if( e.tagName() == "category" )
-           {
-               unsigned int id;
-               getValueFromString( e.attribute("id").toStdString(), id );
-               //Create new category
-               POICategory *poi_c = new POICategory(id,e.attribute("name").toStdString(),e.attribute("icon").toStdString());
-               insertNewPOICategory(poi_c);
-           }
-           else if(e.tagName() == "poi"){
-               unsigned int id,cat_id;
-
-
-               getValueFromString(e.attribute("id").toStdString(), id );
-               getValueFromString(e.attribute("cat_id").toStdString(), cat_id );
-
-               POICategory *p_cat = getPOICategoryById(cat_id);
-               //Check if category exists
-               if(p_cat!=0){
-                   float lat = e.attribute("lat").toFloat();
-                   float lon = e.attribute("lon").toFloat();
-
-                   POIPoint *poi = new POIPoint(id,lon,lat,e.attribute("name").toStdString(),e.attribute("addr").toStdString(),e.attribute("photo").toStdString(),e.attribute("user").toStdString());
-                   poi->setCategory(p_cat);
-                   p_cat->addPOI(poi);
-                   insertNewPOIPoint(poi);
-               }
-           }
-         }
-         n = n.nextSibling();
-     }
-    file.close();
-    poi_build = true;
-    return 0;
-
-}
 void Database::insertNewPOICategory(POICategory *poi_c){
     all_poi_categories.insert(make_pair<unsigned int,POICategory *>(poi_c->getId(),poi_c));
 }

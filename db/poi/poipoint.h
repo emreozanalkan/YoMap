@@ -18,7 +18,14 @@ public:
     POICategory* getCategory();
     unsigned int getId();
     string getName();
+    void setName(string);
+    string getAddress();
+    void setAddress(string);
     string getIconPath();
+    string getPhotoPath();
+    void setPhotoPath(string);
+    string getUser();
+    void setUser(string);
 
 private:
     unsigned int id;

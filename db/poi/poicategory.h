@@ -15,6 +15,7 @@ public:
     string getName();
     void addPOI(POIPoint*);
     string getIconPath();
+    string getIcon();
 
     vector<POIPoint *>::iterator getPOIPointsBegin();
     vector<POIPoint *>::iterator getPOIPointsEnd();

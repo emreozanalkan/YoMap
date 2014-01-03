@@ -43,3 +43,24 @@ string POIPoint::getName(){
 string POIPoint::getIconPath(){
     return category->getIconPath();
 }
+string POIPoint::getAddress(){
+    return addr;
+}
+string POIPoint::getPhotoPath(){
+    return photo_path;
+}
+string POIPoint::getUser(){
+    return user;
+}
+void POIPoint::setName(string n){
+    name = n;
+}
+void POIPoint::setAddress(string a){
+    addr = a;
+}
+void POIPoint::setPhotoPath(string p){
+    photo_path=p;
+}
+void POIPoint::setUser(string u){
+    user = u;
+}

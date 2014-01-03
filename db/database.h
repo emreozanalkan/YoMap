@@ -17,6 +17,7 @@
 #include <QFile>
 #include <QString>
 #include <QDomDocument>
+#include <QXmlStreamWriter>
 
 
 class Database
@@ -27,6 +28,7 @@ public:
     ~Database();
     int build(QString path);
     int buildPOIs(QString path);
+    int savePOIs(QString path);
 
     bool checkIfInBoundsOfMap(boost_xy_point);
 
