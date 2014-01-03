@@ -63,13 +63,13 @@ void PathAlgorithms::safelyDeletePath(Path &p){
     }
 }
 boost_xy_point& PathAlgorithms::projectPointToSegment(boost_xy_point &A,boost_xy_point &B, boost_xy_point &C){
-    float x1 = B.x()-A.x();
-    float y1 = B.y()-A.y();
-    float x2 = C.x()-A.x();
-    float y2 = C.y()-A.y();
+    double x1 = B.x()-A.x();
+    double y1 = B.y()-A.y();
+    double x2 = C.x()-A.x();
+    double y2 = C.y()-A.y();
 
     //t = (B-A) . (C-A) / ||(B-A)||
-    float t = (x1*x2+y1*y2)/(x1*x1+y1*y1);
+    double t = (x1*x2+y1*y2)/(x1*x1+y1*y1);
 
     if(t>1){
         t=1.0;
@@ -176,7 +176,6 @@ PathSegment* & PathAlgorithms::findShortestPath(Node* &start, Node* &end,ns_perm
     map<unsigned long int,Node*> closed_set;
 
     //We add the first point to open set
-    //open_set.insert(make_pair<float,Node*>(0.0,start));
     start->setGscore(0.0);
     start->setFscore(calculateDistancePoints(start,end));
 

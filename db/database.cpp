@@ -83,10 +83,10 @@ int Database::build(QString path){
              {
                  if(e.hasAttribute("minlat") && e.hasAttribute("minlon") && e.hasAttribute("maxlat") && e.hasAttribute("maxlon")){
 
-                     float min_lat = e.attribute("minlat").toFloat();
-                     float min_lon = e.attribute("minlon").toFloat();
-                     float max_lat = e.attribute("maxlat").toFloat();
-                     float max_lon = e.attribute("maxlon").toFloat();
+                     double min_lat = e.attribute("minlat").toDouble();
+                     double min_lon = e.attribute("minlon").toDouble();
+                     double max_lat = e.attribute("maxlat").toDouble();
+                     double max_lon = e.attribute("maxlon").toDouble();
                      setBounds(min_lon,min_lat,max_lon,max_lat);
                  }
              }
@@ -98,8 +98,8 @@ int Database::build(QString path){
                     Node *n = new Node(id);
 
                     if(e.hasAttribute("lat") && e.hasAttribute("lon")){
-                        float lat = e.attribute("lat").toFloat();
-                        float lon = e.attribute("lon").toFloat();
+                        double lat = e.attribute("lat").toDouble();
+                        double lon = e.attribute("lon").toDouble();
                         n->setGeoPosition(lon,lat);
                     }
                         //Insert node in vector of all nodes
@@ -170,17 +170,16 @@ int Database::buildPOIs(QString path){
                insertNewPOICategory(poi_c);
            }
            else if(e.tagName() == "poi"){
-               unsigned int id,cat_id;
-
-               id = e.attribute("id").toInt();
-               cat_id = e.attribute("cat_id").toInt();
+               unsigned int id,cat_id;               
+               getValueFromString( e.attribute("id").toStdString(), id );
+               getValueFromString( e.attribute("cat_id").toStdString(), cat_id );
 
                POICategory *p_cat = getPOICategoryById(cat_id);
                //Check if category exists
                if(p_cat!=0){
 
-                   float lat = e.attribute("lat").toDouble();
-                   float lon = e.attribute("lon").toDouble();
+                   double lat = e.attribute("lat").toDouble();
+                   double lon = e.attribute("lon").toDouble();
                    POIPoint *poi = new POIPoint(id,lon,lat,e.attribute("name").toStdString(),e.attribute("addr").toStdString(),e.attribute("photo").toStdString(),e.attribute("user").toStdString());
                    poi->setCategory(p_cat);
                    p_cat->addPOI(poi);
@@ -247,7 +246,7 @@ int Database::savePOIs(QString path){
     return 0;
 }
 
-void Database::setBounds(float &min_lon, float &min_lat, float &max_lon, float &max_lat){
+void Database::setBounds(double &min_lon, double &min_lat, double &max_lon, double &max_lat){
     min_bound.x(min_lon);
     min_bound.y(min_lat);
     max_bound.x(max_lon);

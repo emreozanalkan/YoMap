@@ -15,7 +15,6 @@ Node::Node(Node* n)
     id = n->id;
     type=n->type;
     setGeoPosition(n->getGeoPosition().x(),n->getGeoPosition().y());
-    setMercatorPosition(n->getMercatorPosition().x(),n->getMercatorPosition().y());
 }
 Node::~Node()
 {
@@ -71,19 +70,12 @@ map<unsigned long int, Relation*>::iterator Node::getRelationEnd(){
 boost_xy_point& Node::getGeoPosition(){
     return geoPosition;
 }
-boost_xy_point& Node::getMercatorPosition(){
-    return mercatorPosition;
-}
 
-void Node::setGeoPosition(const float &x, const float &y){
+void Node::setGeoPosition(const double &x, const double &y){
     geoPosition.x(x);
     geoPosition.y(y);
 }
 
-void Node::setMercatorPosition(const float &x, const float &y){
-    mercatorPosition.x(x);
-    mercatorPosition.y(y);
-}
 
 //WaySegments which come out of this point
 void Node::addOutcomingConnection(WaySegment *ns){

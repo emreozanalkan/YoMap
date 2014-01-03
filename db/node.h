@@ -26,10 +26,8 @@ public:
     void setType(ns_relation::relation_type);
 
     //Location
-    void setGeoPosition(const float &, const float &);
+    void setGeoPosition(const double &, const double &);
     boost_xy_point& getGeoPosition();
-    void setMercatorPosition(const float &, const float &y);
-    boost_xy_point& getMercatorPosition();
 
     //Ways which it belongs to
     bool isMemberOf(unsigned long int &);
@@ -59,10 +57,7 @@ public:
 private:
     unsigned long int id;
     //Location
-    //EPSG:3785
     boost_xy_point geoPosition;
-    //EPSG:900913
-    boost_xy_point mercatorPosition;
 
     //what type of relations it belongs to
     ns_relation::relation_type type;

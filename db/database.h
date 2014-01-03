@@ -71,7 +71,7 @@ private:
     boost_xy_point min_bound;
     boost_xy_point max_bound;
 
-    void setBounds(float &min_lon, float &min_lat, float &max_lon, float &max_lat);
+    void setBounds(double &min_lon, double &min_lat, double &max_lon, double &max_lat);
 
 
     Relation* processWay(QDomElement &e, string t);
