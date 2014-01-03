@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->widgetPOI->hide();
 
-
     connect( ui->pushButton, SIGNAL(released()), this, SLOT(handleButtonGo()));
     connect( ui->pushButtonSwap, SIGNAL(released()), this, SLOT(handleButtonSwap()));
 
@@ -30,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( ui->comboBoxCatB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB(int)));
     connect( ui->comboBoxPOIB, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB(int)));
 
+//Radius
     connect( ui->pushButton_2, SIGNAL(released()), this, SLOT(handleButtonGo_Radius()));
 
     connect( ui->comboBoxCatA_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA_Radius(int)));
@@ -37,20 +37,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect( ui->comboBoxCatB_2, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Radius(int)));
 
-    connect( ui->comboBoxCatA_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA_Itineary(int)));
-    connect( ui->comboBoxPOIA_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIA_Itineary(int)));
-    connect( ui->comboBoxCatB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Itineary(int)));
-    connect( ui->comboBoxPOIB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB_Itineary(int)));
-    //connect( ui->comboBoxCatMid0, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Radius(int)));
-
     connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), ui->spinBox, SLOT(setValue(int)));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), ui->horizontalSlider, SLOT(setValue(int)));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(setMaximumDistance(int)));
 
+//Itineary
+     connect( ui->pushButtonGo_Itineary, SIGNAL(released()), this, SLOT(handleButtonGo_Itineary()));
+    connect( ui->comboBoxCatA_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryA_Itineary(int)));
+    connect( ui->comboBoxPOIA_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIA_Itineary(int)));
+
+    connect( ui->comboBoxCatB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Itineary(int)));
+    connect( ui->comboBoxPOIB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB_Itineary(int)));
+    //connect( ui->comboBoxCatMid0, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryMidCat_Radius(int)));
+
     connect(ui->pushButtonPOIClose, SIGNAL(released()), ui->widgetPOI, SLOT(hide()));
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
-
 
     //Add all categories
     for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
@@ -77,7 +79,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBoxCatB_3->model()->sort(0);
 
     ui->comboBoxCatMid0->model()->sort(0);
-
 
     //Add mock items
     ui->comboBoxCatA->insertItem(0,QString("Please select a category"));
@@ -109,6 +110,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->lineEditLatB->setValidator( new QDoubleValidator(0, 100, 7, this) );
     ui->lineEditLonB->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
+    ui->lineEditLatA_2->setValidator( new QDoubleValidator(0, 100, 7, this) );
+    ui->lineEditLonA_2->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
+    ui->lineEditLatA_3->setValidator( new QDoubleValidator(0, 100, 7, this) );
+    ui->lineEditLonA_3->setValidator( new QDoubleValidator(0, 100, 7, this) );
+
+    ui->lineEditLatB_3->setValidator( new QDoubleValidator(0, 100, 7, this) );
+    ui->lineEditLonB_3->setValidator( new QDoubleValidator(0, 100, 7, this) );
 
     //connect( ui->centralWidget, SIGNAL(resizeEvent()), this, SLOT(handleResize()));
 
@@ -195,7 +205,7 @@ void MainWindow::handleButtonGo()
     if (found==0)
     {
         //text output
-        QString timeOutput;
+        //QString timeOutput;
         //qDebug() << " " << Distance <<" "<< Time <<endl;
          //setPlainText();
         //timeOutput << "";
@@ -210,6 +220,128 @@ void MainWindow::handleButtonGo()
     }
 }
 
+
+void MainWindow::handleButtonGo_Radius(){
+    QMessageBox msgBox;
+    int mode;
+    set<Path*,ComparePaths> all_paths;
+    //maxDistance = 1;
+
+    ui->widget->deletePath();
+
+    startPoint.setX(ui->lineEditLonA_2->text().toFloat());
+    startPoint.setY(ui->lineEditLatA_2->text().toFloat());
+
+    //TODO validator? error!
+
+    //Validate endCategory
+    if(endCategory==NULL){
+        msgBox.setText("Please select an end category.");
+        msgBox.exec();
+        return;
+    }
+
+    //Set transport mode
+    if (ui->radioButtonDriving_2->isChecked()) mode = 0; //driving 0
+    else
+    if (ui->radioButtonWalking_2->isChecked()) mode = 1; //walking 1
+
+    //search
+    int found = logic.getShortestPathsInRadius( startPoint, endCategory, maxDistance, mode, all_paths);
+
+    if (found==1) {
+       msgBox.setText("Sorry, can't calculate the path. Starting point out of bound!");
+       msgBox.exec();
+    } else
+    if (found==3) {
+       msgBox.setText("Sorry, path not found.");
+       msgBox.exec();
+    } else
+    if (found==0)
+    {
+        //text output
+        //QString timeOutput;
+        //qDebug() << " " << Distance <<" "<< Time <<endl;
+         //setPlainText();
+        //timeOutput << "";
+        //ui->plainTextEditOutput->clear();
+        //ui->plainTextEditOutput->appendPlainText(output);
+
+        //QString StrDistance = setNum(StrDistance);
+
+        //qDebug() << "Path found" << endl;
+        //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
+
+        ui->widget->deleteRadiusSearch();
+        ui->widget->setRadiusSearch(all_paths, maxDistance );
+    }
+}
+
+void MainWindow::handleButtonGo_Itineary(){
+    QMessageBox msgBox;
+    int mode;
+    Path path;
+    //maxDistance = 1;
+
+    ui->widget->deletePath();
+
+    startPoint.setX(ui->lineEditLonA_3->text().toFloat());
+    startPoint.setY(ui->lineEditLatA_3->text().toFloat());
+    //TODO validator? error!
+    endPoint.setX(ui->lineEditLonB_3->text().toFloat());
+    endPoint.setY(ui->lineEditLatB_3->text().toFloat());
+
+    //Validate endCategory
+    if(Categories.empty()){
+        msgBox.setText("Please select a middle category.");
+        msgBox.exec();
+        return;
+    }
+
+    //Set transport mode
+    if (ui->radioButtonDriving_3->isChecked()) mode = 0; //driving 0
+    else
+    if (ui->radioButtonWalking_3->isChecked()) mode = 1; //walking 1
+
+    //search
+    int found = logic.getBicycle(startPoint, endPoint, Categories, maxDistance, mode, path);
+
+    if (found==1) {
+       msgBox.setText("Sorry, can't calculate the path. Starting point out of bound!");
+       msgBox.exec();
+    } else
+    if (found==2) {
+      msgBox.setText("Sorry, can't calculate the path. Ending point out of bound!");
+      msgBox.exec();
+    } else
+    if (found==3) {
+       msgBox.setText("Sorry, path not found.");
+       msgBox.exec();
+    } else
+    if (found==0)
+    {
+        //text output
+        //QString timeOutput;
+        //qDebug() << " " << Distance <<" "<< Time <<endl;
+         //setPlainText();
+        //timeOutput << "";
+        //ui->plainTextEditOutput->clear();
+        //ui->plainTextEditOutput->appendPlainText(output);
+
+        //QString StrDistance = setNum(StrDistance);
+
+        //qDebug() << "Path found" << endl;
+        //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
+
+        ui->widget->deletePath();
+        ui->widget->setPath(&path);
+    }
+}
+
+void MainWindow::setMaximumDistance(int maxDistance_)
+{
+    maxDistance = maxDistance_ / 1000.;
+}
 
 
 void MainWindow::mouseReleaseEvent(QMouseEvent * event)
@@ -266,6 +398,12 @@ void MainWindow::setStartPoint()
     ui->lineEditLatA->setText(StrLat);
     ui->lineEditLonA->setText(StrLon);
 
+    ui->lineEditLatA_2->setText(StrLat);
+    ui->lineEditLonA_2->setText(StrLon);
+
+    ui->lineEditLatA_3->setText(StrLat);
+    ui->lineEditLonA_3->setText(StrLon);
+
     ui->widget->deleteStartPoint();
     ui->widget->drawStartPoint(&startPoint);
 
@@ -276,7 +414,6 @@ void MainWindow::deleteStartPoint()
 {
    ui->lineEditLatA->setText("");
    ui->lineEditLonA->setText("");
-
    ui->widget->deleteStartPoint();
    ui->widget->deletePath();
 }
@@ -287,7 +424,8 @@ void MainWindow::deleteStartPoint_Radius()
    ui->lineEditLonA_2->setText("");
 
    ui->widget->deleteStartPoint();
-   ui->widget->deletePath();
+   ui->widget->deleteRadiusSearch();
+
 }
 
 void MainWindow::setEndPoint()
@@ -302,6 +440,9 @@ void MainWindow::setEndPoint()
     ui->lineEditLatB->setText(StrLat);
     ui->lineEditLonB->setText(StrLon);
 
+    ui->lineEditLatB_3->setText(StrLat);
+    ui->lineEditLonB_3->setText(StrLon);
+
     ui->widget->deleteEndPoint();
     ui->widget->drawEndPoint(&endPoint);
 
@@ -313,8 +454,62 @@ void MainWindow::deleteEndPoint()
     ui->lineEditLatB->setText("");
     ui->lineEditLonB->setText("");
 
+    ui->lineEditLatB_3->setText("");
+    ui->lineEditLonB_3->setText("");
+
     ui->widget->deleteEndPoint();
     ui->widget->deletePath();
+}
+
+void MainWindow::deleteStartPoint_Itineary()
+{
+   ui->lineEditLatA_3->setText("");
+   ui->lineEditLonA_3->setText("");
+
+   ui->widget->deleteStartPoint();
+   ui->widget->deletePath();
+}
+
+void MainWindow::deleteEndPoint_Itineary()
+{
+    ui->lineEditLatB_3->setText("");
+    ui->lineEditLonB_3->setText("");
+
+    ui->widget->deleteEndPoint();
+    ui->widget->deletePath();
+}
+
+void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
+{
+    ui->widgetPOI->hide();
+    //ui->lineEditPOIName->setText(QString(poiPoint->getName().c_str()));
+    //boost_xy_point point;
+    QString strlat, strlon;
+    //point = poiPoint->getGeoPosition();
+
+    strlat.setNum(poiPoint->getGeoPosition().y());
+    strlon.setNum(poiPoint->getGeoPosition().x());
+
+    ui->widgetPOI->setAutoFillBackground(true);
+    ui->labelPOIPosition->setText(strlat+" ; "+strlon);
+    ui->labelPOIName->setText(QString(poiPoint->getName().c_str()));
+    ui->labelPOICat->setText(QString(poiPoint->getCategory()->getName().c_str()));
+    ui->labelPOIpicture->setPixmap(QPixmap(QString(poiPoint->getIconPath().c_str())));
+
+    //ui->comboBoxPOICat->setCurrentIndex(0);
+
+    //ui->widgetPOI->lineEditPOIName->setText(QString(poiPoint->getName().c_str()));
+    ui->widgetPOI->move(event->pos());
+    ui->widgetPOI->show();
+
+
+    qDebug() << "POI Name: " << poiPoint->getName().c_str();
+
+    qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
+
+    QPoint pointInOksanaWindow = ui->widget->mapTo(this, event->pos());
+
+    qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
 }
 
 /*void MainWindow::resizeEvent ( QResizeEvent * event )
@@ -497,99 +692,6 @@ void MainWindow::handleSelectedCategoryB_Radius(int index){
     }
 }
 
-void MainWindow::handleButtonGo_Radius(){
-    QMessageBox msgBox;
-    int mode;
-    set<Path*,ComparePaths> all_paths;
-    //maxDistance = 1;
-
-    ui->widget->deletePath();
-
-    startPoint.setX(ui->lineEditLonA_2->text().toFloat());
-    startPoint.setY(ui->lineEditLatA_2->text().toFloat());
-    //TODO validator? error!
-
-    //Validate endCategory
-    if(endCategory==NULL){
-        msgBox.setText("Please select an end category.");
-        msgBox.exec();
-        return;
-    }
-
-    //Set transport mode
-    if (ui->radioButtonDriving_2->isChecked()) mode = 0; //driving 0
-    else
-    if (ui->radioButtonWalking_2->isChecked()) mode = 1; //walking 1
-
-    //search
-    int found = logic.getShortestPathsInRadius( startPoint, endCategory, maxDistance, mode, all_paths);
-
-
-
-    if (found==1) {
-       msgBox.setText("Sorry, can't calculate the path. Starting point out of bound!");
-       msgBox.exec();
-    } else
-    if (found==3) {
-       msgBox.setText("Sorry, path not found.");
-       msgBox.exec();
-    } else
-    if (found==0)
-    {
-        //text output
-        //QString timeOutput;
-        //qDebug() << " " << Distance <<" "<< Time <<endl;
-         //setPlainText();
-        //timeOutput << "";
-        //ui->plainTextEditOutput->clear();
-        //ui->plainTextEditOutput->appendPlainText(output);
-
-        //QString StrDistance = setNum(StrDistance);
-
-        qDebug() << "Path found" << endl;
-        //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
-
-        //ui->widget->setPath(all_paths);
-    }
-}
-
-void MainWindow::setMaximumDistance(int maxDistance_)
-{
-    maxDistance = maxDistance_ / 1000.;
-}
-
-void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
-{
-    ui->widgetPOI->hide();
-    //ui->lineEditPOIName->setText(QString(poiPoint->getName().c_str()));
-    //boost_xy_point point;
-    QString strlat, strlon;
-    //point = poiPoint->getGeoPosition();
-
-    strlat.setNum(poiPoint->getGeoPosition().y());
-    strlon.setNum(poiPoint->getGeoPosition().x());
-
-    ui->widgetPOI->setAutoFillBackground(true);
-    ui->labelPOIPosition->setText(strlat+" ; "+strlon);
-    ui->labelPOIName->setText(QString(poiPoint->getName().c_str()));
-    ui->labelPOICat->setText(QString(poiPoint->getCategory()->getName().c_str()));
-    ui->labelPOIpicture->setPixmap(QPixmap(QString(poiPoint->getIconPath().c_str())));
-
-    //ui->comboBoxPOICat->setCurrentIndex(0);
-
-    //ui->widgetPOI->lineEditPOIName->setText(QString(poiPoint->getName().c_str()));
-    ui->widgetPOI->move(event->pos());
-    ui->widgetPOI->show();
-
-
-    qDebug() << "POI Name: " << poiPoint->getName().c_str();
-
-    qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
-
-    QPoint pointInOksanaWindow = ui->widget->mapTo(this, event->pos());
-
-    qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
-}
 
 void MainWindow::handleSelectedCategoryA_Itineary(int index){
     //Selected option is different from "please select"
@@ -697,21 +799,13 @@ void MainWindow::handleSelectedPOIB_Itineary(int index){
     }
 }
 
-
-void MainWindow::deleteStartPoint_Itineary()
-{
-   ui->lineEditLatA_3->setText("");
-   ui->lineEditLonA_3->setText("");
-
-   ui->widget->deleteStartPoint();
-   ui->widget->deletePath();
+/*void MainWindow::handleSelectedCategoryMidCat_Radius(int index){
+    if(index>0){
+        endCategory = (POICategory *)ui->comboBoxCatB_2->itemData(index).value<void *>();
+    }
+    else{
+        endCategory = NULL;
+    }
 }
+*/
 
-void MainWindow::deleteEndPoint_Itineary()
-{
-    ui->lineEditLatB_3->setText("");
-    ui->lineEditLonB_3->setText("");
-
-    ui->widget->deleteEndPoint();
-    ui->widget->deletePath();
-}

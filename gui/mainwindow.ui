@@ -34,7 +34,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="two_points">
         <property name="sizePolicy">
@@ -453,7 +453,7 @@
        </widget>
        <widget class="QWidget" name="tab">
         <attribute name="title">
-         <string>Page</string>
+         <string>Itineary</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_20">
          <item row="0" column="0">

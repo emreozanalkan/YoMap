@@ -105,6 +105,36 @@ int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, Path &bes
      return found; //no path found
  }
 
+ int Logic::getBicycle( QPointF &A, QPointF &B,   vector<unsigned int> mid_cat, float &max_radius, int transportMode,  Path &path)
+ {
+     //returns 0 if query succeded;
+     //1 if A out of bound;
+     //3 no path found
+
+//     //TransportMode 0 - drive, 1 - walk
+
+//     //TODO: check if A, B in bounds.
+
+     //vector<WaySegment*> path;
+     //float distance,time;
+     boost_xy_point start_point(A.x(),A.y());
+     boost_xy_point end_point(B.x(),B.y());
+     ns_permisions::transport_type tt;
+
+     //CHECK for inbounds for point A and B
+     //OKSANA IMPLEMENT IT!
+     //db.checkIfInBoundsOfMap(start_point);
+
+     if (transportMode == 0) tt = ns_permisions::car;
+     else if (transportMode == 1) tt = ns_permisions::foot;
+
+     int found = PathAlgorithms::BicycleSearch(db, start_point,end_point, mid_cat, max_radius, true, tt, path);
+     return found; //no path found
+ }
+
+
+
+
 QString Logic::TimetoSting(double Time)
 {
     double TimeHours, TimeMinutes;

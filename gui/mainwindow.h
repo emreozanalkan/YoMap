@@ -22,6 +22,7 @@ private:
     QPoint lastRightClickPoint;
     QPointF startPoint, endPoint; //put to Logic??
     POICategory* endCategory;
+    vector<unsigned int> Categories;
     float maxDistance;
 
 
@@ -55,6 +56,8 @@ private slots:
     void handleSelectedPOIB_Itineary(int);
     void deleteStartPoint_Itineary();
     void deleteEndPoint_Itineary();
+    void handleButtonGo_Itineary();
+    //void handleSelectedCategoryMidCat_Radius();
 };
 
 #endif // MAINWINDOW_H
