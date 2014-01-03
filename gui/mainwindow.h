@@ -24,7 +24,7 @@ private:
     POICategory* endCategory;
     vector<unsigned int> Categories;
     float maxDistance;
-
+    int MidCat_count;
 
 protected:
     //void resizeEvent ( QResizeEvent * event );
@@ -57,6 +57,8 @@ private slots:
     void deleteStartPoint_Itineary();
     void deleteEndPoint_Itineary();
     void handleButtonGo_Itineary();
+    void handleButtonMidCat_add();
+    void handleButtonMidCat_delete();
     //void handleSelectedCategoryMidCat_Radius();
 };
 

@@ -16,7 +16,20 @@ MainWindow::MainWindow(QWidget *parent) :
         //HANDLE OF DB DOESNT GET BUILD
     }
 
+    MidCat_count = 0;
+
     ui->setupUi(this);
+    ui->pushButtonMidCat_delete->setEnabled(false);
+    //Itineary Search Middle point categories
+   // ui->comboBoxCatMid1->resize(0, ui->comboBoxCatMid0->height());
+    ui->comboBoxCatMid1->hide();
+   // ui->labelMidCat1->resize(0, ui->comboBoxCatMid0->height());
+    ui->labelMidCat1->hide();
+
+    //ui->comboBoxCatMid2->resize(0, ui->comboBoxCatMid0->height());
+    ui->comboBoxCatMid2->hide();
+    //ui->labelMidCat2->resize(0, ui->comboBoxCatMid0->height());
+    ui->labelMidCat2->hide();
 
     ui->widgetPOI->hide();
 
@@ -48,7 +61,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect( ui->comboBoxCatB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryB_Itineary(int)));
     connect( ui->comboBoxPOIB_3, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedPOIB_Itineary(int)));
-    //connect( ui->comboBoxCatMid0, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectedCategoryMidCat_Radius(int)));
+
+    connect( ui->pushButtonMidCat_add, SIGNAL(released()), this, SLOT(handleButtonMidCat_add()));
+    connect( ui->pushButtonMidCat_delete, SIGNAL(released()), this, SLOT(handleButtonMidCat_delete()));
+    //connect( ui->comboBoxCatMid0, SIGNAL(released()), this, SLOT(handleSelectedCategoryMidCat_Radius(int)));
 
     connect(ui->pushButtonPOIClose, SIGNAL(released()), ui->widgetPOI, SLOT(hide()));
     //Category Combo Box filling
@@ -809,3 +825,46 @@ void MainWindow::handleSelectedPOIB_Itineary(int index){
 }
 */
 
+void MainWindow::handleButtonMidCat_add()
+{
+    if (MidCat_count == 0)
+    {
+    //ui->comboBoxCatMid1->resize(ui->comboBoxCatMid0->width(), ui->comboBoxCatMid0->height());
+    ui->comboBoxCatMid1->show();
+    //ui->labelMidCat1->resize(ui->labelMidCat0->width(), ui->comboBoxCatMid0->height());
+    ui->labelMidCat1->show();
+    MidCat_count++;
+    ui->pushButtonMidCat_delete->setEnabled(true);
+    }
+    else if (MidCat_count == 1)
+    {
+        //ui->comboBoxCatMid2->resize(ui->comboBoxCatMid0->width(), ui->comboBoxCatMid0->height());
+        ui->comboBoxCatMid2->show();
+        //ui->labelMidCat2->resize(ui->labelMidCat0->width(), ui->comboBoxCatMid0->height());
+        ui->labelMidCat2->show();
+        ui->pushButtonMidCat_add->setDisabled(true);
+        MidCat_count++;
+    }
+}
+
+void MainWindow::handleButtonMidCat_delete()
+{
+    if (MidCat_count == 1)
+    {
+    //ui->comboBoxCatMid1->resize(ui->comboBoxCatMid0->width(), ui->comboBoxCatMid0->height());
+    ui->comboBoxCatMid1->hide();
+    //ui->labelMidCat1->resize(ui->labelMidCat0->width(), ui->comboBoxCatMid0->height());
+    ui->labelMidCat1->hide();
+    MidCat_count--;
+    ui->pushButtonMidCat_delete->setEnabled(false);
+    }
+    else if (MidCat_count == 2)
+    {
+        //ui->comboBoxCatMid2->resize(ui->comboBoxCatMid0->width(), ui->comboBoxCatMid0->height());
+        ui->comboBoxCatMid2->hide();
+        //ui->labelMidCat2->resize(ui->labelMidCat0->width(), ui->comboBoxCatMid0->height());
+        ui->labelMidCat2->hide();
+        ui->pushButtonMidCat_add->setEnabled(true);
+        MidCat_count--;
+    }
+}

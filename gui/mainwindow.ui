@@ -34,7 +34,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="two_points">
         <property name="sizePolicy">
@@ -66,7 +66,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="labelCatA">
                   <property name="text">
-                   <string>Categoty:</string>
+                   <string>Category:</string>
                   </property>
                   <property name="buddy">
                    <cstring>comboBoxCatA</cstring>
@@ -140,7 +140,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="labelCatB">
                   <property name="text">
-                   <string>Categoty:</string>
+                   <string>Category:</string>
                   </property>
                   <property name="buddy">
                    <cstring>comboBoxCatB</cstring>
@@ -311,7 +311,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="labelCatA_2">
                   <property name="text">
-                   <string>Categoty:</string>
+                   <string>Category:</string>
                   </property>
                   <property name="buddy">
                    <cstring>comboBoxCatA</cstring>
@@ -479,7 +479,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="labelCatB_4">
                   <property name="text">
-                   <string>Categoty:</string>
+                   <string>Category:</string>
                   </property>
                   <property name="buddy">
                    <cstring>comboBoxCatB</cstring>
@@ -553,7 +553,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="labelCatA_3">
                   <property name="text">
-                   <string>Categoty:</string>
+                   <string>Category:</string>
                   </property>
                   <property name="buddy">
                    <cstring>comboBoxCatA</cstring>
@@ -642,35 +642,6 @@
              </layout>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBoxB_3">
-             <property name="title">
-              <string>Finish</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_15">
-              <item row="0" column="0">
-               <layout class="QFormLayout" name="formLayout_5">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="labelCatB_3">
-                  <property name="text">
-                   <string>Categoty:</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>comboBoxCatB</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="comboBoxCatMid0"/>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="7" column="0">
             <widget class="QPlainTextEdit" name="plainTextEditOutput_3">
              <property name="readOnly">
@@ -721,20 +692,89 @@
            <item row="2" column="0">
             <layout class="QGridLayout" name="gridLayout_19">
              <item row="0" column="0">
-              <widget class="QPushButton" name="pushButtonPOIEdit_2">
+              <widget class="QPushButton" name="pushButtonMidCat_add">
                <property name="text">
                 <string>Add point</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QPushButton" name="pushButtonPOIClose_2">
+              <widget class="QPushButton" name="pushButtonMidCat_delete">
                <property name="text">
                 <string>Delete point</string>
                </property>
               </widget>
              </item>
             </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBoxB_3">
+             <property name="title">
+              <string>Middle point</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_15">
+              <item row="0" column="0">
+               <layout class="QFormLayout" name="formLayoutMidCat0">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelMidCat0">
+                  <property name="text">
+                   <string>Category A:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxCatB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBoxCatMid0"/>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <layout class="QFormLayout" name="formLayoutMidCat1">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelMidCat1">
+                  <property name="text">
+                   <string>Category B:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxCatB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBoxCatMid1"/>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <layout class="QFormLayout" name="formLayoutMidCat1_2">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelMidCat2">
+                  <property name="text">
+                   <string>Category C:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>comboBoxCatB</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="comboBoxCatMid2"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </item>
@@ -904,6 +944,8 @@
          </item>
         </layout>
        </widget>
+       <zorder>widgetPOI</zorder>
+       <zorder></zorder>
       </widget>
      </widget>
     </item>
