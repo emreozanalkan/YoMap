@@ -28,7 +28,7 @@ GLWidget::GLWidget(QWidget *parent) :
     startPoint = 0;
     endPoint = 0;
 
-    newPath = NULL;
+    //newPath = NULL;
 
     searchRadius = 0.0f;
 }
@@ -545,7 +545,7 @@ void GLWidget::setPath(vector<WaySegment*> waySegments)
     path = waySegments;
 }
 
-void GLWidget::setPath(Path* path)
+void GLWidget::setPath(Path path)
 {
     newPath = path;
 }
@@ -573,7 +573,8 @@ void GLWidget::deleteEndPoint()
 void GLWidget::deletePath()
 {
     path.clear();
-    newPath = 0;
+    //newPath = 0;
+    PathAlgorithms::safelyDeletePath(newPath);
 }
 
 void GLWidget::setRadiusSearch(set<Path*,ComparePaths> radiusSeearchPaths, float searchRadius)
@@ -644,4 +645,9 @@ void GLWidget::pickOpenGLColor(int index)
             glColor3d(1.0, 1.0, 1.0);
             break;
     }
+}
+
+void GLWidget::drawMapBorder()
+{
+
 }

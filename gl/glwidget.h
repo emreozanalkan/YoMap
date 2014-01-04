@@ -33,7 +33,7 @@ private:
 
     map<unsigned long int,Way*>* allWays;
     vector<WaySegment*> path;
-    Path* newPath;
+    Path newPath;
 
     set<Path*,ComparePaths> radiusSearch;
     float searchRadius;
@@ -49,6 +49,8 @@ private:
     void drawRadiusSearch();
 
     void pickOpenGLColor(int);
+
+    void drawMapBorder();
 
 public:
     explicit GLWidget(QWidget *parent = 0);
@@ -73,7 +75,7 @@ public:
     void setMap(map<unsigned long int,Way*>*);
 
     void setPath(vector<WaySegment*>);
-    void setPath(Path*);
+    void setPath(Path);
     void deletePath();
 
     void setRadiusSearch(set<Path*,ComparePaths>, float);
