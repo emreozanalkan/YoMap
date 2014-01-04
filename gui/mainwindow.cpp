@@ -407,7 +407,7 @@ void MainWindow::handleButtonGo_Itineary(){
         //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
 
         ui->widget->deletePath();
-        ui->widget->setPath(&path);
+        ui->widget->setPath(path);
     }
 }
 
