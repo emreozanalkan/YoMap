@@ -19,6 +19,8 @@ public:
     void SetCurrentPoint(POIPoint *, map<unsigned int, POICategory *> *categories);
 private:
     Ui::Dialog *ui;
+public slots:
+    void acceptedEdit();
 
 };
 

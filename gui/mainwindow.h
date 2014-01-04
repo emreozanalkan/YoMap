@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void handleButtonSave(POIPoint* point);
 
 private:
     Ui::MainWindow *ui;
@@ -65,7 +66,6 @@ private slots:
     //void handleSelectedCategoryMidCat_Radius();
     void on_tabWidget_currentChanged(int index);
     void CallDialogEditPOI();
-    void handleButtonSave();
 };
 
 #endif // MAINWINDOW_H

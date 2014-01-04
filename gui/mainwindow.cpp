@@ -1031,7 +1031,8 @@ void MainWindow::CallDialogEditPOI()
     qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
 }
 
-void MainWindow::handleButtonSave()
+void MainWindow::handleButtonSave(POIPoint* point)
 {
-  //   qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
+
+       qDebug() << QString(point->getName().c_str())<<endl;
 }

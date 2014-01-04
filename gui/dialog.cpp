@@ -1,6 +1,7 @@
 #include "dialog.h"
 #include "ui_dialog.h"
 #include "logic.h"
+#include "mainwindow.h"
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -36,11 +37,21 @@ void Dialog::SetCurrentPoint(POIPoint* poiPoint,  map<unsigned int,POICategory *
     //ui->comboBoxEditPOICat->setCurrentIndex(0);
     ui->comboBoxEditPOICat->setCurrentText(poiPoint->getCategory()->getName().c_str());
 
-    connect( ui->buttonBox, SIGNAL(accepted()), this->parentWidget(), SLOT(handleButtonSave()));
+    connect( ui->buttonBox, SIGNAL(accepted()), this, SLOT(acceptedEdit()));
 
 }
 
 Dialog::~Dialog()
 {
     delete ui;
+}
+
+void Dialog::acceptedEdit()
+{
+    POIPoint* point;
+    POICategory *data = (POICategory *)ui->comboBoxEditPOICat->itemData(ui->comboBoxEditPOICat->currentIndex()).value<void *>();
+    point->setGeoPosition(ui->lineEditEditPOILon->text().toFloat(),ui->lineEditEditPOILat->text().toFloat());
+    point->setName(ui->lineEditEditPOIName->text().toUtf8().constData());
+    point->setCategory(data);
+    //(MainWindow *)this->parent()->handleButtonSave(point);
 }
