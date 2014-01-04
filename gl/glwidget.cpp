@@ -105,29 +105,45 @@ void GLWidget::paintGL()
         switch(way->getWayType())
         {
             case ns_way::primary:
-            default:
-                glColor3f(1.0f, 1.0f, 1.0f);
-                glLineWidth(1.0);
+                glColor3f(0.8627f, 0.6196f, 0.6196f);
+                glLineWidth(5.0);
+                break;
+            case ns_way::primary_link:
+                glColor3f(0.8627f, 0.6196f, 0.6196f);
+                glLineWidth(4.0);
+                break;
+            case ns_way::secondary:
+            case ns_way::secondary_link:
+                glColor3f(0.9726f, 0.8353f, 0.66274f);
+                glLineWidth(4.0);
+                break;
+            case ns_way::tertiary:
+            case ns_way::tertiary_link:
+                glColor3f(0.97255f, 0.97255f, 0.72941f);
+                glLineWidth(3.0);
                 break;
             case ns_way::footway:
-                glColor3f(1.0f, 1.0f, 0.0f);
-                glLineWidth(1.0);
-                break;
             case ns_way::steps:
-                glColor3f(0.0f, 1.0f, 1.0f);
-                glLineWidth(1.0);
+                glColor3f(0.8078f, 0.9255f, 0.6588f);
+                glLineWidth(1.5);
                 break;
             case ns_way::track:
                 glColor3f(1.0f, 0.0f, 1.0f);
                 glLineWidth(1.0);
                 break;
             case ns_way::raceway:
-                glColor3f(1.0f, 0.5f, 0.0f);
-                glLineWidth(1.0);
+                glColor3f(0.37255f, 0.3764f, 0.345098f);
+                glLineWidth(2.0);
                 break;
             case ns_way::service:
                 glColor3f(0.737255f, 0.560784f, 0.560784f);
                 glLineWidth(1.0);
+                break;
+            case ns_way::unclassified:
+            case ns_way::residential:
+            default:
+                glColor3f(1.0f, 1.0f, 1.0f);
+                glLineWidth(2.0);
                 break;
         }
 
@@ -141,23 +157,23 @@ void GLWidget::paintGL()
 
 
 
-    //glColor3f(1.0f, 1.0f, 1.0f);
-    glColor3f(0.74509f, 0.6784f, 0.6784f);
-    if(allBuildings != NULL)
-    {
-        map<unsigned long int, Building*>::iterator buildingIt;
-        for(buildingIt = allBuildings->begin(); buildingIt != allBuildings->end(); ++buildingIt)
-        {
-            Building* building = ((Building*)(*buildingIt).second);
+//    //glColor3f(1.0f, 1.0f, 1.0f);
+//    glColor3f(0.74509f, 0.6784f, 0.6784f);
+//    if(allBuildings != NULL)
+//    {
+//        map<unsigned long int, Building*>::iterator buildingIt;
+//        for(buildingIt = allBuildings->begin(); buildingIt != allBuildings->end(); ++buildingIt)
+//        {
+//            Building* building = ((Building*)(*buildingIt).second);
 
-            glBegin(GL_POLYGON);
-            for (vector<Node*>::iterator nodeIt = building->getNodesBegin(); nodeIt != building->getNodesEnd(); nodeIt++){
-                boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
-                glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.2f);
-            }
-            glEnd();
-        }
-    }
+//            glBegin(GL_TRIANGLE_FAN);
+//            for (vector<Node*>::iterator nodeIt = building->getNodesBegin(); nodeIt != building->getNodesEnd(); nodeIt++){
+//                boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
+//                glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.2f);
+//            }
+//            glEnd();
+//        }
+//    }
 
     drawPath();
 
