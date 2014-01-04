@@ -25,6 +25,7 @@ private:
     vector<unsigned int> Categories;
     float maxDistance;
     int MidCat_count;
+    POIPoint* ClickedPoiPoint;
 
 protected:
     //void resizeEvent ( QResizeEvent * event );
@@ -61,6 +62,7 @@ private slots:
     void handleButtonMidCat_delete();
     //void handleSelectedCategoryMidCat_Radius();
     void on_tabWidget_currentChanged(int index);
+    void CallDialogEditPOI();
 };
 
 #endif // MAINWINDOW_H

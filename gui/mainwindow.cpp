@@ -72,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect( ui->comboBoxCatMid0, SIGNAL(released()), this, SLOT(handleSelectedCategoryMidCat_Radius(int)));
 
     connect(ui->pushButtonPOIClose, SIGNAL(released()), ui->widgetPOI, SLOT(hide()));
+    connect(ui->pushButtonPOIEdit, SIGNAL(released()), this, SLOT(CallDialogEditPOI()));
+
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
 
@@ -595,7 +597,7 @@ void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
     //boost_xy_point point;
     QString strlat, strlon;
     //point = poiPoint->getGeoPosition();
-
+    ClickedPoiPoint = poiPoint;
     strlat.setNum(poiPoint->getGeoPosition().y());
     strlon.setNum(poiPoint->getGeoPosition().x());
 
@@ -995,4 +997,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 //    }
     else
         return;
+}
+
+void MainWindow::CallDialogEditPOI()
+{
+  qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
 }
