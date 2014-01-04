@@ -296,7 +296,7 @@ void GLWidget::drawRadiusSearch()
             --it_p_seg;
             glPointSize(20.0f);
             glBegin(GL_POINTS);
-            glVertex3d((*it_p_seg)->getPointB()->getGeoPosition().x() * 100.0, (*it_p_seg)->getPointB()->getGeoPosition().y() * 100.0, 0.3);
+            glVertex3d((*it_p_seg)->getPointB()->getGeoPosition().x() * 100.0, (*it_p_seg)->getPointB()->getGeoPosition().y() * 100.0, 0.55);
             glEnd();
         }
         myColor++;
@@ -687,6 +687,7 @@ void GLWidget::deletePath()
     //newPath = 0;
     //PathAlgorithms::safelyDeletePath(newPath);
     newPath.segments.clear();
+    radiusSearch.clear();
 }
 
 void GLWidget::setRadiusSearch(set<Path*,ComparePaths> radiusSeearchPaths, float searchRadius)
