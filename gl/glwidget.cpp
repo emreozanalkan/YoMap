@@ -128,7 +128,7 @@ void GLWidget::paintGL()
         glBegin(GL_LINE_STRIP);
         for (vector<Node*>::iterator nodeIt = way->getNodesBegin(); nodeIt != way->getNodesEnd(); nodeIt++){
             boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
-            glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.1f);
+            glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.2f);
         }
         glEnd();
     }
@@ -142,7 +142,7 @@ void GLWidget::paintGL()
         glColor3f(0.0f, 1.0f, 0.0f);
         glPointSize(10.0f);
         glBegin(GL_POINTS);
-        glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.4);
+        glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.6);
         glEnd();
     }
 
@@ -151,7 +151,7 @@ void GLWidget::paintGL()
         glColor3f(1.0f, 0.0f, 0.0f);
         glPointSize(10.0f);
         glBegin(GL_POINTS);
-        glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.4);
+        glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.7);
         glEnd();
     }
 
@@ -198,10 +198,11 @@ void GLWidget::drawRadiusSearch()
     double y = 0;
 
     glColor3f(1.0f, 1.0f, 1.0f);
+    glLineWidth(10.0f);
     glBegin(GL_LINE_LOOP);
     for(int ii = 0; ii < num_segments; ii++)
     {
-        glVertex2f(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0));//output vertex
+        glVertex3f(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0), 0.4);//output vertex
 
         //apply the rotation matrix
         t = x;
@@ -235,8 +236,8 @@ void GLWidget::drawRadiusSearch()
                 boost_xy_point& nodeGeoPosA = (*it_p_seg)->getPointA()->getGeoPosition();
                 boost_xy_point& nodeGeoPosB = (*it_p_seg)->getPointB()->getGeoPosition();
                 //glColor3d((nodeGeoPosA.x() - int(nodeGeoPosA.x())) / colorRandom, (nodeGeoPosA.y() - int(nodeGeoPosA.y())) / colorRandom, (nodeGeoPosB.x() - int(nodeGeoPosB.x()))  / colorRandom);
-                glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.1);
-                glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.1);
+                glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
+                glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.3);
             }
         }
         myColor++;
@@ -291,10 +292,10 @@ void GLWidget::drawPath()
     if(startPoint != NULL && !(*it_path)->isEmpty())
     {
         glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.1);
+        glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.3);
         WaySegment* waySegment = (*it_path)->segments[0];
         boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
-        glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.1);
+        glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
     }
     glColor3f(1.0f, 0.0f, 0.0f);
     int i = 0;
@@ -307,8 +308,8 @@ void GLWidget::drawPath()
             //cout<<(*it_p_seg)->getPointA()->getId()<<" -- "<<(*it_p_seg)->getPointB()->getId()<< "(type: "<<(*it_p_seg)->getWay()->getWayType()<<")"<<endl;
             boost_xy_point& nodeGeoPosA = (*it_p_seg)->getPointA()->getGeoPosition();
             boost_xy_point& nodeGeoPosB = (*it_p_seg)->getPointB()->getGeoPosition();
-            glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.1);
-            glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.1);
+            glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
+            glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.3);
         }
     }
     --it_path;
@@ -317,8 +318,8 @@ void GLWidget::drawPath()
         glColor3f(0.0f, 0.0f, 1.0f);
         WaySegment* waySegment = (*it_path)->segments[i-1];
         boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
-        glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.1);
-        glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.1);
+        glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.3);
+        glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.3);
     }
     glEnd();
 

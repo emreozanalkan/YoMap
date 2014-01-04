@@ -83,7 +83,7 @@ void GLCamera::move(int dx, int dy)
     double glViewWidth = xMax - planeLeft;
     //double glViewHeight = yMax - planeBottom;
 
-    if(fabs(x) < 3.0)
+    if(fabs(x) < 4.0)
     {
         x -= ((double(dx) / double(canvasWidth)) * glViewWidth);
         look_x -= ((double(dx) / double(canvasWidth)) * glViewWidth);
@@ -91,14 +91,14 @@ void GLCamera::move(int dx, int dy)
     else
     {
         if(std::signbit(x))
-            x = -2.99999;
+            x = -3.99999;
         else
-            x = 2.99999;
+            x = 3.99999;
 
         look_x = x;
     }
 
-    if(fabs(y) < 2.4)
+    if(fabs(y) < 3.0)
     {
         y += ((double(dy) / double(canvasWidth)) * gldy);
         look_y += ((double(dy) / double(canvasWidth)) * gldy);
@@ -106,9 +106,9 @@ void GLCamera::move(int dx, int dy)
     else
     {
         if(std::signbit(y))
-            y = -2.39999;
+            y = -2.99999;
         else
-            y = 2.39999;
+            y = 2.99999;
 
         look_y = y;
     }

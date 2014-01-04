@@ -18,10 +18,10 @@ void GLPOIPoint::setupVertices()
 {
     vertices.clear();
     boost_xy_point geoPos = point->getGeoPosition();
-    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1, (geoPos.y() * 100.0) + 0.1, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1, (geoPos.y() * 100.0) + 0.1, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1, (geoPos.y() * 100.0) - 0.1, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1, (geoPos.y() * 100.0) - 0.1, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1, (geoPos.y() * 100.0) + 0.1, 0.5f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1, (geoPos.y() * 100.0) + 0.1, 0.5f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1, (geoPos.y() * 100.0) - 0.1, 0.5f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1, (geoPos.y() * 100.0) - 0.1, 0.5f));
 }
 
 void GLPOIPoint::setupVertices(double scale)
@@ -32,10 +32,10 @@ void GLPOIPoint::setupVertices(double scale)
     if(scale > 1.0)
         scale = 1.0;
 
-    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1 * scale, (geoPos.y() * 100.0) + 0.1 * scale, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1 * scale, (geoPos.y() * 100.0) + 0.1 * scale, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1 * scale, (geoPos.y() * 100.0) - 0.1 * scale, 0.3f));
-    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1 * scale, (geoPos.y() * 100.0) - 0.1 * scale, 0.3f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1 * scale, (geoPos.y() * 100.0) + 0.1 * scale, 0.5f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1 * scale, (geoPos.y() * 100.0) + 0.1 * scale, 0.5f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1 * scale, (geoPos.y() * 100.0) - 0.1 * scale, 0.5f));
+    vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1 * scale, (geoPos.y() * 100.0) - 0.1 * scale, 0.5f));
 }
 
 bool GLPOIPoint::isContains(QPointF point)
