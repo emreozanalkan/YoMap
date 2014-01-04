@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     db/poi/poipoint.cpp \
     gl/glpoipoint.cpp \
     db/Relations/path.cpp \
-    db/Relations/pathsegment.cpp
+    db/Relations/pathsegment.cpp \
+    gui/dialog.cpp
 
 HEADERS  += algorithms/pathalgorithms.h \
     db/node.h \
@@ -49,9 +50,11 @@ HEADERS  += algorithms/pathalgorithms.h \
     db/poi/poipoint.h \
     gl/glpoipoint.h \
     db/Relations/path.h \
-    db/Relations/pathsegment.h
+    db/Relations/pathsegment.h \
+    gui/dialog.h
 
-FORMS    +=gui/mainwindow.ui
+FORMS    +=gui/mainwindow.ui \
+    gui/dialog.ui
 
 macx{
 PRECOMPILED_HEADER  = stable.h
@@ -60,7 +63,7 @@ INCLUDEPATH += "/Users/emreozanalkan/boost_1_55_0"
 LIBS += -L"/Users/emreozanalkan/boost_1_55_0/libs"
 }
 win32{
-#INCLUDEPATH += "C:\boost\boost_1_55_0\boost_1_55_0"
+INCLUDEPATH += "C:\boost\boost_1_55_0\boost_1_55_0"
 INCLUDEPATH += "C:\boost\boost_1_55_0"
 
 INCLUDEPATH += "C:\MinGW\GLUT\include"
@@ -71,3 +74,4 @@ LIBS += -lglut32 -lopengl32
 RESOURCES += \
     data/settings.qrc \
     data/Resources.qrc
+

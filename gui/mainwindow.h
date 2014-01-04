@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "logic.h"
+#include "dialog.h"
 #include <QMainWindow>
 
 
@@ -26,6 +27,7 @@ private:
     float maxDistance;
     int MidCat_count;
     POIPoint* ClickedPoiPoint;
+    Dialog* DialogEditPOI;
 
 protected:
     //void resizeEvent ( QResizeEvent * event );

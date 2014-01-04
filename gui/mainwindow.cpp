@@ -8,6 +8,7 @@
 
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -18,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     MidCat_count = 0;
     maxDistance = 1;
+
+    DialogEditPOI = new Dialog();
 
     ui->setupUi(this);
     ui->pushButtonMidCat_delete->setEnabled(false);
@@ -169,6 +172,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete DialogEditPOI;
 }
 
 void MainWindow::handleButtonSwap()
@@ -249,7 +253,16 @@ void MainWindow::handleButtonGo()
 
         //QString StrDistance = setNum(StrDistance);
 
-        ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
+        float time = logic.getPathTime(best_path,mode);
+        qDebug() << "Time: " << time;
+
+        ui->plainTextEditOutput->setPlainText("Estimated Time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
+
+        float cost = best_path.calculateCost();
+
+        ui->plainTextEditOutput->appendPlainText("Estimated Distance: " + QString::number(cost, 'g', 3) + "km");
+
+       // ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
 
         ui->widget->setPath(best_path.segments[0]->segments);
     }
@@ -1001,5 +1014,6 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
 void MainWindow::CallDialogEditPOI()
 {
-  qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
+    DialogEditPOI->show();
+    qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
 }
