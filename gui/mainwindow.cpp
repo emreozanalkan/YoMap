@@ -159,6 +159,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->widget->setMap(logic.getAllWays());
     ui->widget->setPOIs(logic.getPOIPointsInCategories());
+    ui->widget->setMapBounds(logic.getMapMinBound(), logic.getMapMaxBound());
     ui->widget->startGL();
 
 }

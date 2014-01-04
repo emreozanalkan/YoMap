@@ -160,3 +160,13 @@ QString Logic::TimetoSting(double Time)
 
     return StrTimeHours + StrTimeMinutes;
 }
+
+boost_xy_point Logic::getMapMinBound()
+{
+    return db.getMapMinBound();
+}
+
+boost_xy_point Logic::getMapMaxBound()
+{
+    return db.getMapMaxBound();
+}

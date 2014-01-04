@@ -50,6 +50,16 @@ bool Database::isPOIBuild(){
     return poi_build;
 }
 
+boost_xy_point Database::getMapMinBound()
+{
+    return min_bound;
+}
+
+boost_xy_point Database::getMapMaxBound()
+{
+    return max_bound;
+}
+
 int Database::build(QString path){
     ways_build = false;
     QFile file(path);

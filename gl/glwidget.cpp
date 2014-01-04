@@ -36,7 +36,8 @@ GLWidget::GLWidget(QWidget *parent) :
 void GLWidget::initializeGL()
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glClearColor(0.329412, 0.329412, 0.329412, 1.0);
+    //glClearColor(0.329412, 0.329412, 0.329412, 1.0);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
     glColor3f(1.0, 1.0, 1.0);
 
     glEnable(GL_DEPTH_TEST);
@@ -89,6 +90,8 @@ void GLWidget::paintGL()
 
     glPushMatrix();
 
+    drawMapBorder();
+
     glColor3f(1.0f, 1.0f, 1.0f);
 
     glLineWidth(1.0f);
@@ -125,7 +128,7 @@ void GLWidget::paintGL()
         glBegin(GL_LINE_STRIP);
         for (vector<Node*>::iterator nodeIt = way->getNodesBegin(); nodeIt != way->getNodesEnd(); nodeIt++){
             boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
-            glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.0f);
+            glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.1f);
         }
         glEnd();
     }
@@ -649,5 +652,17 @@ void GLWidget::pickOpenGLColor(int index)
 
 void GLWidget::drawMapBorder()
 {
+    glColor3d(0.329412, 0.329412, 0.329412);
+    glBegin(GL_QUADS);
+    glVertex3d(mapMaxBound.x() * 100.0, mapMaxBound.y() * 100.0, 0.0);
+    glVertex3d(mapMinBound.x() * 100.0, mapMaxBound.y() * 100.0, 0.0);
+    glVertex3d(mapMinBound.x() * 100.0, mapMinBound.y() * 100.0, 0.0);
+    glVertex3d(mapMaxBound.x() * 100.0, mapMinBound.y() * 100.0, 0.0);
+    glEnd();
+}
 
+void GLWidget::setMapBounds(boost_xy_point min, boost_xy_point max)
+{
+    mapMinBound = min;
+    mapMaxBound = max;
 }

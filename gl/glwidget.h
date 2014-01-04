@@ -51,6 +51,8 @@ private:
     void pickOpenGLColor(int);
 
     void drawMapBorder();
+    boost_xy_point mapMinBound;
+    boost_xy_point mapMaxBound;
 
 public:
     explicit GLWidget(QWidget *parent = 0);
@@ -58,6 +60,8 @@ public:
     void initializeGL();
     void paintGL();
     void resizeGL(int w, int h);
+
+    void setMapBounds(boost_xy_point, boost_xy_point);
 
     void keyPressEvent(QKeyEvent*);
 

@@ -52,6 +52,9 @@ public:
     boost_xy_point&  projectPointToSegment(boost_xy_point &A,boost_xy_point &B, boost_xy_point &C);
     bool isWaysBuild();
     bool isPOIBuild();
+
+    boost_xy_point getMapMinBound();
+    boost_xy_point getMapMaxBound();
 private:
     bool ways_build;
     bool poi_build;
