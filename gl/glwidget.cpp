@@ -165,10 +165,6 @@ void GLWidget::drawRadiusSearch()
 {
     if(startPoint == NULL)
         return;
-    if(radiusSearch.empty())
-        return;
-
-    //qDebug() << "radius";
 
     glPushMatrix();
 
@@ -179,37 +175,71 @@ void GLWidget::drawRadiusSearch()
     if( ratio < 1.0)
         ratio = 1.0 / ratio;
 
+//    glBegin(GL_LINE_LOOP);
+//    for(int i = 0; i < 360; i++)
+//    {
+//        double angle = 2 * 3.1415926 * i / 360;
+//        double x = cos(angle);
+//        double y = sin(angle);
+//        glVertex2d(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0));
+//    }
+//    glEnd();
+
+    int num_segments = 360;
+    double theta = 2 * 3.1415926 / double(num_segments);
+    double c = cosf(theta);//precalculate the sine and cosine
+    double s = sinf(theta);
+    double t;
+
+    double x = searchRadius/1.23;//we start at angle = 0
+    double y = 0;
+
+    glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_LINE_LOOP);
-    for(int i = 0; i < 360; i++)
+    for(int ii = 0; ii < num_segments; ii++)
     {
-        double angle = 2 * 3.1415926 * i / 360;
-        double x = cos(angle);
-        double y = sin(angle);
-        glVertex2d(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0));
+        glVertex2f(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0));//output vertex
+
+        //apply the rotation matrix
+        t = x;
+        x = c * x - s * y;
+        y = s * t + c * y;
     }
     glEnd();
 
-//    int num_segments = 360;
-//    float theta = 2 * 3.1415926 / float(num_segments);
-//    float c = cosf(theta);//precalculate the sine and cosine
-//    float s = sinf(theta);
-//    float t;
 
-//    float x = searchRadius;//we start at angle = 0
-//    float y = 0;
+    if(radiusSearch.empty())
+        return;
 
-//    glColor3f(1.0f, 1.0f, 1.0f);
-//    glBegin(GL_LINE_LOOP);
-//    for(int ii = 0; ii < num_segments; ii++)
-//    {
-//        glVertex2f(x + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0));//output vertex
+    glLineWidth(5.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_LINES);
 
-//        //apply the rotation matrix
-//        t = x;
-//        x = c * x - s * y;
-//        y = s * t + c * y;
-//    }
-//    glEnd();
+    int myColor = 0;
+
+    set<Path*,ComparePaths>::iterator it;
+    for (it = radiusSearch.begin(); it != radiusSearch.end(); ++it)
+    {
+        pickOpenGLColor(myColor);
+        Path* path = *it;
+        vector<PathSegment*>::iterator it_path = path->getPathSegmentsBegin();
+        for(; it_path != path->getPathSegmentsEnd(); it_path++)
+        {
+            vector<WaySegment*>::iterator it_p_seg = (*it_path)->getWaySegmentsBegin();
+            for(; it_p_seg != (*it_path)->getWaySegmentsEnd(); it_p_seg++)
+            {
+                //cout<<(*it_p_seg)->getPointA()->getId()<<" -- "<<(*it_p_seg)->getPointB()->getId()<< "(type: "<<(*it_p_seg)->getWay()->getWayType()<<")"<<endl;
+                boost_xy_point& nodeGeoPosA = (*it_p_seg)->getPointA()->getGeoPosition();
+                boost_xy_point& nodeGeoPosB = (*it_p_seg)->getPointB()->getGeoPosition();
+                //glColor3d((nodeGeoPosA.x() - int(nodeGeoPosA.x())) / colorRandom, (nodeGeoPosA.y() - int(nodeGeoPosA.y())) / colorRandom, (nodeGeoPosB.x() - int(nodeGeoPosB.x()))  / colorRandom);
+                glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.1);
+                glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.1);
+            }
+        }
+        myColor++;
+    }
+
+    glEnd();
 
     glPopMatrix();
 
@@ -289,7 +319,7 @@ void GLWidget::drawPOIPoints()
     glPopMatrix();
 }
 
-void GLWidget::scalePOIPoints(float scale)
+void GLWidget::scalePOIPoints(double scale)
 {
     for(int i = 0; i < glPOIPoints.size(); i++)
         glPOIPoints[i]->setupVertices(scale);
@@ -557,4 +587,43 @@ void GLWidget::setPOIs(vector<POIPoint*> pois)
 void GLWidget::deletePOIs()
 {
     glPOIPoints.clear();
+}
+
+void GLWidget::pickOpenGLColor(int index)
+{
+    index = index % 7;
+    switch(index)
+    {
+        case 0:
+            // RED
+            glColor3d(1.0, 0.0, 0.0);
+            break;
+        case 1:
+            // Green
+            glColor3d(0.0, 1.0, 0.0);
+            break;
+        case 2:
+            // Blue
+            glColor3d(0.0, 0.0, 1.0);
+            break;
+        case 3:
+            // White
+            glColor3d(1.0, 1.0, 1.0);
+            break;
+        case 4:
+            // Black
+            glColor3d(0.0, 0.0, 0.0);
+            break;
+        case 5:
+            // Yellow
+            glColor3d(1.0, 1.0, 0.0);
+            break;
+        case 6:
+            // Pink (Magenta)
+            glColor3d(1.0, 0.0, 1.0);
+            break;
+        default:
+            glColor3d(1.0, 1.0, 1.0);
+            break;
+    }
 }

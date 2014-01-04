@@ -44,9 +44,11 @@ private:
     vector<GLPOIPoint*> glPOIPoints;
 
     void drawPOIPoints();
-    void scalePOIPoints(float);
+    void scalePOIPoints(double);
     void drawPath();
     void drawRadiusSearch();
+
+    void pickOpenGLColor(int);
 
 public:
     explicit GLWidget(QWidget *parent = 0);
