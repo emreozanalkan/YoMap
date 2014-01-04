@@ -139,27 +139,23 @@ QString Logic::TimetoSting(double Time)
 {
     double TimeHours, TimeMinutes;
     TimeMinutes = modf(Time, &TimeHours);
-    TimeMinutes = round(TimeMinutes * 60.0);
+    TimeMinutes = round(TimeMinutes*60);
 
     QString StrTimeMinutes = "";
     QString StrTimeHours = "";
 
-    if (TimeHours > 0.0)
+    if (TimeHours>0)
     {
         StrTimeHours.setNum(TimeHours);
         if (TimeHours>1) StrTimeHours.append(" hours ");
         else StrTimeHours.append(" hour ");
     }
 
-    if (TimeMinutes > 0.0)
+    if (TimeMinutes>0)
     {
         StrTimeMinutes.setNum(TimeMinutes);
         if (TimeMinutes>1) StrTimeMinutes.append(" minutes");
         else StrTimeMinutes.append(" minute");
-    }
-    else
-    {
-        StrTimeMinutes.append("Less than a minute");
     }
 
     return StrTimeHours + StrTimeMinutes;

@@ -249,14 +249,7 @@ void MainWindow::handleButtonGo()
 
         //QString StrDistance = setNum(StrDistance);
 
-        float time = logic.getPathTime(best_path,mode);
-        qDebug() << "Time: " << time;
-
-        ui->plainTextEditOutput->setPlainText("Estimated Time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
-
-        float cost = best_path.calculateCost();
-
-        ui->plainTextEditOutput->appendPlainText("Estimated Distance: " + QString::number(cost, 'g', 3) + "km");
+        ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
 
         ui->widget->setPath(best_path.segments[0]->segments);
     }
