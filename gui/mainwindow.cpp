@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     MidCat_count = 0;
+    maxDistance = 1;
 
     ui->setupUi(this);
     ui->pushButtonMidCat_delete->setEnabled(false);
@@ -64,6 +65,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect( ui->pushButtonMidCat_add, SIGNAL(released()), this, SLOT(handleButtonMidCat_add()));
     connect( ui->pushButtonMidCat_delete, SIGNAL(released()), this, SLOT(handleButtonMidCat_delete()));
+
+    connect(ui->horizontalSlider_2, SIGNAL(valueChanged(int)), ui->spinBox_2, SLOT(setValue(int)));
+    connect(ui->spinBox_2, SIGNAL(valueChanged(int)), ui->horizontalSlider_2, SLOT(setValue(int)));
+    connect(ui->spinBox_2, SIGNAL(valueChanged(int)), this, SLOT(setMaximumDistance(int)));
     //connect( ui->comboBoxCatMid0, SIGNAL(released()), this, SLOT(handleSelectedCategoryMidCat_Radius(int)));
 
     connect(ui->pushButtonPOIClose, SIGNAL(released()), ui->widgetPOI, SLOT(hide()));
@@ -82,6 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
        ui->comboBoxCatB_3->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
 
        ui->comboBoxCatMid0->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+       ui->comboBoxCatMid1->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+       ui->comboBoxCatMid2->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
        //ui->comboBoxPOICat->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
     }
 
@@ -95,6 +102,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBoxCatB_3->model()->sort(0);
 
     ui->comboBoxCatMid0->model()->sort(0);
+    ui->comboBoxCatMid1->model()->sort(0);
+    ui->comboBoxCatMid2->model()->sort(0);
 
     //Add mock items
     ui->comboBoxCatA->insertItem(0,QString("Please select a category"));
@@ -119,6 +128,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->comboBoxCatMid0->insertItem(0,QString("Please select a category"));
     ui->comboBoxCatMid0->setCurrentIndex(0);
+
+    ui->comboBoxCatMid1->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatMid1->setCurrentIndex(0);
+
+    ui->comboBoxCatMid2->insertItem(0,QString("Please select a category"));
+    ui->comboBoxCatMid2->setCurrentIndex(0);
+
 
     //Set up inputs
     ui->lineEditLatA->setValidator( new QDoubleValidator(0, 100, 7, this) );
@@ -307,7 +323,47 @@ void MainWindow::handleButtonGo_Itineary(){
     endPoint.setX(ui->lineEditLonB_3->text().toFloat());
     endPoint.setY(ui->lineEditLatB_3->text().toFloat());
 
-    //Validate endCategory
+    Categories.clear();
+
+    if (MidCat_count == 0)
+    {
+       if (ui->comboBoxCatMid0->currentIndex() == 0){
+           msgBox.setText("Please select a middle category.");
+           msgBox.exec();
+           return;
+       }
+       else{
+           POICategory *data = (POICategory *)ui->comboBoxCatMid0->itemData(ui->comboBoxCatMid0->currentIndex()).value<void *>();
+           Categories.push_back(data->getId());
+       }
+    }
+    else if (MidCat_count == 1)
+    {
+        if (ui->comboBoxCatMid1->currentIndex() == 0){
+            msgBox.setText("Please select a middle category.");
+            msgBox.exec();
+            return;
+        }
+        else{
+            POICategory *data = (POICategory *)ui->comboBoxCatMid1->itemData(ui->comboBoxCatMid1->currentIndex()).value<void *>();
+            Categories.push_back(data->getId());
+        }
+    }
+    else if (MidCat_count == 2)
+    {
+        if (ui->comboBoxCatMid2->currentIndex() == 0){
+            msgBox.setText("Please select a middle category.");
+            msgBox.exec();
+            return;
+        }
+        else{
+            POICategory *data = (POICategory *)ui->comboBoxCatMid2->itemData(ui->comboBoxCatMid2->currentIndex()).value<void *>();
+            Categories.push_back(data->getId());
+        }
+    }
+
+
+    //Validate MidCategory
     if(Categories.empty()){
         msgBox.setText("Please select a middle category.");
         msgBox.exec();
