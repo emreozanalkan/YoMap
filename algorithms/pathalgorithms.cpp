@@ -387,7 +387,6 @@ int PathAlgorithms::findPathsInRadius(Database &d, boost_xy_point &A, POICategor
 
 
     for(vector<POIPoint*>::iterator it = p_cat->getPOIPointsBegin();it!=p_cat->getPOIPointsEnd();it++){
-        cout<<"Inspect: "<<(*it)->getName()<<endl;
         //Find closest point on road to the POI
         WaySegment* end_segment;
         boost_xy_point pointOfContactEnd;
@@ -416,7 +415,6 @@ int PathAlgorithms::findPathsInRadius(Database &d, boost_xy_point &A, POICategor
             Path* cur_path = new Path();
             cur_path->addSegment(path_seg);
             float current_distance = cur_path->getCost();
-            cout<<"Distance: "<<current_distance<<endl;
             if(current_distance<max_radius){
                 all_paths.insert(cur_path);
             }
