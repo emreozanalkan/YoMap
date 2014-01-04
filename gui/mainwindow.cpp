@@ -77,8 +77,18 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButtonPOIClose, SIGNAL(released()), ui->widgetPOI, SLOT(hide()));
     connect(ui->pushButtonPOIEdit, SIGNAL(released()), this, SLOT(CallDialogEditPOI()));
 
+
+
     //Category Combo Box filling
     map<unsigned int,POICategory *> *categories = logic.getCategoryCatalog();
+
+    //Add all categories
+    for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
+       //DialogEditPOI->ui->comboBoxEditPOICat->addItem(QString::fromStdString(it->second->getName()),qVariantFromValue((void*)(it->second)));
+    }
+
+    //ui->comboBoxEditPOICat->model()->sort(0);
+
 
     //Add all categories
     for(map<unsigned int,POICategory *>::iterator it = categories->begin();it!=categories->end();it++){
@@ -264,7 +274,7 @@ void MainWindow::handleButtonGo()
 
        // ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
 
-        ui->widget->setPath(best_path.segments[0]->segments);
+        ui->widget->setPath(best_path);
     }
 }
 
@@ -1014,6 +1024,8 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
 void MainWindow::CallDialogEditPOI()
 {
+    //DialogEditPOI->ui
+    DialogEditPOI->SetCurrentPoint(ClickedPoiPoint);
     DialogEditPOI->show();
     qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
 }
