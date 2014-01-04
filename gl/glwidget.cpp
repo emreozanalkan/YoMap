@@ -410,6 +410,12 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
+    if (event->buttons() & Qt::RightButton)
+    {
+
+        return;
+    }
+
     lastPos = event->pos();
 
     GLuint	buffer[512];										// Set Up A Selection Buffer
@@ -510,6 +516,18 @@ QPointF GLWidget::getGeoPosition(QPoint point)
     gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
     return QPointF(posX / 100.0, posY / 100.0);
+}
+
+POIPoint* GLWidget::getIfPOI(QPointF point)
+{
+    for(int i = 0; i < glPOIPoints.size(); i++)
+    {
+        GLPOIPoint* glpoint = glPOIPoints[i];
+        if(glpoint->isContains(point))
+            return glpoint->point;
+    }
+
+    return NULL;
 }
 
 void GLWidget::centerMap()

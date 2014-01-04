@@ -67,6 +67,7 @@ public:
     void startGL();
     void stopGL();
     QPointF getGeoPosition(QPoint);
+    POIPoint* getIfPOI(QPointF);
     void centerMap();
 
     void setMap(map<unsigned long int,Way*>*);

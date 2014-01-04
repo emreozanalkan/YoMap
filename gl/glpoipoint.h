@@ -29,6 +29,8 @@ public:
     void setupVertices();
 
     void setupVertices(double scale);
+
+    bool isContains(QPointF);
 };
 
 #endif // GLPOIPOINT_H

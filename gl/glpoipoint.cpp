@@ -37,3 +37,17 @@ void GLPOIPoint::setupVertices(double scale)
     vertices.append(QVector3D((geoPos.x() * 100.0) - 0.1 * scale, (geoPos.y() * 100.0) - 0.1 * scale, 0.3f));
     vertices.append(QVector3D((geoPos.x() * 100.0) + 0.1 * scale, (geoPos.y() * 100.0) - 0.1 * scale, 0.3f));
 }
+
+bool GLPOIPoint::isContains(QPointF point)
+{
+    if(point.x() * 100.0 > vertices[0].x() || point.y() * 100.0 > vertices[0].y())
+        return false;
+    else if(point.x() * 100.0 < vertices[1].x() || point.y() * 100.0 > vertices[1].y())
+        return false;
+    else if(point.x() * 100.0 < vertices[2].x() || point.y() * 100.0 < vertices[2].y())
+        return false;
+    else if(point.x() * 100.0 > vertices[3].x() || point.y() * 100.0 < vertices[3].y())
+        return false;
+    else
+        return true;
+}

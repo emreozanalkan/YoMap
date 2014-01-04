@@ -405,6 +405,18 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
 void MainWindow::setStartPoint()
 {
     startPoint = ui->widget->getGeoPosition(ui->widget->mapFrom(this, lastRightClickPoint));
+    POIPoint* poi = ui->widget->getIfPOI(startPoint);
+    if(poi != NULL)
+    {
+        ui->comboBoxCatA->setCurrentText(poi->getCategory()->getName().c_str());
+        ui->comboBoxPOIA->setCurrentText(poi->getName().c_str());
+
+        ui->comboBoxCatA_2->setCurrentText(poi->getCategory()->getName().c_str());
+        ui->comboBoxPOIA_2->setCurrentText(poi->getName().c_str());
+
+        ui->comboBoxCatA_3->setCurrentText(poi->getCategory()->getName().c_str());
+        ui->comboBoxPOIA_3->setCurrentText(poi->getName().c_str());
+    }
 
     QString StrLon, StrLat;
 
@@ -447,6 +459,16 @@ void MainWindow::deleteStartPoint_Radius()
 void MainWindow::setEndPoint()
 {
     endPoint = ui->widget->getGeoPosition(ui->widget->mapFrom(this, lastRightClickPoint));
+    POIPoint* poi = ui->widget->getIfPOI(endPoint);
+
+    if(poi != NULL)
+    {
+        ui->comboBoxCatB->setCurrentText(poi->getCategory()->getName().c_str());
+        ui->comboBoxPOIB->setCurrentText(poi->getName().c_str());
+
+        ui->comboBoxCatB_3->setCurrentText(poi->getCategory()->getName().c_str());
+        ui->comboBoxPOIB_3->setCurrentText(poi->getName().c_str());
+    }
 
     QString StrLon, StrLat;
 
