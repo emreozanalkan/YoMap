@@ -215,20 +215,22 @@ void GLWidget::drawRadiusSearch()
     if(radiusSearch.empty())
         return;
 
-    glLineWidth(5.0f);
+    float lineWidth = 2.0;
     glColor3f(1.0f, 0.0f, 0.0f);
-    glBegin(GL_LINES);
+//    glBegin(GL_LINES);
 
     int myColor = 0;
 
     set<Path*,ComparePaths>::iterator it;
-    for (it = radiusSearch.begin(); it != radiusSearch.end(); ++it)
+    for (it = radiusSearch.begin(); it != radiusSearch.end(); ++it, lineWidth += 2.0)
     {
         pickOpenGLColor(myColor);
         Path* path = *it;
         vector<PathSegment*>::iterator it_path = path->getPathSegmentsBegin();
         for(; it_path != path->getPathSegmentsEnd(); it_path++)
         {
+            glLineWidth(lineWidth);
+            glBegin(GL_LINES);
             vector<WaySegment*>::iterator it_p_seg = (*it_path)->getWaySegmentsBegin();
             for(; it_p_seg != (*it_path)->getWaySegmentsEnd(); it_p_seg++)
             {
@@ -239,11 +241,17 @@ void GLWidget::drawRadiusSearch()
                 glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
                 glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.3);
             }
+            glEnd();
+            --it_p_seg;
+            glPointSize(20.0f);
+            glBegin(GL_POINTS);
+            glVertex3d((*it_p_seg)->getPointB()->getGeoPosition().x() * 100.0, (*it_p_seg)->getPointB()->getGeoPosition().y() * 100.0, 0.3);
+            glEnd();
         }
         myColor++;
     }
 
-    glEnd();
+
 
     glPopMatrix();
 
