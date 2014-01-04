@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     gl/glpoipoint.cpp \
     db/Relations/path.cpp \
     db/Relations/pathsegment.cpp \
-    gui/dialog.cpp
+    gui/dialog.cpp \
+    db/Relations/building.cpp
 
 HEADERS  += algorithms/pathalgorithms.h \
     db/node.h \
@@ -51,7 +52,8 @@ HEADERS  += algorithms/pathalgorithms.h \
     gl/glpoipoint.h \
     db/Relations/path.h \
     db/Relations/pathsegment.h \
-    gui/dialog.h
+    gui/dialog.h \
+    db/Relations/building.h
 
 FORMS    +=gui/mainwindow.ui \
     gui/dialog.ui

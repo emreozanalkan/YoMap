@@ -21,6 +21,10 @@ Database::Database(QString path)
 }
 Database::~Database()
 {
+    //Delete all buildings
+    for(map<unsigned long int,Building *>::iterator it = all_buildings.begin();it!=all_buildings.end();it++){
+        delete it->second;
+    }
     //Delete all ways
     for(map<unsigned long int,Way *>::iterator it = all_ways.begin();it!=all_ways.end();it++){
         delete it->second;
@@ -125,9 +129,13 @@ int Database::build(QString path){
                              //It is a road
                              Relation * rel = processWay(e,elem.attribute("v").toStdString());
                              insertNewWay((Way*)rel);
+                             break;
                          }
                          else if(elem.attribute("k")=="building" && elem.attribute("v")=="yes"){
                              //It is a building
+                             Relation * building = processBuilding(e,elem.attribute("v").toStdString());
+                             insertNewBuilding((Building*)building);
+                             break;
                          }
 
                          elem = elem.nextSiblingElement("tag");
@@ -141,6 +149,8 @@ int Database::build(QString path){
      ways_build = true;
      return 0;
 }
+
+
 
 int Database::buildPOIs(QString path){
     poi_build = false;
@@ -310,6 +320,23 @@ Relation * Database::processWay(QDomElement &e, string t){
     }
     return rel;
 }
+Relation * Database::processBuilding(QDomElement &e, string t){
+    unsigned long int id;
+    getValueFromString(e.attribute("id").toStdString(), id );
+
+    Relation * rel = new Building(id);
+
+    QDomElement child = e.firstChildElement();
+    while(!child.isNull()){
+        if(child.tagName()=="nd"){
+            getValueFromString( child.attribute("ref").toStdString(), id );
+            Node * n = getNodeById(id);
+            ((Building*)rel)->insertNode(n);
+        }
+        child = child.nextSiblingElement();
+    }
+    return rel;
+}
 void Database::insertNewWay(Way *w){
     all_ways.insert(make_pair<unsigned long int,Way *>(w->getId(),w));
 
@@ -369,6 +396,10 @@ void Database::insertNewWay(Way *w){
     }
 
 }
+void Database::insertNewBuilding(Building *b){
+    all_buildings.insert(make_pair<unsigned long int,Building *>(b->getId(),b));
+}
+
 
 void Database::insertNewNode(Node *n){
     all_nodes.insert(make_pair<unsigned long int,Node *>(n->getId(),n));

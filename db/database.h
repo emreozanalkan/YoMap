@@ -5,6 +5,7 @@
 #include "node.h"
 #include "Relations/waysegment.h"
 #include "Relations/way.h"
+#include "Relations/building.h"
 #include "Relations/relation.h"
 #include "poi/poicategory.h"
 #include "poi/poipoint.h"
@@ -43,13 +44,10 @@ public:
     vector<POIPoint*> getPOIPointsInCategories();
 
     map<unsigned long int,Way *>* getAllWays();
+    map<unsigned long int,Building *>* getAllBuildings();
 
     void searchWaySegmentsInArea(boost_xy_point min,boost_xy_point max,vector<WaySegment*> &objects_in_area,ns_permisions::transport_type &tt);
 
-    bool findShortestWay(unsigned long int A, unsigned long int B, vector<WaySegment*> &path,float &total_cost);
-    bool findShortestWay(boost_xy_point &A, boost_xy_point &B, vector<WaySegment*> &path,float &total_cost);
-    bool findClosestWaySegment(boost_xy_point &A, WaySegment* closestSegment, boost_xy_point &pointOfContact);
-    boost_xy_point&  projectPointToSegment(boost_xy_point &A,boost_xy_point &B, boost_xy_point &C);
     bool isWaysBuild();
     bool isPOIBuild();
 
@@ -64,6 +62,9 @@ private:
     //containers of all relations by type
     map<unsigned long int,Way *> all_ways;
 
+    //containers of all relations by type
+    map<unsigned long int,Building *> all_buildings;
+
     //Rtree with all rtree elements
     boost_rtree rtree;
 
@@ -76,9 +77,11 @@ private:
 
     void setBounds(double &min_lon, double &min_lat, double &max_lon, double &max_lat);
 
-
     Relation* processWay(QDomElement &e, string t);
+    Relation* processBuilding(QDomElement &e, string t);
+
     void insertNewWay(Way *);
+    void insertNewBuilding(Building *);
     void insertNewNode(Node *);
 
     void insertNewPOICategory(POICategory*);
