@@ -17,6 +17,7 @@ public:
     bool checkIfWaysDBIsBuild();
     bool checkIfPOIDBIsBuild();
     map<unsigned long int,Way *>* getAllWays();
+    map<unsigned long int, Building*>* getAllBuildings();
     vector<POIPoint*> getPOIPointsInCategories(vector<unsigned int> &);
     vector<POIPoint*> getPOIPointsInCategories();
 

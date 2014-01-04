@@ -440,7 +440,10 @@ map<unsigned long int,Way *>* Database::getAllWays(){
     return &all_ways;
 }
 
-
+map<unsigned long int,Building *>* Database::getAllBuildings()
+{
+    return &all_buildings;
+}
 
 void Database::insertNewPOICategory(POICategory *poi_c){
     all_poi_categories.insert(make_pair<unsigned int,POICategory *>(poi_c->getId(),poi_c));

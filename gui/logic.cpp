@@ -20,6 +20,11 @@ map<unsigned long int,Way *>* Logic::getAllWays(){
     return db.getAllWays();
 }
 
+map<unsigned long int, Building*>* Logic::getAllBuildings()
+{
+    return db.getAllBuildings();
+}
+
 map<unsigned int,POICategory *>* Logic::getCategoryCatalog(){
     return db.getCategoryCatalog();
 }

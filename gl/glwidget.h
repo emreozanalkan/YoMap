@@ -32,6 +32,8 @@ private:
     bool isGLInitialized;
 
     map<unsigned long int,Way*>* allWays;
+    map<unsigned long int,Building *>* allBuildings;
+
     vector<WaySegment*> path;
     Path newPath;
 
@@ -77,6 +79,7 @@ public:
     void centerMap();
 
     void setMap(map<unsigned long int,Way*>*);
+    void setBuildings(map<unsigned long int,Building *>*);
 
     void setPath(vector<WaySegment*>);
     void setPath(Path);

@@ -107,21 +107,27 @@ void GLWidget::paintGL()
             case ns_way::primary:
             default:
                 glColor3f(1.0f, 1.0f, 1.0f);
+                glLineWidth(1.0);
                 break;
             case ns_way::footway:
                 glColor3f(1.0f, 1.0f, 0.0f);
+                glLineWidth(1.0);
                 break;
             case ns_way::steps:
                 glColor3f(0.0f, 1.0f, 1.0f);
+                glLineWidth(1.0);
                 break;
             case ns_way::track:
                 glColor3f(1.0f, 0.0f, 1.0f);
+                glLineWidth(1.0);
                 break;
             case ns_way::raceway:
                 glColor3f(1.0f, 0.5f, 0.0f);
+                glLineWidth(1.0);
                 break;
             case ns_way::service:
                 glColor3f(0.737255f, 0.560784f, 0.560784f);
+                glLineWidth(1.0);
                 break;
         }
 
@@ -133,6 +139,25 @@ void GLWidget::paintGL()
         glEnd();
     }
 
+
+
+    //glColor3f(1.0f, 1.0f, 1.0f);
+    glColor3f(0.74509f, 0.6784f, 0.6784f);
+    if(allBuildings != NULL)
+    {
+        map<unsigned long int, Building*>::iterator buildingIt;
+        for(buildingIt = allBuildings->begin(); buildingIt != allBuildings->end(); ++buildingIt)
+        {
+            Building* building = ((Building*)(*buildingIt).second);
+
+            glBegin(GL_POLYGON);
+            for (vector<Node*>::iterator nodeIt = building->getNodesBegin(); nodeIt != building->getNodesEnd(); nodeIt++){
+                boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
+                glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.2f);
+            }
+            glEnd();
+        }
+    }
 
     drawPath();
 
@@ -595,6 +620,11 @@ void GLWidget::setMap(map<unsigned long int,Way*>* ways)
     allWays = ways;
 }
 
+void GLWidget::setBuildings(map<unsigned long int,Building *>* buildings)
+{
+    allBuildings = buildings;
+}
+
 void GLWidget::setPath(vector<WaySegment*> waySegments)
 {
     path = waySegments;
@@ -706,6 +736,7 @@ void GLWidget::pickOpenGLColor(int index)
 void GLWidget::drawMapBorder()
 {
     glColor3d(0.329412, 0.329412, 0.329412);
+    //glColor3d(0.86, 0.86, 0.86);
     glBegin(GL_QUADS);
     glVertex3d(mapMaxBound.x() * 100.0, mapMaxBound.y() * 100.0, 0.0);
     glVertex3d(mapMinBound.x() * 100.0, mapMaxBound.y() * 100.0, 0.0);

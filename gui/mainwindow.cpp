@@ -173,6 +173,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->widget, SIGNAL(poiClicked(POIPoint*, QMouseEvent*)), this, SLOT(poiClicked(POIPoint*, QMouseEvent*)));
 
     ui->widget->setMap(logic.getAllWays());
+    ui->widget->setBuildings(logic.getAllBuildings());
     ui->widget->setPOIs(logic.getPOIPointsInCategories());
     ui->widget->setMapBounds(logic.getMapMinBound(), logic.getMapMaxBound());
     ui->widget->startGL();
