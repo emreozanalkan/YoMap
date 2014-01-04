@@ -60,6 +60,7 @@ private slots:
     void handleButtonMidCat_add();
     void handleButtonMidCat_delete();
     //void handleSelectedCategoryMidCat_Radius();
+    void on_tabWidget_currentChanged(int index);
 };
 
 #endif // MAINWINDOW_H

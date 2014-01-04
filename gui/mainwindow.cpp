@@ -541,13 +541,13 @@ void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
     ui->widgetPOI->show();
 
 
-    qDebug() << "POI Name: " << poiPoint->getName().c_str();
+    //qDebug() << "POI Name: " << poiPoint->getName().c_str();
 
-    qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
+    //qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
 
     QPoint pointInOksanaWindow = ui->widget->mapTo(this, event->pos());
 
-    qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
+    //qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
 }
 
 /*void MainWindow::resizeEvent ( QResizeEvent * event )
@@ -670,7 +670,7 @@ void MainWindow::handleSelectedPOIB(int index)
 
 void MainWindow::handleSelectedCategoryA_Radius(int index){
     //Selected option is different from "please select"
-    qDebug() << "handleSelectedCategoryA_Radius: "<<index << endl;
+    //qDebug() << "handleSelectedCategoryA_Radius: "<<index << endl;
     if(index>0){
         deleteStartPoint_Radius();
         if (ui->comboBoxPOIA_2->count()) ui->comboBoxPOIA_2->clear();
@@ -694,7 +694,7 @@ void MainWindow::handleSelectedCategoryA_Radius(int index){
 
 void MainWindow::handleSelectedPOIA_Radius(int index){
     //Selected option is different from "please select"
-            qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
+            //qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
     if (index>0)
     {
         POIPoint *data = (POIPoint *)ui->comboBoxPOIA_2->itemData(index).value<void *>();
@@ -733,7 +733,7 @@ void MainWindow::handleSelectedCategoryB_Radius(int index){
 
 void MainWindow::handleSelectedCategoryA_Itineary(int index){
     //Selected option is different from "please select"
-    qDebug() << "handleSelectedCategoryA_Itineary: "<<index << endl;
+    //qDebug() << "handleSelectedCategoryA_Itineary: "<<index << endl;
     if(index>0){
         deleteStartPoint_Itineary();
         if (ui->comboBoxPOIA_3->count()) ui->comboBoxPOIA_3->clear();
@@ -757,7 +757,7 @@ void MainWindow::handleSelectedCategoryA_Itineary(int index){
 
 void MainWindow::handleSelectedPOIA_Itineary(int index){
     //Selected option is different from "please select"
-            qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
+            //qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
     if (index>0)
     {
         POIPoint *data = (POIPoint *)ui->comboBoxPOIA_3->itemData(index).value<void *>();
@@ -786,7 +786,7 @@ void MainWindow::handleSelectedPOIA_Itineary(int index){
 
 void MainWindow::handleSelectedCategoryB_Itineary(int index){
     //Selected option is different from "please select"
-    qDebug() << "handleSelectedCategoryB_Itineary: "<<index << endl;
+    //qDebug() << "handleSelectedCategoryB_Itineary: "<<index << endl;
     if(index>0){
         deleteEndPoint_Itineary();
         if (ui->comboBoxPOIB_3->count()) ui->comboBoxPOIB_3->clear();
@@ -810,7 +810,7 @@ void MainWindow::handleSelectedCategoryB_Itineary(int index){
 
 void MainWindow::handleSelectedPOIB_Itineary(int index){
     //Selected option is different from "please select"
-            qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
+            //qDebug() <<"handleSelectedPOIA_Radius "<< index << endl;
     if (index>0)
     {
         POIPoint *data = (POIPoint *)ui->comboBoxPOIB_3->itemData(index).value<void *>();
@@ -889,4 +889,39 @@ void MainWindow::handleButtonMidCat_delete()
         ui->pushButtonMidCat_add->setEnabled(true);
         MidCat_count--;
     }
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    ui->plainTextEditOutput->clear();
+    ui->plainTextEditOutput_2->clear();
+    ui->plainTextEditOutput_3->clear();
+    ui->widget->deletePath();
+
+    if(index == 0 || index == 2) // 2POINNT SEARCH
+    {
+        ui->widget->deleteRadiusSearch();
+    }
+    else if(index == 1) // RADIUS SEARCH
+    {
+        ui->lineEditLatB->setText("");
+        ui->lineEditLonB->setText("");
+
+        ui->lineEditLatB_3->setText("");
+        ui->lineEditLonB_3->setText("");
+
+        ui->comboBoxCatB->setCurrentIndex(0);
+        ui->comboBoxPOIB->setCurrentIndex(0);
+
+        ui->comboBoxCatB_3->setCurrentIndex(0);
+        ui->comboBoxPOIB_3->setCurrentIndex(0);
+
+        ui->widget->deleteEndPoint();
+    }
+//    else if(index == 2) // ITINERARY
+//    {
+
+//    }
+    else
+        return;
 }

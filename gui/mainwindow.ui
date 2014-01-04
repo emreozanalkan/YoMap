@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>690</width>
-    <height>660</height>
+    <height>789</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -34,7 +34,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="two_points">
         <property name="sizePolicy">
@@ -944,8 +944,6 @@
          </item>
         </layout>
        </widget>
-       <zorder>widgetPOI</zorder>
-       <zorder></zorder>
       </widget>
      </widget>
     </item>
