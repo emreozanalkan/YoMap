@@ -15,8 +15,6 @@ TEMPLATE = app
 
 CONFIG += warn_off precompile_header
 
-#PRECOMPILED_HEADER  = stable.h
-
 SOURCES += main.cpp\
     algorithms/pathalgorithms.cpp \
     db/node.cpp \
@@ -56,6 +54,7 @@ HEADERS  += algorithms/pathalgorithms.h \
 FORMS    +=gui/mainwindow.ui
 
 macx{
+PRECOMPILED_HEADER  = stable.h
 LIBS += -framework GLUT
 INCLUDEPATH += "/Users/emreozanalkan/boost_1_55_0"
 LIBS += -L"/Users/emreozanalkan/boost_1_55_0/libs"

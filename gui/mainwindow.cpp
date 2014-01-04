@@ -474,6 +474,14 @@ void MainWindow::setStartPoint()
         ui->comboBoxCatA_3->setCurrentText(poi->getCategory()->getName().c_str());
         ui->comboBoxPOIA_3->setCurrentText(poi->getName().c_str());
     }
+    else
+    {
+        ui->comboBoxCatA->setCurrentIndex(0);
+
+        ui->comboBoxCatA_2->setCurrentIndex(0);
+
+        ui->comboBoxCatA_3->setCurrentIndex(0);
+    }
 
     QString StrLon, StrLat;
 
@@ -525,6 +533,12 @@ void MainWindow::setEndPoint()
 
         ui->comboBoxCatB_3->setCurrentText(poi->getCategory()->getName().c_str());
         ui->comboBoxPOIB_3->setCurrentText(poi->getName().c_str());
+    }
+    else
+    {
+        ui->comboBoxCatB->setCurrentIndex(0);
+
+        ui->comboBoxCatB_3->setCurrentIndex(0);
     }
 
     QString StrLon, StrLat;
