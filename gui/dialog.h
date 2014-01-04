@@ -16,9 +16,10 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
-    void SetCurrentPoint(POIPoint *);
+    void SetCurrentPoint(POIPoint *, map<unsigned int, POICategory *> *categories);
 private:
     Ui::Dialog *ui;
+
 };
 
 #endif // DIALOG_H

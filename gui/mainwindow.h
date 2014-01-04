@@ -65,6 +65,7 @@ private slots:
     //void handleSelectedCategoryMidCat_Radius();
     void on_tabWidget_currentChanged(int index);
     void CallDialogEditPOI();
+    void handleButtonSave();
 };
 
 #endif // MAINWINDOW_H

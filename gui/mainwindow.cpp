@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     MidCat_count = 0;
     maxDistance = 1;
 
-    DialogEditPOI = new Dialog();
+    DialogEditPOI = new Dialog(this);
 
     ui->setupUi(this);
     ui->pushButtonMidCat_delete->setEnabled(false);
@@ -1026,7 +1026,12 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 void MainWindow::CallDialogEditPOI()
 {
     //DialogEditPOI->ui
-    DialogEditPOI->SetCurrentPoint(ClickedPoiPoint);
+    DialogEditPOI->SetCurrentPoint(ClickedPoiPoint, logic.getCategoryCatalog());
     DialogEditPOI->show();
     qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
+}
+
+void MainWindow::handleButtonSave()
+{
+  //   qDebug() << QString(ClickedPoiPoint->getName().c_str())<<endl;
 }
