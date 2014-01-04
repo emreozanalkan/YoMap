@@ -265,9 +265,19 @@ void GLWidget::drawRadiusSearch()
     set<Path*,ComparePaths>::iterator it;
     for (it = radiusSearch.begin(); it != radiusSearch.end(); ++it, lineWidth += 2.0)
     {
-        pickOpenGLColor(myColor);
         Path* path = *it;
         vector<PathSegment*>::iterator it_path = path->getPathSegmentsBegin();
+        if(startPoint != NULL && !(*it_path)->isEmpty())
+        {
+            glBegin(GL_LINES);
+            glColor3f(0.0f, 0.0f, 1.0f);
+            glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.3);
+            WaySegment* waySegment = (*it_path)->segments[0];
+            boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
+            glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
+            glEnd();
+        }
+        pickOpenGLColor(myColor);
         for(; it_path != path->getPathSegmentsEnd(); it_path++)
         {
             glLineWidth(lineWidth);
