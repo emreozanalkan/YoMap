@@ -577,7 +577,8 @@ void GLWidget::deletePath()
 {
     path.clear();
     //newPath = 0;
-    PathAlgorithms::safelyDeletePath(newPath);
+    //PathAlgorithms::safelyDeletePath(newPath);
+    newPath.segments.clear();
 }
 
 void GLWidget::setRadiusSearch(set<Path*,ComparePaths> radiusSeearchPaths, float searchRadius)
