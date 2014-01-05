@@ -50,9 +50,28 @@ private:
     void drawPath();
     void drawRadiusSearch();
 
+    void drawStartPoint();
+    void drawEndPoint();
+
+    void drawWays();
+    void drawBuildings();
+
     void drawMapBorder();
     boost_xy_point mapMinBound;
     boost_xy_point mapMaxBound;
+
+    bool shouldDrawBuildings;
+
+    bool shouldDrawAllWays;
+    bool shouldDrawWays1;
+    bool shouldDrawWays2;
+    bool shouldDrawWays3;
+    bool shouldDrawWays4;
+    bool shouldDrawWays5;
+    bool shouldDrawWays6;
+    bool shouldDrawWays7;
+    bool shouldDrawWays8;
+    bool shouldDrawWays9;
 
 public:
     explicit GLWidget(QWidget *parent = 0);

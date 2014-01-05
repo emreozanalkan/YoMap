@@ -31,6 +31,19 @@ GLWidget::GLWidget(QWidget *parent) :
     //newPath = NULL;
 
     searchRadius = 0.0f;
+
+    shouldDrawBuildings = false;
+
+    shouldDrawAllWays = true;
+    shouldDrawWays1 = true;
+    shouldDrawWays2 = true;
+    shouldDrawWays3 = true;
+    shouldDrawWays4 = true;
+    shouldDrawWays5 = true;
+    shouldDrawWays6 = true;
+    shouldDrawWays7 = true;
+    shouldDrawWays8 = true;
+    shouldDrawWays9 = true;
 }
 
 void GLWidget::initializeGL()
@@ -101,56 +114,112 @@ void GLWidget::paintGL()
 
     glLineWidth(1.0f);
 
-    if(allWays == NULL)
-        return;
+    if(allWays != NULL && shouldDrawAllWays)
+        drawWays();
+
+    if(shouldDrawBuildings)
+        drawBuildings();
+
+    if(!newPath.segments.empty())
+        drawPath();
+
+    if(startPoint != NULL)
+        drawStartPoint();
+
+    if(endPoint != NULL)
+        drawEndPoint();
+
+
+    if(!glPOIPoints.empty())
+        drawPOIPoints();
+
+    if(searchRadius != 0.0f)
+        drawRadiusSearch();
+
+    glPopMatrix();
+}
+
+void GLWidget::drawStartPoint()
+{
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glPointSize(10.0f);
+    glBegin(GL_POINTS);
+    glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.6);
+    glEnd();
+}
+
+void GLWidget::drawEndPoint()
+{
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glPointSize(10.0f);
+    glBegin(GL_POINTS);
+    glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.7);
+    glEnd();
+}
+
+void GLWidget::drawWays()
+{
+    bool drawWay;
     map<unsigned long int, Way*>::iterator wayIt;
     for(wayIt = allWays->begin(); wayIt != allWays->end(); ++wayIt)
     {
+        drawWay = true;
         Way* way = ((Way*)(*wayIt).second);
         switch(way->getWayType())
         {
             case ns_way::primary:
                 glColor3f(0.8627f, 0.6196f, 0.6196f);
                 glLineWidth(5.0);
+                if(!shouldDrawWays1) drawWay = false;
                 break;
             case ns_way::primary_link:
                 glColor3f(0.8627f, 0.6196f, 0.6196f);
                 glLineWidth(4.0);
+                if(!shouldDrawWays2) drawWay = false;
                 break;
             case ns_way::secondary:
             case ns_way::secondary_link:
                 glColor3f(0.9726f, 0.8353f, 0.66274f);
                 glLineWidth(4.0);
+                if(!shouldDrawWays3) drawWay = false;
                 break;
             case ns_way::tertiary:
             case ns_way::tertiary_link:
                 glColor3f(0.97255f, 0.97255f, 0.72941f);
                 glLineWidth(3.0);
+                if(!shouldDrawWays4) drawWay = false;
                 break;
             case ns_way::footway:
             case ns_way::steps:
                 glColor3f(0.8078f, 0.9255f, 0.6588f);
                 glLineWidth(1.5);
+                if(!shouldDrawWays5) drawWay = false;
                 break;
             case ns_way::track:
                 glColor3f(1.0f, 0.0f, 1.0f);
                 glLineWidth(1.0);
+                if(!shouldDrawWays6) drawWay = false;
                 break;
             case ns_way::raceway:
                 glColor3f(0.37255f, 0.3764f, 0.345098f);
                 glLineWidth(2.0);
+                if(!shouldDrawWays7) drawWay = false;
                 break;
             case ns_way::service:
                 glColor3f(0.737255f, 0.560784f, 0.560784f);
                 glLineWidth(1.0);
+                if(!shouldDrawWays8) drawWay = false;
                 break;
             case ns_way::unclassified:
             case ns_way::residential:
             default:
                 glColor3f(1.0f, 1.0f, 1.0f);
                 glLineWidth(2.0);
+                if(!shouldDrawWays9) drawWay = false;
                 break;
         }
+
+        if(!drawWay) continue;
 
         glBegin(GL_LINE_STRIP);
         for (vector<Node*>::iterator nodeIt = way->getNodesBegin(); nodeIt != way->getNodesEnd(); nodeIt++){
@@ -159,55 +228,26 @@ void GLWidget::paintGL()
         }
         glEnd();
     }
+}
 
-
-
-//    //glColor3f(1.0f, 1.0f, 1.0f);
-//    glColor3f(0.74509f, 0.6784f, 0.6784f);
-//    if(allBuildings != NULL)
-//    {
-//        map<unsigned long int, Building*>::iterator buildingIt;
-//        for(buildingIt = allBuildings->begin(); buildingIt != allBuildings->end(); ++buildingIt)
-//        {
-//            Building* building = ((Building*)(*buildingIt).second);
-
-//            glBegin(GL_TRIANGLE_FAN);
-//            for (vector<Node*>::iterator nodeIt = building->getNodesBegin(); nodeIt != building->getNodesEnd(); nodeIt++){
-//                boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
-//                glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.2f);
-//            }
-//            glEnd();
-//        }
-//    }
-
-    drawPath();
-
-
-    if(startPoint != NULL)
+void GLWidget::drawBuildings()
+{
+    glColor3f(0.74509f, 0.6784f, 0.6784f);
+    if(allBuildings != NULL)
     {
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glPointSize(10.0f);
-        glBegin(GL_POINTS);
-        glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.6);
-        glEnd();
+        map<unsigned long int, Building*>::iterator buildingIt;
+        for(buildingIt = allBuildings->begin(); buildingIt != allBuildings->end(); ++buildingIt)
+        {
+            Building* building = ((Building*)(*buildingIt).second);
+
+            glBegin(GL_LINE_LOOP);
+            for (vector<Node*>::iterator nodeIt = building->getNodesBegin(); nodeIt != building->getNodesEnd(); nodeIt++){
+                boost_xy_point& nodeGeoPos = (*nodeIt)->getGeoPosition();
+                glVertex3d(nodeGeoPos.x() * 100.0, nodeGeoPos.y() * 100.0, 0.2f);
+            }
+            glEnd();
+        }
     }
-
-    if(endPoint != NULL)
-    {
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glPointSize(10.0f);
-        glBegin(GL_POINTS);
-        glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.7);
-        glEnd();
-    }
-
-
-    drawPOIPoints();
-
-    if(searchRadius != 0.0f)
-        drawRadiusSearch();
-
-    glPopMatrix();
 }
 
 void GLWidget::drawRadiusSearch()
@@ -348,8 +388,6 @@ void GLWidget::drawPath()
 //    }
 //    glEnd();
 
-    if(newPath.segments.empty())
-        return;
     //qDebug() << "there is newPath segments!!!!";
     glLineWidth(5.0f);
     glBegin(GL_LINES);
@@ -471,6 +509,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_E:
         camera->zoomOut();
         break;
+    case Qt::Key_B:
+        shouldDrawBuildings = !shouldDrawBuildings;
+        break;
     case Qt::Key_Up:
         camera->up();
         break;
@@ -490,7 +531,36 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         camera->zoomOut();
         break;
     case Qt::Key_Escape:
-        //this->parentWidget()->parentWidget()->close();
+        break;
+    case Qt::Key_1:
+        shouldDrawAllWays = !shouldDrawAllWays;
+        break;
+    case Qt::Key_2:
+        shouldDrawWays1 = !shouldDrawWays1;
+        break;
+    case Qt::Key_3:
+        shouldDrawWays2 = !shouldDrawWays2;
+        break;
+    case Qt::Key_4:
+        shouldDrawWays3 = !shouldDrawWays3;
+        break;
+    case Qt::Key_5:
+        shouldDrawWays4 = !shouldDrawWays4;
+        break;
+    case Qt::Key_6:
+        shouldDrawWays5 = !shouldDrawWays5;
+        break;
+    case Qt::Key_7:
+        shouldDrawWays6 = !shouldDrawWays6;
+        break;
+    case Qt::Key_8:
+        shouldDrawWays7 = !shouldDrawWays7;
+        break;
+    case Qt::Key_9:
+        shouldDrawWays8 = !shouldDrawWays8;
+        break;
+    case Qt::Key_0:
+        shouldDrawWays9 = !shouldDrawWays9;
         break;
     default:
         break;

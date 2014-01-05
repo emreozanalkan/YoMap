@@ -25,10 +25,10 @@ GLCamera::GLCamera()
     zoomSpeed = 0.4;
 
     // lat="46.791803,9" lon="4.427704,7"
-    planeLeft = 437.0;
-    planeRight = 449.0;
+    planeLeft = 436.0;
+    planeRight = 446.0;
 
-    planeBottom = 4674.0;
+    planeBottom = 4676.0;
     planeTop = 4686.0;
 
     planeNear = 0.0;
