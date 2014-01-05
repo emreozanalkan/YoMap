@@ -522,6 +522,8 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         return;
     }
 
+    this->setCursor(Qt::ClosedHandCursor);
+
     lastPos = event->pos();
 
     GLuint	buffer[512];										// Set Up A Selection Buffer
@@ -582,6 +584,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    //this->setCursor(Qt::ClosedHandCursor);
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
@@ -589,6 +592,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         camera->move(dx, dy);
 
     lastPos = event->pos();
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    QWidget::mouseReleaseEvent(event);
+    this->setCursor(Qt::OpenHandCursor);
 }
 
 void GLWidget::startGL()

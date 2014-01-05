@@ -788,6 +788,9 @@
          <verstretch>198</verstretch>
         </sizepolicy>
        </property>
+       <property name="cursor">
+        <cursorShape>OpenHandCursor</cursorShape>
+       </property>
        <widget class="QWidget" name="widgetPOI" native="true">
         <property name="enabled">
          <bool>true</bool>

@@ -71,6 +71,7 @@ public:
 
     void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent *);
 
     void startGL();
     void stopGL();
