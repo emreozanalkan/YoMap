@@ -737,43 +737,53 @@ void GLWidget::deletePOIs()
     glPOIPoints.clear();
 }
 
-void GLWidget::pickOpenGLColor(int index)
+QString GLWidget::pickOpenGLColor(int index)
 {
+    QString colorText = "";
     index = index % 7;
     switch(index)
     {
         case 0:
             // RED
             glColor3d(1.0, 0.0, 0.0);
+            colorText = "RED";
             break;
         case 1:
             // Green
             glColor3d(0.0, 1.0, 0.0);
+            colorText = "GREEN";
             break;
         case 2:
             // Blue
             glColor3d(0.0, 0.0, 1.0);
+            colorText = "BLUE";
             break;
         case 3:
             // White
             glColor3d(1.0, 1.0, 1.0);
+            colorText = "WHITE";
             break;
         case 4:
             // Black
             glColor3d(0.0, 0.0, 0.0);
+            colorText = "BLACK";
             break;
         case 5:
             // Yellow
             glColor3d(1.0, 1.0, 0.0);
+            colorText = "YELLOW";
             break;
         case 6:
             // Pink (Magenta)
             glColor3d(1.0, 0.0, 1.0);
+            colorText = "PINK";
             break;
         default:
             glColor3d(1.0, 1.0, 1.0);
+            colorText = "WHITE";
             break;
     }
+    return colorText;
 }
 
 void GLWidget::drawMapBorder()

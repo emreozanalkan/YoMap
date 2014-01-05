@@ -265,8 +265,8 @@ void MainWindow::handleButtonGo()
 
         //QString StrDistance = setNum(StrDistance);
 
-        float time = logic.getPathTime(best_path,mode);
-        qDebug() << "Time: " << time;
+//        float time = logic.getPathTime(best_path,mode);
+//        qDebug() << "Time: " << time;
 
         ui->plainTextEditOutput->setPlainText("Estimated Time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
 
@@ -331,6 +331,61 @@ void MainWindow::handleButtonGo_Radius(){
 
         //qDebug() << "Path found" << endl;
         //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
+
+        ui->plainTextEditOutput_2->clear();
+        int i = 0;
+        set<Path*,ComparePaths>::iterator it;
+        for (it = all_paths.begin(); it != all_paths.end(); ++it, i++)
+        {
+            Path* path = *it;
+
+            QString colorText = ui->widget->pickOpenGLColor(i);
+
+            ui->plainTextEditOutput_2->appendPlainText("Color: " + colorText);
+
+            ui->plainTextEditOutput_2->appendPlainText("Estimated Time: " + logic.TimetoSting(logic.getPathTime(*path,mode)));
+
+            float cost = path->calculateCost();
+
+            ui->plainTextEditOutput_2->appendPlainText("Estimated Distance: " + QString::number(cost, 'g', 3) + "km");
+
+            ui->plainTextEditOutput_2->appendPlainText("===");
+
+//            vector<PathSegment*>::iterator it_path = path->getPathSegmentsBegin();
+//            if(startPoint != NULL && !(*it_path)->isEmpty())
+//            {
+//                glBegin(GL_LINES);
+//                glColor3f(0.0f, 0.0f, 1.0f);
+//                glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.3);
+//                WaySegment* waySegment = (*it_path)->segments[0];
+//                boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
+//                glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
+//                glEnd();
+//            }
+//            pickOpenGLColor(myColor);
+//            for(; it_path != path->getPathSegmentsEnd(); it_path++)
+//            {
+//                glLineWidth(lineWidth);
+//                glBegin(GL_LINES);
+//                vector<WaySegment*>::iterator it_p_seg = (*it_path)->getWaySegmentsBegin();
+//                for(; it_p_seg != (*it_path)->getWaySegmentsEnd(); it_p_seg++)
+//                {
+//                    //cout<<(*it_p_seg)->getPointA()->getId()<<" -- "<<(*it_p_seg)->getPointB()->getId()<< "(type: "<<(*it_p_seg)->getWay()->getWayType()<<")"<<endl;
+//                    boost_xy_point& nodeGeoPosA = (*it_p_seg)->getPointA()->getGeoPosition();
+//                    boost_xy_point& nodeGeoPosB = (*it_p_seg)->getPointB()->getGeoPosition();
+//                    //glColor3d((nodeGeoPosA.x() - int(nodeGeoPosA.x())) / colorRandom, (nodeGeoPosA.y() - int(nodeGeoPosA.y())) / colorRandom, (nodeGeoPosB.x() - int(nodeGeoPosB.x()))  / colorRandom);
+//                    glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
+//                    glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.3);
+//                }
+//                glEnd();
+//                --it_p_seg;
+//                glPointSize(20.0f);
+//                glBegin(GL_POINTS);
+//                glVertex3d((*it_p_seg)->getPointB()->getGeoPosition().x() * 100.0, (*it_p_seg)->getPointB()->getGeoPosition().y() * 100.0, 0.55);
+//                glEnd();
+//            }
+//            myColor++;
+        }
 
         ui->widget->deleteRadiusSearch();
         ui->widget->setRadiusSearch(all_paths, maxDistance );

@@ -50,8 +50,6 @@ private:
     void drawPath();
     void drawRadiusSearch();
 
-    void pickOpenGLColor(int);
-
     void drawMapBorder();
     boost_xy_point mapMinBound;
     boost_xy_point mapMaxBound;
@@ -99,6 +97,8 @@ public:
     void deleteEndPoint();
 
     void setSearchRadius(float);
+
+    QString pickOpenGLColor(int);
 
 signals:
     void poiClicked(POIPoint*, QMouseEvent*);
