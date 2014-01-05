@@ -2,6 +2,7 @@
 #include "ui_dialog.h"
 #include "logic.h"
 #include "mainwindow.h"
+#include <QMessageBox>
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -87,9 +88,29 @@ Dialog::~Dialog()
 void Dialog::acceptedEdit()
 {
     POICategory *data = (POICategory *)ui->comboBoxEditPOICat->itemData(ui->comboBoxEditPOICat->currentIndex()).value<void *>();
+
+    if (ui->comboBoxEditPOICat->currentIndex()!=0) {
+            point->setCategory(data);
+    } else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Please enter the category.");
+        msgBox.exec();
+        return;
+    }
+
+    if (!ui->lineEditEditPOIName->text().isEmpty()) {
+        point->setName(ui->lineEditEditPOIName->text().toUtf8().constData());
+    } else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Please enter the name of the POI.");
+        msgBox.exec();
+        //return;
+    }
+
     point->setGeoPosition(ui->lineEditEditPOILon->text().toFloat(), ui->lineEditEditPOILat->text().toFloat());
-    point->setName(ui->lineEditEditPOIName->text().toUtf8().constData());
-    point->setCategory(data);
+
     //(MainWindow *)this->parent()->handleButtonSave(point);
     emit poiFinishedEditing(point);
 }
@@ -98,9 +119,29 @@ void Dialog::acceptedPOI()
 {
     point = new POIPoint(0);
     POICategory *data = (POICategory *)ui->comboBoxEditPOICat->itemData(ui->comboBoxEditPOICat->currentIndex()).value<void *>();
+
+    if (ui->comboBoxEditPOICat->currentIndex()!=0) {
+        point->setCategory(data);
+    } else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Please enter the category.");
+        msgBox.exec();
+        return;
+    }
+
+    if (!ui->lineEditEditPOIName->text().isEmpty()) {
+        point->setName(ui->lineEditEditPOIName->text().toUtf8().constData());
+    } else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Please enter the name of the POI.");
+        msgBox.exec();
+        //return;
+    }
+
     point->setGeoPosition(ui->lineEditEditPOILon->text().toFloat(), ui->lineEditEditPOILat->text().toFloat());
-    point->setName(ui->lineEditEditPOIName->text().toUtf8().constData());
-    point->setCategory(data);
+
     //(MainWindow *)this->parent()->handleButtonSave(point);
     emit poiCreated(point);
 }
