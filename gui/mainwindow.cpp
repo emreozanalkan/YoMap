@@ -72,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->horizontalSlider_2, SIGNAL(valueChanged(int)), ui->spinBox_2, SLOT(setValue(int)));
     connect(ui->spinBox_2, SIGNAL(valueChanged(int)), ui->horizontalSlider_2, SLOT(setValue(int)));
     connect(ui->spinBox_2, SIGNAL(valueChanged(int)), this, SLOT(setMaximumDistance(int)));
+    connect(this, SIGNAL(maximumDistanceChanged(float)), ui->widget, SLOT(searchRadiusChanged(float)));
     //connect( ui->comboBoxCatMid0, SIGNAL(released()), this, SLOT(handleSelectedCategoryMidCat_Radius(int)));
 
     connect(ui->pushButtonPOIClose, SIGNAL(released()), ui->widgetPOI, SLOT(hide()));
@@ -440,6 +441,7 @@ void MainWindow::handleButtonGo_Itineary(){
 void MainWindow::setMaximumDistance(int maxDistance_)
 {
     maxDistance = maxDistance_ / 1000.;
+    emit maximumDistanceChanged(maxDistance);
 }
 
 
@@ -1014,6 +1016,8 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         ui->comboBoxPOIB_3->setCurrentIndex(0);
 
         ui->widget->deleteEndPoint();
+
+        ui->widget->setSearchRadius(maxDistance);
     }
 //    else if(index == 2) // ITINERARY
 //    {

@@ -33,6 +33,8 @@ private:
 protected:
     //void resizeEvent ( QResizeEvent * event );
     void mouseReleaseEvent(QMouseEvent *);
+signals:
+    void maximumDistanceChanged(float);
 private slots:
     void poiClicked(POIPoint*, QMouseEvent*);
         //two points

@@ -54,7 +54,7 @@ void GLWidget::initializeGL()
     //glBlendFunc (GL_ONE, GL_ONE);
     //glBlendFunc(GL_ONE_MINUS_DST_ALPHA,GL_DST_ALPHA);
     glEnable(GL_ALPHA_TEST);
-    glAlphaFunc(GL_GREATER, 0.5f);
+    glAlphaFunc(GL_GREATER, 0.2f);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLC()));
     this->setFocus();
@@ -77,6 +77,11 @@ void GLWidget::updateLC()
     //map->update();
 
     updateGL();
+}
+
+void GLWidget::searchRadiusChanged(float radius)
+{
+    searchRadius = radius;
 }
 
 void GLWidget::paintGL()
@@ -238,12 +243,14 @@ void GLWidget::drawRadiusSearch()
     double x = searchRadius/1.23;//we start at angle = 0
     double y = 0;
 
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glLineWidth(10.0f);
-    glBegin(GL_LINE_LOOP);
+    //glColor3f(1.0f, 0.0f, 0.0f);
+    //glColor4d(0.975, 0.705, 0.7137, 0.501);
+    glColor4d(1.0, 0.0, 0.0, 0.21);
+    glLineWidth(5.0f);
+    glBegin(GL_POLYGON);
     for(int ii = 0; ii < num_segments; ii++)
     {
-        glVertex3f(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0), 0.4);//output vertex
+        glVertex3f(x * ratio + (startPoint->x() * 100.0), y + (startPoint->y() * 100.0), 0.29);//output vertex
 
         //apply the rotation matrix
         t = x;
@@ -785,4 +792,9 @@ void GLWidget::setMapBounds(boost_xy_point min, boost_xy_point max)
 {
     mapMinBound = min;
     mapMaxBound = max;
+}
+
+void GLWidget::setSearchRadius(float search)
+{
+    searchRadius = search;
 }

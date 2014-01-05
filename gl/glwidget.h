@@ -98,11 +98,14 @@ public:
     void deleteStartPoint();
     void deleteEndPoint();
 
+    void setSearchRadius(float);
+
 signals:
     void poiClicked(POIPoint*, QMouseEvent*);
 
 public slots:
     void updateLC();
+    void searchRadiusChanged(float);
 };
 
 #endif // GLWIDGET_H
