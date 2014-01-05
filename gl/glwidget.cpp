@@ -490,13 +490,13 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         camera->zoomOut();
         break;
     case Qt::Key_Escape:
-        this->parentWidget()->parentWidget()->close();
+        //this->parentWidget()->parentWidget()->close();
         break;
     default:
         break;
     }
 
-    event->accept();
+    QWidget::keyPressEvent(event);
 }
 
 void GLWidget::wheelEvent(QWheelEvent *event)

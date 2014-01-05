@@ -3,6 +3,7 @@
 #include "logic.h"
 #include "dialog.h"
 #include <QMainWindow>
+#include <QKeyEvent>
 
 
 namespace Ui {
@@ -29,6 +30,8 @@ private:
     int MidCat_count;
     POIPoint* ClickedPoiPoint;
     Dialog* DialogEditPOI;
+
+    void keyPressEvent(QKeyEvent *);
 
 protected:
     //void resizeEvent ( QResizeEvent * event );

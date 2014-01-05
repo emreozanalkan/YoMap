@@ -691,17 +691,24 @@ void MainWindow::poiClicked(POIPoint* poiPoint, QMouseEvent* event)
     //ui->comboBoxPOICat->setCurrentIndex(0);
 
     //ui->widgetPOI->lineEditPOIName->setText(QString(poiPoint->getName().c_str()));
-    ui->widgetPOI->move(event->pos());
+    QPoint point = event->pos();
+
+    if(point.y() + ui->widgetPOI->height() > ui->widget->height())
+        point.setY(point.y() - ui->widgetPOI->height());
+    if(point.x() + ui->widgetPOI->width() > ui->widget->width())
+        point.setX(point.x() - ui->widgetPOI->width());
+
+    ui->widgetPOI->move(point);
     ui->widgetPOI->show();
 
 
-    //qDebug() << "POI Name: " << poiPoint->getName().c_str();
+//    //qDebug() << "POI Name: " << poiPoint->getName().c_str();
 
-    //qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
+//    //qDebug() << "POI Event in GLWidget => x: " << event->x() << " y: " <<event->y();
 
-    QPoint pointInOksanaWindow = ui->widget->mapTo(this, event->pos());
+//    QPoint pointInOksanaWindow = ui->widget->mapTo(this, event->pos());
 
-    //qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
+//    //qDebug() << "POI Event Position according to Oksana's Window: " << pointInOksanaWindow;
 }
 
 /*void MainWindow::resizeEvent ( QResizeEvent * event )
@@ -1094,4 +1101,18 @@ void MainWindow::handleButtonSave(POIPoint* point)
 {
 
        qDebug() << QString(point->getName().c_str())<<endl;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key())
+    {
+    case Qt::Key_Escape:
+        ui->widgetPOI->hide();
+        break;
+    default:
+        break;
+    }
+
+    event->accept();
 }
