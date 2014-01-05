@@ -10,6 +10,8 @@
 
 #include <iomanip>
 
+#include <QDir>
+
 using namespace std;
 
 Database::Database()
@@ -154,7 +156,16 @@ int Database::build(QString path){
 
 int Database::buildPOIs(QString path){
     poi_build = false;
-    QFile file(path);
+
+    QString localPOIPath = QDir::currentPath() + "/POI.xml";
+
+    if(!QFile::exists(localPOIPath))
+    {
+        QFile::copy(":/data/POI.xml", localPOIPath);
+    }
+
+    QFile file(localPOIPath);
+
     cout << "Building POI structure..." << endl;
 
     QDomDocument doc( "POI" );
@@ -216,7 +227,16 @@ int Database::buildPOIs(QString path){
 }
 
 int Database::savePOIs(QString path){
-    QFile file(path);
+
+    QString localPOIPath = QDir::currentPath() + "/POI.xml";
+
+    if(!QFile::exists(localPOIPath))
+    {
+        QFile::copy(":/data/POI.xml", localPOIPath);
+    }
+
+    QFile file(localPOIPath);
+    //QFile file(path);
     cout << "Saving POI structure..." << endl;
 
     /*open a file */
@@ -491,6 +511,17 @@ vector<POIPoint*> Database::getPOIPointsInCategories(){
     return poi_points;
 }
 
+POIPoint* Database::createPOI()
+{
+    unsigned int poiID = -1;
+    if(all_poi_points.empty())
+        poiID = 1;
+    else
+        poiID = (*all_poi_points.rbegin()).first + 1;
+
+    POIPoint* point = new POIPoint(poiID);
+    return point;
+}
 
 
 

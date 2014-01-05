@@ -184,3 +184,15 @@ void Logic::savePOIs()
 {
     db.savePOIs(":/data/POI.xml");
 }
+
+void Logic::insertAndSavePOIs(POIPoint* point)
+{
+    db.insertNewPOIPoint(point);
+    db.savePOIs(":/data/POI.xml");
+    db.buildPOIs(":/data/POI.xml");
+}
+
+POIPoint* Logic::createPOI()
+{
+    return db.createPOI();
+}

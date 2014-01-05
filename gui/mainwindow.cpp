@@ -665,7 +665,7 @@ void MainWindow::addAsPOI()
     {
         // SO ITS NEW POINT
         // ADD POI
-        DialogEditPOI->CreatePOI(logic.getCategoryCatalog());
+        DialogEditPOI->CreatePOI(logic.createPOI(), logic.getCategoryCatalog(), point);
         connect(DialogEditPOI, SIGNAL(poiCreated(POIPoint*)), this, SLOT(poiCreated(POIPoint*)));
         DialogEditPOI->show();
     }
@@ -1150,10 +1150,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::poiFinishedEditing(POIPoint* point)
 {
     // HERE WE GET THE EDITED POI ^_^
-    qDebug() << "POIPoint came after edit :) ===>";
-    qDebug() << "Name: " << point->getName().c_str();
-    qDebug() << "Category: " << point->getCategory()->getName().c_str();
-    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
+//    qDebug() << "POIPoint came after edit :) ===>";
+//    qDebug() << "Name: " << point->getName().c_str();
+//    qDebug() << "Category: " << point->getCategory()->getName().c_str();
+//    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
 
     logic.savePOIs();
 }
@@ -1161,10 +1161,13 @@ void MainWindow::poiFinishedEditing(POIPoint* point)
 void MainWindow::poiCreated(POIPoint* point)
 {
     // HERE NEW POI CAME
-    qDebug() << "POIPoint came for new inserting :)  ===>";
-    if(!point->getName().empty())
-        qDebug() << "Name: " << point->getName().c_str();
-    if(point->getCategory() != NULL)
-        qDebug() << "Category: " << point->getCategory()->getName().c_str();
-    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
+//    qDebug() << "POIPoint came for new inserting :)  ===>";
+//    if(!point->getName().empty())
+//        qDebug() << "Name: " << point->getName().c_str();
+//    if(point->getCategory() != NULL)
+//        qDebug() << "Category: " << point->getCategory()->getName().c_str();
+//    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
+
+    logic.insertAndSavePOIs(point);
+    ui->widget->setPOIs(logic.getPOIPointsInCategories());
 }

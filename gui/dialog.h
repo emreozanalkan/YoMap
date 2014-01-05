@@ -18,7 +18,7 @@ public:
     ~Dialog();
 
     void SetCurrentPoint(POIPoint *, map<unsigned int, POICategory *> *categories);
-    void CreatePOI(map<unsigned int, POICategory *> *categories);
+    void CreatePOI(POIPoint *, map<unsigned int, POICategory *> *categories, QPointF);
 private:
     Ui::Dialog *ui;
 

@@ -32,6 +32,10 @@ public:
     boost_xy_point getMapMaxBound();
 
     void savePOIs();
+
+    void insertAndSavePOIs(POIPoint*);
+
+    POIPoint* createPOI();
 };
 
 #endif // LOGIC_H

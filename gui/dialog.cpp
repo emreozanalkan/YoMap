@@ -55,10 +55,18 @@ void Dialog::SetCurrentPoint(POIPoint* poiPoint,  map<unsigned int,POICategory *
 
 }
 
-void Dialog::CreatePOI(map<unsigned int, POICategory *> *categories)
+void Dialog::CreatePOI(POIPoint* poiPoint, map<unsigned int, POICategory *> *categories, QPointF point)
 {
     clearBindedData();
+    this->point = poiPoint;
     this->categories = categories;
+
+    QString strlat, strlon;
+    strlat.setNum(point.x());
+    strlon.setNum(point.y());
+
+    ui->lineEditEditPOILat->setText(strlat);
+    ui->lineEditEditPOILon->setText(strlon);
 
     for(map<unsigned int, POICategory*>::iterator it = this->categories->begin(); it != this->categories->end(); it++)
        ui->comboBoxEditPOICat->addItem(QString::fromStdString(it->second->getName()), qVariantFromValue((void*)(it->second)));

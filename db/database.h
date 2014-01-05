@@ -53,6 +53,11 @@ public:
 
     boost_xy_point getMapMinBound();
     boost_xy_point getMapMaxBound();
+
+    POIPoint* createPOI();
+
+    void insertNewPOICategory(POICategory*);
+    void insertNewPOIPoint(POIPoint *);
 private:
     bool ways_build;
     bool poi_build;
@@ -83,12 +88,6 @@ private:
     void insertNewWay(Way *);
     void insertNewBuilding(Building *);
     void insertNewNode(Node *);
-
-    void insertNewPOICategory(POICategory*);
-    void insertNewPOIPoint(POIPoint *);
-
-
-
 };
 
 #endif // DATABASE_H
