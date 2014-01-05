@@ -12,6 +12,8 @@
 
 #include <QDir>
 
+#include <QDebug>
+
 using namespace std;
 
 Database::Database()
@@ -69,7 +71,7 @@ boost_xy_point Database::getMapMaxBound()
 int Database::build(QString path){
     ways_build = false;
     QFile file(path);
-    cout << "Building data structure..." << endl;
+    qDebug() << "Building data structure...";
 
     QDomDocument doc( "OSM" );
 
@@ -149,6 +151,7 @@ int Database::build(QString path){
      }
      file.close();
      ways_build = true;
+     qDebug() << "Building data structure finished...";
      return 0;
 }
 
@@ -166,9 +169,21 @@ int Database::buildPOIs(QString path){
 
     QFile file(localPOIPath);
 
-    cout << "Building POI structure..." << endl;
+    if(!file.setPermissions(QFile::ReadOwner|QFile::WriteOwner|QFile::ExeOwner|QFile::ReadGroup|QFile::ExeGroup|QFile::ReadOther|QFile::ExeOther))
+    {
+        qDebug("Something wrong!");
+    }
+
+    qDebug() << "Building POI structure...";
+    qDebug() << "Path: " << localPOIPath;
 
     QDomDocument doc( "POI" );
+
+//    if(!file.isReadable())
+//        qDebug()  << "File is not readable :( ";
+
+    if(file.isOpen())
+        file.close();
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         poi_build = false;
@@ -184,7 +199,10 @@ int Database::buildPOIs(QString path){
 
     QDomElement root = doc.documentElement();
     if( root.tagName() != "data" )
-      return -2;
+    {
+        file.close();
+        return -2;
+    }
 
     QDomNode n = root.firstChild();
      while( !n.isNull() )
@@ -222,12 +240,12 @@ int Database::buildPOIs(QString path){
      }
     file.close();
     poi_build = true;
+    qDebug() << "Build POI FINISHED!";
     return 0;
 
 }
 
 int Database::savePOIs(QString path){
-
     QString localPOIPath = QDir::currentPath() + "/POI.xml";
 
     if(!QFile::exists(localPOIPath))
@@ -236,15 +254,28 @@ int Database::savePOIs(QString path){
     }
 
     QFile file(localPOIPath);
+
+    if(!file.setPermissions(QFile::ReadOwner|QFile::WriteOwner|QFile::ExeOwner|QFile::ReadGroup|QFile::ExeGroup|QFile::ReadOther|QFile::ExeOther))
+    {
+        qDebug("Something wrong!");
+    }
+
     //QFile file(path);
-    cout << "Saving POI structure..." << endl;
+    qDebug() << "Saving POI structure..." << endl;
+    qDebug() << "Saving Path: " << localPOIPath;
+
+//    if(!file.isWritable())
+//        qDebug() << "File is not writable :( ";
+
+    if(file.isOpen())
+        file.close();
 
     /*open a file */
     if (!file.open(QIODevice::WriteOnly))
     {
     /* show wrror message if not able to open file */
         //QMessageBox::warning(0, "Read only", "The file is in read only mode");
-        cerr<<"Saving POI structure faile, cant open file...";
+        qDebug()<<"Saving POI structure faile, cant open file...";
     }
     else
     {
@@ -284,6 +315,7 @@ int Database::savePOIs(QString path){
                delete xmlWriter;
     }
     file.close();
+    qDebug() << "SAVE POI FINISHED!";
     return 0;
 }
 

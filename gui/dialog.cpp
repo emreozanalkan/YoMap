@@ -117,7 +117,7 @@ void Dialog::acceptedEdit()
 
 void Dialog::acceptedPOI()
 {
-    point = new POIPoint(0);
+    //point = new POIPoint(0);
     POICategory *data = (POICategory *)ui->comboBoxEditPOICat->itemData(ui->comboBoxEditPOICat->currentIndex()).value<void *>();
 
     if (ui->comboBoxEditPOICat->currentIndex()!=0) {
