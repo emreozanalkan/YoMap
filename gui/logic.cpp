@@ -201,6 +201,7 @@ void Logic::savePOIs()
 
 void Logic::insertAndSavePOIs(POIPoint* point)
 {
+
     db.insertNewPOIPoint(point);
     db.savePOIs(":/data/POI.xml");
     //db.buildPOIs(":/data/POI.xml");
@@ -209,4 +210,10 @@ void Logic::insertAndSavePOIs(POIPoint* point)
 POIPoint* Logic::createPOI()
 {
     return db.createPOI();
+}
+
+bool Logic::checkifPOIInBound(POIPoint* point)
+{
+    boost_xy_point _point=point->getGeoPosition();
+    return db.checkIfInBoundsOfMap(_point);
 }

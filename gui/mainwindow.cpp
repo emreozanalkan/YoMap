@@ -1168,6 +1168,14 @@ void MainWindow::poiFinishedEditing(POIPoint* point)
 //    qDebug() << "Category: " << point->getCategory()->getName().c_str();
 //    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
 
+    if (!logic.checkifPOIInBound(point))
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Sorry, POI was not saved. Coordinates out of bound.");
+        msgBox.exec();
+        return;
+    }
+
     logic.savePOIs();
 }
 
@@ -1180,6 +1188,14 @@ void MainWindow::poiCreated(POIPoint* point)
 //    if(point->getCategory() != NULL)
 //        qDebug() << "Category: " << point->getCategory()->getName().c_str();
 //    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
+
+    if (!logic.checkifPOIInBound(point))
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Sorry, POI was not saved. Coordinates out of bound.");
+        msgBox.exec();
+        return;
+    }
 
     logic.insertAndSavePOIs(point);
     ui->widget->setPOIs(logic.getPOIPointsInCategories());

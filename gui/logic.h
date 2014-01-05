@@ -16,6 +16,8 @@ public:
     Logic();
     bool checkIfWaysDBIsBuild();
     bool checkIfPOIDBIsBuild();
+
+    bool checkifPOIInBound(POIPoint* point);
     map<unsigned long int,Way *>* getAllWays();
     map<unsigned long int, Building*>* getAllBuildings();
     vector<POIPoint*> getPOIPointsInCategories(vector<unsigned int> &);
