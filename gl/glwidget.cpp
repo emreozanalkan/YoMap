@@ -501,7 +501,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
         else
             camera->zoomOut();
 
-        scalePOIPoints((10.0f/camera->zoomLevel));
+        scalePOIPoints(2.0f / camera->zoomLevel);
     }
     else
     {

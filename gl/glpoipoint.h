@@ -20,6 +20,8 @@ public:
 
     POIPoint* point;
 
+    double textureSize;
+
     unsigned int texture;
 
     QVector<QVector3D> vertices;

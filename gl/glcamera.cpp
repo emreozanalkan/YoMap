@@ -22,7 +22,7 @@ GLCamera::GLCamera()
     look_z = 0.0;
 
     zoomLevel = 1.0;
-    zoomSpeed = 0.05;
+    zoomSpeed = 0.4;
 
     // lat="46.791803,9" lon="4.427704,7"
     planeLeft = 437.0;
@@ -116,7 +116,7 @@ void GLCamera::move(int dx, int dy)
 
 void GLCamera::zoomIn()
 {
-    if(zoomLevel == 121)
+    if(zoomLevel == 15)
         return;
 
     if(planeRight - planeLeft <= 0.1 || planeTop - planeBottom <= 0.1)
