@@ -133,8 +133,7 @@ void GLWidget::paintGL()
     if(!glPOIPoints.empty())
         drawPOIPoints();
 
-    if(searchRadius != 0.0f)
-        drawRadiusSearch();
+    drawRadiusSearch();
 
     glPopMatrix();
 }

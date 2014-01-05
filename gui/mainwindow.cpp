@@ -349,7 +349,7 @@ void MainWindow::handleButtonGo_Radius(){
 
             ui->plainTextEditOutput_2->appendPlainText("Estimated Distance: " + QString::number(cost, 'g', 3) + "km");
 
-            ui->plainTextEditOutput_2->appendPlainText("===");
+            ui->plainTextEditOutput_2->appendPlainText("==================");
 
 //            vector<PathSegment*>::iterator it_path = path->getPathSegmentsBegin();
 //            if(startPoint != NULL && !(*it_path)->isEmpty())

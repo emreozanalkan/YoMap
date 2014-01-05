@@ -400,10 +400,12 @@ int PathAlgorithms::findPathsInRadius(Database &d, boost_xy_point &A, POICategor
 
 
         //if air distance is bigger than max radius we can have smaller distance
-        float air_distance = calculateDistancePoints(node_start->getGeoPosition(),node_end->getGeoPosition());
-        if(air_distance>max_radius){
-            delete node_end;
-            continue;
+        if(max_radius!=0){
+            float air_distance = calculateDistancePoints(node_start->getGeoPosition(),node_end->getGeoPosition());
+            if(air_distance>max_radius){
+                delete node_end;
+                continue;
+            }
         }
 
         //////////////////////////////////
@@ -415,7 +417,7 @@ int PathAlgorithms::findPathsInRadius(Database &d, boost_xy_point &A, POICategor
             Path* cur_path = new Path();
             cur_path->addSegment(path_seg);
             float current_distance = cur_path->getCost();
-            if(current_distance<max_radius){
+            if(current_distance<max_radius || max_radius==0){
                 all_paths.insert(cur_path);
             }
         }
@@ -526,7 +528,7 @@ int PathAlgorithms::BicycleSearch(Database &d,boost_xy_point &A,boost_xy_point &
         vector<Node*> p(*it);
         p.insert(p.begin(),startN);
         p.insert(p.end(),endN);
-        if(PathAlgorithms::calculateDistancePoints(p)<max_radius){
+        if(PathAlgorithms::calculateDistancePoints(p)<max_radius || max_radius==0){
             queue_paths.push(p);
         }
     }
@@ -555,8 +557,9 @@ int PathAlgorithms::BicycleSearch(Database &d,boost_xy_point &A,boost_xy_point &
                 complete_path = false;
                 break;
             }
-            else{
-                if(path->calculateCost()>max_radius){
+            else
+            {
+                if(max_radius!=0 && path->calculateCost()>max_radius){
                     complete_path = false;
                     break;
                 }

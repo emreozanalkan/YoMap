@@ -62,8 +62,8 @@ void Dialog::CreatePOI(POIPoint* poiPoint, map<unsigned int, POICategory *> *cat
     this->categories = categories;
 
     QString strlat, strlon;
-    strlat.setNum(point.x());
-    strlon.setNum(point.y());
+    strlat.setNum(point.y());
+    strlon.setNum(point.x());
 
     ui->lineEditEditPOILat->setText(strlat);
     ui->lineEditEditPOILon->setText(strlon);
