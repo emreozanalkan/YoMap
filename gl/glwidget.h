@@ -75,7 +75,6 @@ public:
     void stopGL();
     QPointF getGeoPosition(QPoint);
     POIPoint* getIfPOI(QPointF);
-    void centerMap();
 
     void setMap(map<unsigned long int,Way*>*);
     void setBuildings(map<unsigned long int,Building *>*);
@@ -106,6 +105,8 @@ signals:
 public slots:
     void updateLC();
     void searchRadiusChanged(float);
+    void centerMap();
+
 };
 
 #endif // GLWIDGET_H

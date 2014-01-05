@@ -536,6 +536,11 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
             menu.addAction(actionAddAsPOI);
             connect(actionAddAsPOI, SIGNAL(triggered()), this, SLOT(addAsPOI()));
 
+            menu.addSeparator();
+            QAction* actionCenterTheMap = new QAction("Center the map", this);
+            menu.addAction(actionCenterTheMap);
+            connect(actionCenterTheMap, SIGNAL(triggered()), ui->widget, SLOT(centerMap()));
+
 
             menu.exec(mapToGlobal(event->pos()));
 //            qDebug() <<"signal sent"<<endl;
