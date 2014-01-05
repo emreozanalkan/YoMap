@@ -422,25 +422,46 @@ void MainWindow::handleButtonGo_Itineary(){
     }
     else if (MidCat_count == 1)
     {
+        if (ui->comboBoxCatMid0->currentIndex() == 0){
+            msgBox.setText("Please select a middle category.");
+            msgBox.exec();
+            return;
+        }
         if (ui->comboBoxCatMid1->currentIndex() == 0){
             msgBox.setText("Please select a middle category.");
             msgBox.exec();
             return;
         }
         else{
-            POICategory *data = (POICategory *)ui->comboBoxCatMid1->itemData(ui->comboBoxCatMid1->currentIndex()).value<void *>();
+            POICategory *data = (POICategory *)ui->comboBoxCatMid0->itemData(ui->comboBoxCatMid0->currentIndex()).value<void *>();
+            Categories.push_back(data->getId());
+            data = (POICategory *)ui->comboBoxCatMid1->itemData(ui->comboBoxCatMid1->currentIndex()).value<void *>();
             Categories.push_back(data->getId());
         }
     }
     else if (MidCat_count == 2)
     {
+        if (ui->comboBoxCatMid0->currentIndex() == 0){
+            msgBox.setText("Please select a middle category.");
+            msgBox.exec();
+            return;
+        }
+        if (ui->comboBoxCatMid1->currentIndex() == 0){
+            msgBox.setText("Please select a middle category.");
+            msgBox.exec();
+            return;
+        }
         if (ui->comboBoxCatMid2->currentIndex() == 0){
             msgBox.setText("Please select a middle category.");
             msgBox.exec();
             return;
         }
         else{
-            POICategory *data = (POICategory *)ui->comboBoxCatMid2->itemData(ui->comboBoxCatMid2->currentIndex()).value<void *>();
+            POICategory *data = (POICategory *)ui->comboBoxCatMid0->itemData(ui->comboBoxCatMid0->currentIndex()).value<void *>();
+            Categories.push_back(data->getId());
+            data = (POICategory *)ui->comboBoxCatMid1->itemData(ui->comboBoxCatMid1->currentIndex()).value<void *>();
+            Categories.push_back(data->getId());
+            data = (POICategory *)ui->comboBoxCatMid2->itemData(ui->comboBoxCatMid2->currentIndex()).value<void *>();
             Categories.push_back(data->getId());
         }
     }

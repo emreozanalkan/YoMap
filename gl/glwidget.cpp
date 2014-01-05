@@ -389,20 +389,23 @@ void GLWidget::drawPath()
 
     //qDebug() << "there is newPath segments!!!!";
     glLineWidth(5.0f);
-    glBegin(GL_LINES);
+
 
     vector<PathSegment*>::iterator it_path = newPath.getPathSegmentsBegin();
     if(startPoint != NULL && !(*it_path)->isEmpty())
     {
+        glBegin(GL_LINES);
         glColor3f(0.0f, 0.0f, 1.0f);
         glVertex3d(startPoint->x() * 100.0, startPoint->y() * 100.0, 0.3);
         WaySegment* waySegment = (*it_path)->segments[0];
         boost_xy_point& nodeGeoPosA = waySegment->getPointA()->getGeoPosition();
         glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
+        glEnd();
     }
     glColor3f(1.0f, 0.0f, 0.0f);
     int i = 0;
-    for(; it_path != newPath.getPathSegmentsEnd(); it_path++)
+    int j = 0;
+    for(; it_path != newPath.getPathSegmentsEnd(); it_path++, j++)
     {
         i = 0;
         vector<WaySegment*>::iterator it_p_seg = (*it_path)->getWaySegmentsBegin();
@@ -411,8 +414,19 @@ void GLWidget::drawPath()
             //cout<<(*it_p_seg)->getPointA()->getId()<<" -- "<<(*it_p_seg)->getPointB()->getId()<< "(type: "<<(*it_p_seg)->getWay()->getWayType()<<")"<<endl;
             boost_xy_point& nodeGeoPosA = (*it_p_seg)->getPointA()->getGeoPosition();
             boost_xy_point& nodeGeoPosB = (*it_p_seg)->getPointB()->getGeoPosition();
+            glBegin(GL_LINES);
             glVertex3d(nodeGeoPosA.x() * 100.0, nodeGeoPosA.y() * 100.0, 0.3);
             glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.3);
+            glEnd();
+        }
+        if(newPath.segments.size() > 1)
+        {
+            pickOpenGLColor(j);
+            --it_p_seg;
+            glPointSize(20.0f);
+            glBegin(GL_POINTS);
+            glVertex3d((*it_p_seg)->getPointB()->getGeoPosition().x() * 100.0, (*it_p_seg)->getPointB()->getGeoPosition().y() * 100.0, 0.55);
+            glEnd();
         }
     }
     --it_path;
@@ -421,10 +435,11 @@ void GLWidget::drawPath()
         glColor3f(0.0f, 0.0f, 1.0f);
         WaySegment* waySegment = (*it_path)->segments[i-1];
         boost_xy_point& nodeGeoPosB = waySegment->getPointB()->getGeoPosition();
+        glBegin(GL_LINES);
         glVertex3d(nodeGeoPosB.x() * 100.0, nodeGeoPosB.y() * 100.0, 0.3);
         glVertex3d(endPoint->x() * 100.0, endPoint->y() * 100.0, 0.3);
+        glEnd();
     }
-    glEnd();
 
 
 

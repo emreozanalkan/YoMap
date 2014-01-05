@@ -552,16 +552,20 @@ int PathAlgorithms::BicycleSearch(Database &d,boost_xy_point &A,boost_xy_point &
         Path* path = new Path();
         bool complete_path=true;
         for(vector<Node*>::const_iterator it = vec_points.begin();(it+1)!=vec_points.end();it++){
-            int found = PathAlgorithms::findShortestPath(d,(*it)->getGeoPosition(),(*(it+1))->getGeoPosition(),tt,*path);
+            Path path_tmp;
+            int found = PathAlgorithms::findShortestPath(d,(*it)->getGeoPosition(),(*(it+1))->getGeoPosition(),tt,path_tmp);
             if(found!=0){
                 complete_path = false;
                 break;
             }
             else
             {
-                if(max_radius!=0 && path->calculateCost()>max_radius){
+                if(max_radius!=0 && (path->calculateCost()+path_tmp.calculateCost())>max_radius){
                     complete_path = false;
                     break;
+                }
+                else{
+                    path->addSegments(path_tmp);
                 }
             }
         }
