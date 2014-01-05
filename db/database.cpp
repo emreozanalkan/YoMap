@@ -224,6 +224,7 @@ int Database::savePOIs(QString path){
     {
     /* show wrror message if not able to open file */
         //QMessageBox::warning(0, "Read only", "The file is in read only mode");
+        cerr<<"Saving POI structure faile, cant open file...";
     }
     else
     {

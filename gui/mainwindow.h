@@ -72,6 +72,8 @@ private slots:
     //void handleSelectedCategoryMidCat_Radius();
     void on_tabWidget_currentChanged(int index);
     void CallDialogEditPOI();
+    void poiFinishedEditing(POIPoint*);
+    void poiCreated(POIPoint*);
 };
 
 #endif // MAINWINDOW_H

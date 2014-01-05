@@ -649,6 +649,26 @@ void MainWindow::setEndPoint()
 void MainWindow::addAsPOI()
 {
     QPointF point = ui->widget->getGeoPosition(ui->widget->mapFrom(this, lastRightClickPoint));
+
+    POIPoint* poi = ui->widget->getIfPOI(point);
+
+    if(poi != NULL)
+    {
+        // ITS ALREADY POI - MAYBE WANTED TO EDIT ?
+        // Edit POI
+        DialogEditPOI->SetCurrentPoint(poi, logic.getCategoryCatalog());
+        connect(DialogEditPOI, SIGNAL(poiFinishedEditing(POIPoint*)), this, SLOT(poiFinishedEditing(POIPoint*)));
+        DialogEditPOI->show();
+        //connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(acceptedPOI()));
+    }
+    else
+    {
+        // SO ITS NEW POINT
+        // ADD POI
+        DialogEditPOI->CreatePOI(logic.getCategoryCatalog());
+        connect(DialogEditPOI, SIGNAL(poiCreated(POIPoint*)), this, SLOT(poiCreated(POIPoint*)));
+        DialogEditPOI->show();
+    }
 }
 
 void MainWindow::deleteEndPoint()
@@ -1125,4 +1145,26 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
     event->accept();
+}
+
+void MainWindow::poiFinishedEditing(POIPoint* point)
+{
+    // HERE WE GET THE EDITED POI ^_^
+    qDebug() << "POIPoint came after edit :) ===>";
+    qDebug() << "Name: " << point->getName().c_str();
+    qDebug() << "Category: " << point->getCategory()->getName().c_str();
+    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
+
+    logic.savePOIs();
+}
+
+void MainWindow::poiCreated(POIPoint* point)
+{
+    // HERE NEW POI CAME
+    qDebug() << "POIPoint came for new inserting :)  ===>";
+    if(!point->getName().empty())
+        qDebug() << "Name: " << point->getName().c_str();
+    if(point->getCategory() != NULL)
+        qDebug() << "Category: " << point->getCategory()->getName().c_str();
+    qDebug() << "Position x: " << point->getGeoPosition().x() << " y: " << point->getGeoPosition().y();
 }

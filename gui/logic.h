@@ -30,6 +30,8 @@ public:
 
     boost_xy_point getMapMinBound();
     boost_xy_point getMapMaxBound();
+
+    void savePOIs();
 };
 
 #endif // LOGIC_H

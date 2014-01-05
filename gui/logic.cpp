@@ -179,3 +179,8 @@ boost_xy_point Logic::getMapMaxBound()
 {
     return db.getMapMaxBound();
 }
+
+void Logic::savePOIs()
+{
+    db.savePOIs(":/data/POI.xml");
+}
