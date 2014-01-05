@@ -794,6 +794,9 @@
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>
        </property>
+       <property name="toolTip">
+        <string>Right click to set the starting point.</string>
+       </property>
        <widget class="QWidget" name="widgetPOI" native="true">
         <property name="enabled">
          <bool>true</bool>
