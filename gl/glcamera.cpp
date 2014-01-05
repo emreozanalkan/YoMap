@@ -13,12 +13,12 @@ GLCamera::GLCamera()
 {
     moveSpeed = 10.0;
 
-    x = 0.0;
-    y = 0.0;
+    x = -1.0;
+    y = 0.4;
     z = 1.0;
 
-    look_x = 0.0;
-    look_y = 0.0;
+    look_x = -1.0;
+    look_y = 0.4;
     look_z = 0.0;
 
     zoomLevel = 1.0;
@@ -222,12 +222,19 @@ void GLCamera::setProjection()
 
 void GLCamera::center()
 {
-    x = 0.0;
-    y = 0.0;
+    x = -1.0;
+    y = 0.4;
     z = 1.0;
 
-    look_x = 0.0;
-    look_y = 0.0;
+    look_x = -1.0;
+    look_y = 0.4;
     look_z = 0.0;
+//    x = 0.0;
+//    y = 0.0;
+//    z = 1.0;
+
+//    look_x = 0.0;
+//    look_y = 0.0;
+//    look_z = 0.0;
 }
 

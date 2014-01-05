@@ -607,6 +607,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
+    this->setFocus();
     if (event->buttons() & Qt::RightButton)
     {
 
