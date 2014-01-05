@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>YoMap</string>
   </property>
+  <property name="toolTip">
+   <string>Left click to set the starting point.</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_11">
     <item row="0" column="0">
