@@ -102,6 +102,11 @@ int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, Path &bes
      //OKSANA IMPLEMENT IT!
      //db.checkIfInBoundsOfMap(start_point);
 
+     //check if point A is inbound
+     if(!db.checkIfInBoundsOfMap(start_point)){
+         return 1;
+     }
+
 
      if (transportMode == 0) tt = ns_permisions::car;
      else if (transportMode == 1) tt = ns_permisions::foot;
@@ -126,8 +131,17 @@ int Logic::getShortestPath( QPointF &A, QPointF &B, int transportMode, Path &bes
      boost_xy_point end_point(B.x(),B.y());
      ns_permisions::transport_type tt;
 
+     //check if point A is inbound
+     if(!db.checkIfInBoundsOfMap(start_point)){
+         return 1;
+     }
+     //check if point B is inbound
+     if(!db.checkIfInBoundsOfMap(end_point)){
+         return 2;
+     }
+
      //CHECK for inbounds for point A and B
-     //OKSANA IMPLEMENT IT!
+
      //db.checkIfInBoundsOfMap(start_point);
 
      if (transportMode == 0) tt = ns_permisions::car;
