@@ -488,6 +488,14 @@ void MainWindow::handleButtonGo_Itineary(){
         //qDebug() << "Path found" << endl;
         //ui->plainTextEditOutput_2->setPlainText("Estimated time: " + logic.TimetoSting(Time));
 
+        ui->plainTextEditOutput_3->setPlainText("Estimated Time: " + logic.TimetoSting(logic.getPathTime(path,mode)));
+
+        float cost = path.calculateCost();
+
+        ui->plainTextEditOutput_3->appendPlainText("Estimated Distance: " + QString::number(cost, 'g', 3) + "km");
+
+       // ui->plainTextEditOutput->setPlainText("Estimated time: " + logic.TimetoSting(logic.getPathTime(best_path,mode)));
+
         ui->widget->deletePath();
         ui->widget->setPath(path);
     }
