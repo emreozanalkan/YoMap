@@ -45,6 +45,7 @@ private slots:
     void handleButtonSwap();
     void setStartPoint();
     void setEndPoint();
+    void addAsPOI();
     void deleteStartPoint();
     void deleteEndPoint();
     void handleSelectedCategoryA(int);

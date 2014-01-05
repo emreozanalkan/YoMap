@@ -520,6 +520,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
 
             QAction* actionStart = new QAction("Set as Start Point", this);
             menu.addAction(actionStart);
+            connect(actionStart, SIGNAL(triggered()), this, SLOT(setStartPoint()));
 
             if (ui->tabWidget->currentIndex() != 1){
             menu.addSeparator();
@@ -529,7 +530,11 @@ void MainWindow::mouseReleaseEvent(QMouseEvent * event)
             connect(actionEnd, SIGNAL(triggered()), this, SLOT(setEndPoint()));
             }
 
-            connect(actionStart, SIGNAL(triggered()), this, SLOT(setStartPoint()));
+            // Add as POI
+            menu.addSeparator();
+            QAction* actionAddAsPOI = new QAction("Add as POI", this);
+            menu.addAction(actionAddAsPOI);
+            connect(actionAddAsPOI, SIGNAL(triggered()), this, SLOT(addAsPOI()));
 
 
             menu.exec(mapToGlobal(event->pos()));
@@ -639,6 +644,11 @@ void MainWindow::setEndPoint()
     ui->widget->drawEndPoint(&endPoint);
 
     ui->widget->deletePath();
+}
+
+void MainWindow::addAsPOI()
+{
+    QPointF point = ui->widget->getGeoPosition(ui->widget->mapFrom(this, lastRightClickPoint));
 }
 
 void MainWindow::deleteEndPoint()
