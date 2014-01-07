@@ -73,6 +73,10 @@ private:
     bool shouldDrawWays8;
     bool shouldDrawWays9;
 
+    bool shouldDrawPOI;
+
+    bool shouldDrawMapBorder;
+
 public:
     explicit GLWidget(QWidget *parent = 0);
 

@@ -44,6 +44,10 @@ GLWidget::GLWidget(QWidget *parent) :
     shouldDrawWays7 = true;
     shouldDrawWays8 = true;
     shouldDrawWays9 = true;
+
+    shouldDrawPOI = true;
+
+    shouldDrawMapBorder = true;
 }
 
 void GLWidget::initializeGL()
@@ -108,7 +112,8 @@ void GLWidget::paintGL()
 
     glPushMatrix();
 
-    drawMapBorder();
+    if(shouldDrawMapBorder)
+        drawMapBorder();
 
     glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -130,7 +135,7 @@ void GLWidget::paintGL()
         drawEndPoint();
 
 
-    if(!glPOIPoints.empty())
+    if(!glPOIPoints.empty() && shouldDrawPOI)
         drawPOIPoints();
 
     drawRadiusSearch();
@@ -525,6 +530,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_B:
         shouldDrawBuildings = !shouldDrawBuildings;
+        break;
+    case Qt::Key_P:
+        shouldDrawPOI = !shouldDrawPOI;
+        break;
+    case Qt::Key_M:
+        shouldDrawMapBorder = !shouldDrawMapBorder;
         break;
     case Qt::Key_Up:
         camera->up();
