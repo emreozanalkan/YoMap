@@ -20,7 +20,7 @@
    <string>YoMap</string>
   </property>
   <property name="toolTip">
-   <string>Left click to set the starting point.</string>
+   <string/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_11">
