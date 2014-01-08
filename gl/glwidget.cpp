@@ -524,9 +524,11 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_Q:
         camera->zoomIn();
+        scalePOIPoints(2.0f / camera->zoomLevel);
         break;
     case Qt::Key_E:
         camera->zoomOut();
+        scalePOIPoints(2.0f / camera->zoomLevel);
         break;
     case Qt::Key_B:
         shouldDrawBuildings = !shouldDrawBuildings;
